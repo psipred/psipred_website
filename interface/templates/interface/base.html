@@ -1,0 +1,36 @@
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>PSIPRED Server</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {# Load the tag library #}
+        {% load bootstrap3 %}
+
+        {# Load CSS #}
+        {% bootstrap_css %}
+    </head>
+
+    <body>
+      {# Display django.contrib.messages as Bootstrap alerts #}
+      {% bootstrap_messages %}
+
+      <div class="container">
+
+        <div class="row">
+            <div class="col-sm-1"><!--Column left--></div>
+                <div class="col-sm-10">
+
+                {% block content %}{% endblock content %}
+
+                </div>
+            <div class="col-sm-1"><!--Column right--></div>
+        </div>
+      </div>
+    {# Load javascript #}
+    {% bootstrap_javascript %}
+    </body>
+
+</html>

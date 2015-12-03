@@ -13,4 +13,4 @@ class PsipredForm(forms.ModelForm):
     class Meta:
         model = Request
         fields = ('psipred_job', 'input_data', 'job_name',
-                  'password', 'email', )
+                  'email', )
