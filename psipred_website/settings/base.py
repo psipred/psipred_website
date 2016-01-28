@@ -35,6 +35,12 @@ STATIC_PATH = BASE_DIR.child("static")
 STATIC_ROOT = BASE_DIR.child("static_root")
 SETTINGS_PATH = Path(__file__).ancestor(1)
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    STATIC_PATH,
+)
+
+
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
 with open(os.path.join(BASE_SECRETS_PATH)) as \
     f: base_secrets = json.loads(f.read())

@@ -9,6 +9,8 @@ from .models import *
 
 
 class PsipredForm(forms.ModelForm):
+    input_data = forms.CharField(initial="This",
+                                 widget=forms.Textarea(attrs={'value': '{{sequence}}'}))
 
     class Meta:
         model = Request

@@ -1,4 +1,5 @@
 {% load bootstrap3 %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 
@@ -11,13 +12,39 @@
 
         {# Load CSS #}
         {% bootstrap_css %}
+        <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
+      <nav id="psipredNavbar" class="navbar navbar-default navbar-inverse navbar-static-top" role="navigation">
+        <div class="container">
+
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar">This</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">PSIPRED SERVER</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+              <ul class="nav navbar-nav">
+                  <li class="active"><a href="" target="_blank">Home</a></li>
+                  <li><a href="" target="_blank">About</a></li>
+                  <li><a href="" target="_blank">Contact</a></li>
+              </ul>
+          </div>
+
+          </div>
+      </nav>
+
       {# Display django.contrib.messages as Bootstrap alerts #}
       {% bootstrap_messages %}
 
-      <div class="container">
+      <div id="psipred_site" class="container">
 
         <div class="row">
             <div class="col-sm-1"><!--Column left--></div>
@@ -28,9 +55,41 @@
                 </div>
             <div class="col-sm-1"><!--Column right--></div>
         </div>
+
+        <div class="row">
+          <div class="col-sm-1"><!--Column left--></div>
+                <div class="col-sm-10">
+                Sequence Panel
+                </div>
+            <div class="col-sm-1"><!--Column right--></div>
+        </div>
+
       </div>
     {# Load javascript #}
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     {% bootstrap_javascript %}
-    </body>
+    <script src="{% static 'js/d3.min.js' %}"></script>
+    <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+    <script>
+
+    <!-- 1. Catch form input
+         2. Verify form
+         3. If good then make file from data and pass to backend
+         4. shrink form away
+         5. Open seq panel
+         6. Show processing animation
+         7. listen for result
+    -->
+
+    var ractive = new Ractive({
+      el: '#psipred_site',
+      template: '#form_template',
+      lazy: true,
+      data: { sequence: 'Your Sequence Here...' }
+      });
+    </script>
+
+  </body>
 
 </html>

@@ -2,16 +2,22 @@
 {% load bootstrap3 %}
 
 {% block content %}
-<H1>PSIPRED</H1>
+    <script id='form_template' type='text/ractive'>
+    {# Display a form #}
+    <form action="/url/to/submit/" method="post" class="form">
+    {% csrf_token %}
 
-{# Display a form #}
-<form action="/url/to/submit/" method="post" class="form">
-{% csrf_token %}
-{% bootstrap_form form %}
-{% buttons %}
-    <button type="submit" class="btn btn-primary">
-        {% bootstrap_icon "star" %} Submit
-     </button>
-{% endbuttons %}
-</form>
+    {% bootstrap_form form %}
+
+    {% buttons %}
+         <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "star" %} Submit
+         </button>
+    {% endbuttons %}
+    </form>
+
+    <p>{% templatetag openvariable %}sequence{% templatetag closevariable %}</p>
+
+    </script>
+
 {% endblock content %}
