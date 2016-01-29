@@ -55,40 +55,16 @@
                 </div>
             <div class="col-sm-1"><!--Column right--></div>
         </div>
-
-        <div class="row">
-          <div class="col-sm-1"><!--Column left--></div>
-                <div class="col-sm-10">
-                Sequence Panel
-                </div>
-            <div class="col-sm-1"><!--Column right--></div>
-        </div>
-
+        
       </div>
     {# Load javascript #}
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     {% bootstrap_javascript %}
     <script src="{% static 'js/d3.min.js' %}"></script>
     <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
-
-    <script>
-
-    <!-- 1. Catch form input
-         2. Verify form
-         3. If good then make file from data and pass to backend
-         4. shrink form away
-         5. Open seq panel
-         6. Show processing animation
-         7. listen for result
-    -->
-
-    var ractive = new Ractive({
-      el: '#psipred_site',
-      template: '#form_template',
-      lazy: true,
-      data: { sequence: 'Your Sequence Here...' }
-      });
-    </script>
+    <script src='{% static 'js/ractive-events-tap.js' %}'></script>
+    <script src='{% static 'js/ractive-transitions-slide.js' %}'></script>
+    <script src="{% static 'js/psipred.js' %}"></script>
 
   </body>
 

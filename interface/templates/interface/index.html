@@ -3,21 +3,35 @@
 
 {% block content %}
     <script id='form_template' type='text/ractive'>
+
+    {% templatetag openvariable %}#if visible === 1 {% templatetag closevariable %}
+
     {# Display a form #}
-    <form action="/url/to/submit/" method="post" class="form">
+
+    <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
+
     {% csrf_token %}
 
     {% bootstrap_form form %}
 
     {% buttons %}
-         <button type="submit" class="btn btn-primary">
-            {% bootstrap_icon "star" %} Submit
-         </button>
+         <input class="btn btn-danger" type="reset" value="Reset" />
+         <input value="Submit" type="submit" class="btn btn-primary" />
     {% endbuttons %}
     </form>
 
-    <p>{% templatetag openvariable %}sequence{% templatetag closevariable %}</p>
+    {% templatetag openvariable %}elseif visible === 2 {% templatetag closevariable %}
+    <div class="results" intro="slide" outro="slide">
+      <p>{% templatetag openvariable %}sequence{% templatetag closevariable %}</p>
+    </div>
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+    {% templatetag openvariable %}#if visible === 2 {% templatetag closevariable %}
+    <div class="waiting" intro="slide" outro="slide">Waiting</div>
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
 
     </script>
+
+
 
 {% endblock content %}
