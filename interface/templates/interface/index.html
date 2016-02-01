@@ -21,12 +21,13 @@
 
     {% templatetag openvariable %}elseif visible === 2 {% templatetag closevariable %}
     <div class="results" intro="slide" outro="slide">
-      <p>{% templatetag openvariable %}sequence{% templatetag closevariable %}</p>
+      <p>Processing {% templatetag openvariable %}name{% templatetag closevariable %}:<br />
+      {% templatetag openvariable %}sequence{% templatetag closevariable %}<br /></p>
     </div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-    {% templatetag openvariable %}#if visible === 3 {% templatetag closevariable %}
-    <div class="waiting" intro="slide" outro="slide">Waiting</div>
+    {% templatetag openvariable %}#if visible === 2{% templatetag closevariable %}
+    <div class="waiting" intro="slide" outro="slide">{% templatetag openvariable %}waiting{% templatetag closevariable %}</div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
 
     </script>

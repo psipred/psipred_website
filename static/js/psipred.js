@@ -14,6 +14,10 @@ var ractive = new Ractive({
           visible: 1,
           psipred_checked: false,
           psipred_job: 'psipred_job',
+          waiting: 'Please wait for your job to process',
+          //sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
+          //email: 'daniel.buchan@ucl.ac.uk',
+          //name: 'test',
         }
 });
 
@@ -49,13 +53,10 @@ ractive.on('submit', function(event) {
         this.set('form_error', error_message)
       )
       else {
-        alert("Gonna do some stuff")
+        ractive.set( 'visible', null );
+        ractive.set( 'visible', 2 );
+
       }
-
-      /* shrink form */
-
-      /* show processing */
-
       /*construct rest URL*/
 
       /*construct REST packet */
