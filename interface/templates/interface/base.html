@@ -11,7 +11,7 @@
         {% load bootstrap3 %}
 
         {# Load CSS #}
-        {% bootstrap_css %}
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
     </head>
 
@@ -55,15 +55,15 @@
                 </div>
             <div class="col-sm-1"><!--Column right--></div>
         </div>
-        
+
       </div>
     {# Load javascript #}
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    {% bootstrap_javascript %}
+    <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/d3.min.js' %}"></script>
-    <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
-    <script src='{% static 'js/ractive-events-tap.js' %}'></script>
-    <script src='{% static 'js/ractive-transitions-slide.js' %}'></script>
+    <script src="{% static 'js/ractive.min.js' %}"></script>
+    <script src="{% static 'js/ractive-events-tap.js' %}"></script>
+    <script src="{% static 'js/ractive-transitions-slide.js' %}"></script>
     <script src="{% static 'js/psipred.js' %}"></script>
 
   </body>

@@ -35,8 +35,11 @@ ractive.observe('sequence', function(newValue, oldValue ) {
 ractive.on('submit', function(event) {
       seq = this.get('sequence')
       job_name = this.get('name')
-      job_name = this.get('email')
-      alert(seq)
+      email = this.get('email')
+      psipred_job = this.get('psipred_job')
+      this.set('visible', null)
+      this.set('visible', 2)
+      this.set('visible', 3)
       event.original.preventDefault()
   })
 
