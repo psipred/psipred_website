@@ -36,6 +36,9 @@ ractive.on('submit', function(event) {
       seq = this.get('sequence')
       job_name = this.get('name')
       job_name = this.get('email')
+
+      /*verify that everything here is ok*/
+      
       alert(seq)
       event.original.preventDefault()
   })
