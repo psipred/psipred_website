@@ -9,7 +9,7 @@ from .models import *
 
 
 class PsipredForm(forms.ModelForm):
-    psipred_job = forms.BooleanField(widget=forms.CheckboxInput(attrs={'value': '{{psipred_job}}'}))
+    psipred_job = forms.BooleanField(widget=forms.CheckboxInput(attrs={'value': '{{psipred_job}}', 'checked': '{{psipred_checked}}'}))
     input_data = forms.CharField(initial="Input Sequence",
                                  widget=forms.Textarea(attrs={'value': '{{sequence}}'}))
     job_name = forms.CharField(widget=forms.TextInput(attrs={'value': '{{name}}'}))

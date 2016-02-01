@@ -7,9 +7,8 @@
     {% templatetag openvariable %}#if visible === 1 {% templatetag closevariable %}
 
     {# Display a form #}
-
+    <p class="form_error">{% templatetag openbrace %}{% templatetag openvariable %}form_error{% templatetag closevariable %}{% templatetag closebrace %}</p>
     <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
-
     {% csrf_token %}
 
     {% bootstrap_form form %}
