@@ -12,12 +12,13 @@ var ractive = new Ractive({
   template: '#form_template',
   data: { sequence: '',
           visible: 1,
-          psipred_checked: false,
+          psipred_checked: true,
+          //psipred_checked: false,
           psipred_job: 'psipred_job',
           waiting: 'Please wait for your job to process',
-          //sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
-          //email: 'daniel.buchan@ucl.ac.uk',
-          //name: 'test',
+          sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
+          email: 'daniel.buchan@ucl.ac.uk',
+          name: 'test',
         }
 });
 
@@ -57,7 +58,29 @@ ractive.on('submit', function(event) {
         ractive.set( 'visible', 2 );
 
       }
-      /*construct rest URL*/
+      var job_name = "nada"
+      if(psipred_checked === true)
+      {
+        job_name = "psipred"
+      }
+
+      url = 'http://128.16.14.83/analytics_automated/endpoints/.json'
+
+      data = {'job': job_name,
+              'submission_name': job_name,
+              'email': email }
+      response = ""
+
+      response = $.ajax({
+        dataType: "json",
+        url: url,
+        contentType: "appliction/json",
+        });
+      alert(response)
+      //.then( function ( page ) {
+      //   response = page;
+      //});
+      //ractive.set('sequence', response)
 
       /*construct REST packet */
 
