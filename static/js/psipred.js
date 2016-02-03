@@ -64,7 +64,8 @@ ractive.on('submit', function(event) {
         job_name = "psipred"
       }
 
-      url = 'http://128.16.14.83/analytics_automated/endpoints/.json'
+      //url = 'http://128.16.14.83/analytics_automated/endpoints/.json'
+      url = 'http://127.0.0.1:8000/analytics_automated/endpoints/.json'
 
       data = {'job': job_name,
               'submission_name': job_name,
@@ -74,7 +75,7 @@ ractive.on('submit', function(event) {
       response = $.ajax({
         dataType: "json",
         url: url,
-        contentType: "appliction/json",
+        contentType: "application/json",
         });
       alert(response)
       //.then( function ( page ) {

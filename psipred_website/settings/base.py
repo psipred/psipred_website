@@ -66,6 +66,12 @@ INSTALLED_APPS = (
     'interface',
 )
 
+BOOTSTRAP3 = {
+    'jquery_url': STATIC_PATH+"js/",
+    'css_url': STATIC_PATH+"css/",
+    'base_url': STATIC_PATH,
+}
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
