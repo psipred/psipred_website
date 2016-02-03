@@ -43,7 +43,7 @@ ractive.on('submit', function(event) {
       seq = this.get('sequence')
       seq = seq.replace(/^>.+$/mg, "").toUpperCase()
       seq = seq.replace(/\n|\s/g,"")
-      job_name = this.get('name')
+      name = this.get('name')
       email = this.get('email')
       psipred_job = this.get('psipred_job')
       psipred_checked = this.get('psipred_checked')
@@ -64,20 +64,42 @@ ractive.on('submit', function(event) {
         job_name = "psipred"
       }
 
-      //url = 'http://128.16.14.83/analytics_automated/endpoints/.json'
-      url = 'http://127.0.0.1:8000/analytics_automated/endpoints/.json'
+      endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/'
+      submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/'
+      try {
+        var file = new File([seq], 'input.txt');
+      } catch (e) {
+        alert(e)
+      }
 
-      data = {'job': job_name,
-              'submission_name': job_name,
-              'email': email }
-      response = ""
+      var fd = new FormData();
+      fd.append("input_data", file)
+      fd.append("job",job_name)
+      fd.append("submission_name",name)
+      fd.append("email",email)
+      fd.append("task1_all", true)
+      fd.append("task2_number", 12)
 
-      response = $.ajax({
+
+
+      var response = ''
+      $.ajax({
+        type: "POST",
+        data: fd,
+        cache: false,
+        contentType: false,
+        processData: false,
         dataType: "json",
-        url: url,
-        contentType: "application/json",
-        });
-      alert(response)
+        //contentType: "application/json",
+        url: submit_url,
+        complete : function (data)
+        {
+          response=data.responseText;
+          //alert(JSON.stringify(response, null, 2))
+        },
+        error: function (error) {alert(JSON.stringify(error))}
+      }).responseJSON
+
       //.then( function ( page ) {
       //   response = page;
       //});
