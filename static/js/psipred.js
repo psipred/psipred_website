@@ -6,6 +6,9 @@
      6. Show processing animation
      7. listen for result
 */
+var endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/'
+var submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/'
+
 
 var ractive = new Ractive({
   el: '#psipred_site',
@@ -46,6 +49,8 @@ ractive.observe('uuid', function(newValue, oldValue){
    {
      setTimeout(function(){alert("waiting")},2000)
      //call the server for a repsonse
+     url = 'http://127.0.0.1:8000/analytics_automated/submission/'+this.get('uuid')
+     response = send_request(url, "GET", send_data)
      //if finished then write results and set psipred_recieved to true
      //else stay in the loop
      break
@@ -81,8 +86,6 @@ ractive.on('submit', function(event) {
           job_name = "psipred"
         }
 
-        endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/'
-        submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/'
         try {
           var file = new File([seq], 'input.txt');
         } catch (e) {
