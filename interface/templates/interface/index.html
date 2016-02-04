@@ -1,5 +1,6 @@
 {% extends "interface/base.html" %}
 {% load bootstrap3 %}
+{% load ractive_tags %}
 
 {% block content %}
     <script id='form_template' type='text/ractive'>
@@ -7,7 +8,7 @@
     {% templatetag openvariable %}#if visible === 1 {% templatetag closevariable %}
 
     {# Display a form #}
-    <p class="form_error">{% templatetag openbrace %}{% templatetag openvariable %}form_error{% templatetag closevariable %}{% templatetag closebrace %}</p>
+    <p class="form_error">{% ractivehtmltag "form_error" %}</p>
     <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
     {% csrf_token %}
 
@@ -21,17 +22,15 @@
 
     {% templatetag openvariable %}elseif visible === 2 {% templatetag closevariable %}
     <div class="results" intro="slide" outro="slide">
-      <p>Processing {% templatetag openvariable %}name{% templatetag closevariable %}:<br />
-      {% templatetag openvariable %}sequence{% templatetag closevariable %}<br /></p>
+      <p>Processing : {% ractivetag "name" %}<br />
+      {% ractivetag "uuid" %}<br />
+      {% ractivetag "sequence" %}<br />
     </div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
 
     {% templatetag openvariable %}#if visible === 2{% templatetag closevariable %}
-    <div class="waiting" intro="slide" outro="slide">{% templatetag openvariable %}waiting{% templatetag closevariable %}</div>
+    <div class="waiting" intro="slide" outro="slide">{% ractivetag "waiting" %}</div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
 
     </script>
-
-
-
 {% endblock content %}

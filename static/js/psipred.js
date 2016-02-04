@@ -19,6 +19,7 @@ var ractive = new Ractive({
           sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
           email: 'daniel.buchan@ucl.ac.uk',
           name: 'test',
+          uuid: null,
         }
 });
 
@@ -39,6 +40,22 @@ ractive.observe('sequence', function(newValue, oldValue ) {
    defer: true
  })
 
+ractive.observe('uuid', function(newValue, oldValue){
+  var psipred_recieved = false
+  while(psipred_recieved != true)
+   {
+     setTimeout(function(){alert("waiting")},2000)
+     //call the server for a repsonse
+     //if finished then write results and set psipred_recieved to true
+     //else stay in the loop
+     break
+   }
+
+},{init: false,
+   defer: true
+ }
+)
+
 ractive.on('submit', function(event) {
       seq = this.get('sequence')
       seq = seq.replace(/^>.+$/mg, "").toUpperCase()
@@ -48,7 +65,9 @@ ractive.on('submit', function(event) {
       psipred_job = this.get('psipred_job')
       psipred_checked = this.get('psipred_checked')
       /*verify that everything here is ok*/
+      error_message=null
       error_message = verify_form(seq, job_name, email, [psipred_checked])
+
       if(error_message.length > 0)
       (
         this.set('form_error', error_message)
@@ -56,60 +75,67 @@ ractive.on('submit', function(event) {
       else {
         ractive.set( 'visible', null );
         ractive.set( 'visible', 2 );
-
-      }
-      var job_name = "nada"
-      if(psipred_checked === true)
-      {
-        job_name = "psipred"
-      }
-
-      endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/'
-      submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/'
-      try {
-        var file = new File([seq], 'input.txt');
-      } catch (e) {
-        alert(e)
-      }
-
-      var fd = new FormData();
-      fd.append("input_data", file)
-      fd.append("job",job_name)
-      fd.append("submission_name",name)
-      fd.append("email",email)
-      fd.append("task1_all", true)
-      fd.append("task2_number", 12)
-
-
-
-      var response = ''
-      $.ajax({
-        type: "POST",
-        data: fd,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        //contentType: "application/json",
-        url: submit_url,
-        complete : function (data)
+        var job_name = "nada"
+        if(psipred_checked === true)
         {
-          response=data.responseText;
-          //alert(JSON.stringify(response, null, 2))
-        },
-        error: function (error) {alert(JSON.stringify(error))}
-      }).responseJSON
+          job_name = "psipred"
+        }
 
-      //.then( function ( page ) {
-      //   response = page;
-      //});
-      //ractive.set('sequence', response)
+        endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/'
+        submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/'
+        try {
+          var file = new File([seq], 'input.txt');
+        } catch (e) {
+          alert(e)
+        }
 
-      /*construct REST packet */
+        var fd = new FormData();
+        fd.append("input_data", file)
+        fd.append("job",job_name)
+        fd.append("submission_name",name)
+        fd.append("email",email)
+        fd.append("task1_all", true)
+        fd.append("task2_number", 12)
 
-      /* send rest request */
-      event.original.preventDefault()
-  })
+        var response = send_request(submit_url, "POST", fd)
+        data = JSON.parse(response)
+        for(var k in data){
+          if(k == "UUID"){
+            this.set('uuid', data[k])
+          }
+        }
+      }
+    event.original.preventDefault()
+})
+
+function send_request(url, type, send_data)
+{
+  if(type == "GET"){
+
+  }
+
+  var response = ''
+  $.ajax({
+    type: type,
+    data: send_data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    async:   false,
+    dataType: "json",
+    //contentType: "application/json",
+    url: url,
+    complete : function (data)
+    {
+      if(data == null){alert("Failed to send data")}
+      response=data.responseText;
+      //alert(JSON.stringify(response, null, 2))
+    },
+    error: function (error) {alert(JSON.stringify(error))}
+  }).responseJSON
+
+  return(response);
+}
 
 function verify_form(seq, job_name, email, checked_array )
 {
