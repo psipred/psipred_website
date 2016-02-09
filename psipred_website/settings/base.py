@@ -67,9 +67,8 @@ INSTALLED_APPS = (
 )
 
 BOOTSTRAP3 = {
-    'jquery_url': STATIC_PATH+"js/",
-    'css_url': STATIC_PATH+"css/",
-    'base_url': STATIC_PATH,
+    'jquery_url': STATIC_PATH+"js/jquery.min.js",
+    'base_url': STATIC_PATH+"bootstrap-3.3.6-dist",
 }
 
 MIDDLEWARE_CLASSES = (

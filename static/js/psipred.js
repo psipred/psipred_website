@@ -44,6 +44,8 @@ ractive.observe('sequence', function(newValue, oldValue ) {
  })
 
 ractive.once('poll_trigger', function(){
+   var regex = /\.horiz$/
+
    var interval = setInterval(function(){
       url = 'http://127.0.0.1:8000/analytics_automated/submission/'+ractive.get('uuid')
       var response = send_request(url, "GET", {})
@@ -52,21 +54,33 @@ ractive.once('poll_trigger', function(){
         if(k == "state"){
           if(data[k] == "Running" || data[k] == "Submitted")
           {
-            alert("Still Running")
           }
           if(data[k] == 'Complete')
           {
-            alert("Job Complete")
+            results = data['results']
+            for( var i in results)
+            {
+              result_dict = results[i]
+              if(result_dict['name'] == 'psipass2' )
+              {
+                var match = regex.exec(result_dict['result_data'])
+                if(match)
+                {
+                  get_file(result_dict['result_data'])
+                  ractive.set("waiting", data['last_message'])
+                }
+              }
+            }
             clearInterval(interval)
           }
           if(data[k] == 'Error' || data[k] == 'Crash')
           {
-            alert("Job Failed")
+            ractive.set("form_error", data['last_message'])
             clearInterval(interval)
           }
         }
       }
-    }, 10)
+    }, 20000)
 
 },{init: false,
    defer: true
@@ -84,12 +98,12 @@ ractive.on('submit', function(event) {
       /*verify that everything here is ok*/
       error_message=null
       error_message = verify_form(seq, job_name, email, [psipred_checked])
-
       if(error_message.length > 0)
       (
         this.set('form_error', error_message)
       )
       else {
+
         ractive.set( 'visible', null );
         ractive.set( 'visible', 2 );
         var job_name = "nada"
@@ -124,6 +138,21 @@ ractive.on('submit', function(event) {
     event.original.preventDefault()
 })
 
+function get_file(url)
+{
+  var response = ''
+  $.ajax({
+    type: 'GET',
+    async:   true,
+    url: url,
+    complete : function (file)
+    {
+      ractive.set('waiting', file.responseText)
+    },
+    error: function (error) {alert(JSON.stringify(error))}
+  })
+}
+
 function send_request(url, type, send_data)
 {
   var response = ''
@@ -145,7 +174,6 @@ function send_request(url, type, send_data)
     },
     error: function (error) {alert(JSON.stringify(error))}
   }).responseJSON
-
   return(response);
 }
 

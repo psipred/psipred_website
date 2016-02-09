@@ -4,11 +4,11 @@
 
 {% block content %}
     <script id='form_template' type='text/ractive'>
-
+    <p class="form_error">{% ractivehtmltag "form_error" %}</p>
+    
     {% templatetag openvariable %}#if visible === 1 {% templatetag closevariable %}
 
     {# Display a form #}
-    <p class="form_error">{% ractivehtmltag "form_error" %}</p>
     <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
     {% csrf_token %}
 
