@@ -43,18 +43,30 @@ ractive.observe('sequence', function(newValue, oldValue ) {
    defer: true
  })
 
-ractive.observe('uuid', function(newValue, oldValue){
-  var psipred_recieved = false
-  while(psipred_recieved != true)
-   {
-     setTimeout(function(){alert("waiting")},2000)
-     //call the server for a repsonse
-     url = 'http://127.0.0.1:8000/analytics_automated/submission/'+this.get('uuid')
-     response = send_request(url, "GET", send_data)
-     //if finished then write results and set psipred_recieved to true
-     //else stay in the loop
-     break
-   }
+ractive.once('poll_trigger', function(){
+   var interval = setInterval(function(){
+      url = 'http://127.0.0.1:8000/analytics_automated/submission/'+ractive.get('uuid')
+      var response = send_request(url, "GET", {})
+      data = JSON.parse(response)
+      for(var k in data){
+        if(k == "state"){
+          if(data[k] == "Running" || data[k] == "Submitted")
+          {
+            alert("Still Running")
+          }
+          if(data[k] == 'Complete')
+          {
+            alert("Job Complete")
+            clearInterval(interval)
+          }
+          if(data[k] == 'Error' || data[k] == 'Crash')
+          {
+            alert("Job Failed")
+            clearInterval(interval)
+          }
+        }
+      }
+    }, 10)
 
 },{init: false,
    defer: true
@@ -105,6 +117,7 @@ ractive.on('submit', function(event) {
         for(var k in data){
           if(k == "UUID"){
             this.set('uuid', data[k])
+            ractive.fire('poll_trigger')
           }
         }
       }
@@ -113,10 +126,6 @@ ractive.on('submit', function(event) {
 
 function send_request(url, type, send_data)
 {
-  if(type == "GET"){
-
-  }
-
   var response = ''
   $.ajax({
     type: type,
