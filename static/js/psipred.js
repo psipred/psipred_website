@@ -46,13 +46,26 @@ ractive.observe('sequence', function(newValue, oldValue ) {
 ractive.observe('uuid', function(newValue, oldValue){
   var psipred_recieved = false
   while(psipred_recieved != true)
-   {
-     setTimeout(function(){alert("waiting")},2000)
-     //call the server for a repsonse
-     url = 'http://127.0.0.1:8000/analytics_automated/submission/'+this.get('uuid')
-     response = send_request(url, "GET", send_data)
-     //if finished then write results and set psipred_recieved to true
-     //else stay in the loop
+  {
+     setTimeout(function(){
+       var uuid = ractive.get('uuid')
+       url = 'http://127.0.0.1:8000/analytics_automated/submission/'+uuid
+       response = send_request(url, "GET", {})
+       alert(response)
+
+       var data = JSON.parse(response)
+       for(var k in data){
+          if(k === "state" && data[k] === "Error"){
+            ractive.set('form_error', error_message)
+            psipred_recieved = true
+          }
+        }
+       //call the server for a repsonse
+       //if finished then write results and set psipred_recieved to true
+       //else stay in the loop
+
+     },5000)
+
      break
    }
 
@@ -97,11 +110,9 @@ ractive.on('submit', function(event) {
         fd.append("job",job_name)
         fd.append("submission_name",name)
         fd.append("email",email)
-        fd.append("task1_all", true)
-        fd.append("task2_number", 12)
 
         var response = send_request(submit_url, "POST", fd)
-        data = JSON.parse(response)
+        var data = JSON.parse(response)
         for(var k in data){
           if(k == "UUID"){
             this.set('uuid', data[k])
@@ -113,10 +124,6 @@ ractive.on('submit', function(event) {
 
 function send_request(url, type, send_data)
 {
-  if(type == "GET"){
-
-  }
-
   var response = ''
   $.ajax({
     type: type,
