@@ -43,31 +43,44 @@ ractive.observe('sequence', function(newValue, oldValue ) {
    defer: true
  })
 
-ractive.observe('uuid', function(newValue, oldValue){
-  var psipred_recieved = false
-  while(psipred_recieved != true)
-  {
-     setTimeout(function(){
-       var uuid = ractive.get('uuid')
-       url = 'http://127.0.0.1:8000/analytics_automated/submission/'+uuid
-       response = send_request(url, "GET", {})
-       alert(response)
+ractive.once('poll_trigger', function(){
+   var regex = /\.horiz$/
 
-       var data = JSON.parse(response)
-       for(var k in data){
-          if(k === "state" && data[k] === "Error"){
-            ractive.set('form_error', error_message)
-            psipred_recieved = true
+   var interval = setInterval(function(){
+      url = 'http://127.0.0.1:8000/analytics_automated/submission/'+ractive.get('uuid')
+      var response = send_request(url, "GET", {})
+      data = JSON.parse(response)
+      for(var k in data){
+        if(k == "state"){
+          if(data[k] == "Running" || data[k] == "Submitted")
+          {
+          }
+          if(data[k] == 'Complete')
+          {
+            results = data['results']
+            for( var i in results)
+            {
+              result_dict = results[i]
+              if(result_dict['name'] == 'psipass2' )
+              {
+                var match = regex.exec(result_dict['result_data'])
+                if(match)
+                {
+                  get_file(result_dict['result_data'])
+                  ractive.set("waiting", data['last_message'])
+                }
+              }
+            }
+            clearInterval(interval)
+          }
+          if(data[k] == 'Error' || data[k] == 'Crash')
+          {
+            ractive.set("form_error", data['last_message'])
+            clearInterval(interval)
           }
         }
-       //call the server for a repsonse
-       //if finished then write results and set psipred_recieved to true
-       //else stay in the loop
-
-     },5000)
-
-     break
-   }
+      }
+    }, 2000)
 
 },{init: false,
    defer: true
@@ -85,12 +98,12 @@ ractive.on('submit', function(event) {
       /*verify that everything here is ok*/
       error_message=null
       error_message = verify_form(seq, job_name, email, [psipred_checked])
-
       if(error_message.length > 0)
       (
         this.set('form_error', error_message)
       )
       else {
+
         ractive.set( 'visible', null );
         ractive.set( 'visible', 2 );
         var job_name = "nada"
@@ -110,17 +123,35 @@ ractive.on('submit', function(event) {
         fd.append("job",job_name)
         fd.append("submission_name",name)
         fd.append("email",email)
+        fd.append("task1_all", true)
+        fd.append("task2_number", 12)
 
         var response = send_request(submit_url, "POST", fd)
-        var data = JSON.parse(response)
+        data = JSON.parse(response)
         for(var k in data){
           if(k == "UUID"){
             this.set('uuid', data[k])
+            ractive.fire('poll_trigger')
           }
         }
       }
     event.original.preventDefault()
 })
+
+function get_file(url)
+{
+  var response = ''
+  $.ajax({
+    type: 'GET',
+    async:   true,
+    url: url,
+    complete : function (file)
+    {
+      ractive.set('waiting', file.responseText)
+    },
+    error: function (error) {alert(JSON.stringify(error))}
+  })
+}
 
 function send_request(url, type, send_data)
 {
@@ -143,7 +174,6 @@ function send_request(url, type, send_data)
     },
     error: function (error) {alert(JSON.stringify(error))}
   }).responseJSON
-
   return(response);
 }
 
@@ -197,8 +227,11 @@ function isInArray(value, array) {
       ractive.set( 'visible', null ).then( function () {
         ractive.set( 'visible', which );
         ractive.set( 'visible', 3 );
-
       });
     }
   });
 */
+
+    Status API Training Shop Blog About Pricing
+
+    © 2016 GitHub, Inc. Terms Privacy Security Contact Help
