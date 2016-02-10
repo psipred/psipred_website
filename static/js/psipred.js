@@ -80,7 +80,7 @@ ractive.once('poll_trigger', function(){
           }
         }
       }
-    }, 20000)
+    }, 2000)
 
 },{init: false,
    defer: true
