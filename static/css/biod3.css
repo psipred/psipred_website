@@ -1,0 +1,28 @@
+.sequence_plot rect {
+  fill: white;
+  stroke: white;
+  stroke-width: 2;
+}
+
+.sequence_plot rect:hover {
+  fill: brown;
+}
+
+.sequence_plot text {
+  fill: black;
+  text-anchor: end;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.y.axis path{
+  display: none;
+}
+.x.axis path {
+  display: none;
+}

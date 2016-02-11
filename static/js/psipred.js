@@ -106,7 +106,9 @@ ractive.on('submit', function(event) {
 
         ractive.set( 'visible', null );
         ractive.set( 'visible', 2 );
-        var job_name = "nada"
+        var sequence_chart = plot_sequence(seq, 50, "sequence_plot");
+
+        var job_name = "nada";
         if(psipred_checked === true)
         {
           job_name = "psipred"
