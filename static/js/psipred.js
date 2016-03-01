@@ -107,6 +107,7 @@ ractive.on('submit', function(event) {
       else {
         ractive.set( 'visible', null );
         ractive.set( 'visible', 2 );
+
         var job_name = "nada";
         if(psipred_checked === true)
         {
