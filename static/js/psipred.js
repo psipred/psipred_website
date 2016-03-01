@@ -105,6 +105,11 @@ ractive.on('submit', function(event) {
         this.set('form_error', error_message);
       }
       else {
+
+        bio_d3_data = biod3.process_sequence_string(seq);
+        var this_panel = biod3.bio_panel(data, 50, "sequence_plot",{topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", user_colours: {custom: {blank: "#aaaaaa", A: "#ff0000", B: "#00ff00", T: "#0000ff"}}  });
+        this_panel.render(data, "ss");
+
         ractive.set( 'visible', null );
         ractive.set( 'visible', 2 );
 
