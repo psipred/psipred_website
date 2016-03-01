@@ -720,7 +720,7 @@ var dynSchemes = {
 };
 
 module.exports = Colors = function(opt){
-  this.maps = clone(staticSchemes);  
+  this.maps = clone(staticSchemes);
   this.dyn = clone(dynSchemes);
   this.opt = opt;
 }
@@ -831,7 +831,7 @@ module.exports = {
 var pid;
 module.exports = pid = {};
 
-// calculating the conservation is expensive 
+// calculating the conservation is expensive
 // we only want to do it once
 pid.init = function(){
   this.cons = this.opt.conservation();
@@ -868,7 +868,7 @@ var StaticSchemeClass = function(map){
   this.map = map;
   this.getColor = function(letter){
     if(this.map[letter] !== undefined){
-      return this.map[letter]; 
+      return this.map[letter];
     }else{
       return this.defaultColor;
     }

@@ -10,6 +10,7 @@ var endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
 var submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/';
 
 var bio_d3_data = null;
+var this_panel = null;
 
 var ractive = new Ractive({
   el: '#psipred_site',
@@ -107,8 +108,14 @@ ractive.on('submit', function(event) {
       else {
 
         bio_d3_data = biod3.process_sequence_string(seq);
-        var this_panel = biod3.bio_panel(data, 50, "sequence_plot",{topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", user_colours: {custom: {blank: "#aaaaaa", A: "#ff0000", B: "#00ff00", T: "#0000ff"}}  });
-        this_panel.render(data, "ss");
+        ann = ["C","C","C","C","C","C","C","C","C","C",
+               "C","C","C","C","C","C","C","C","C","C",
+               "C","C","C","C","C","C","C","C","C","C",
+               "C","C","C","C","C","C","C","C","C","C",
+               "C","C","C"];
+        bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "ss");
+        this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel"});
+        this_panel.render(bio_d3_data, "ss");
 
         ractive.set( 'visible', null );
         ractive.set( 'visible', 2 );
