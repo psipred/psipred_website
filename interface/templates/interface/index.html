@@ -5,7 +5,7 @@
 {% block content %}
     <script id='form_template' type='text/ractive'>
     <p class="form_error">{% ractivehtmltag "form_error" %}</p>
-    
+
     {% templatetag openvariable %}#if visible === 1 {% templatetag closevariable %}
 
     {# Display a form #}
@@ -24,7 +24,7 @@
     <div class="results" intro="slide" outro="slide">
       <p>Processing : {% ractivetag "name" %}<br />
       {% ractivetag "uuid" %}<br />
-      {% ractivetag "sequence" %}<br />
+      <div class="sequence_plot" id="sequence_plot">{% ractivetag "sequence" %}</div><br />
     </div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
 

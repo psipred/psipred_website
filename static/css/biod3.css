@@ -1,0 +1,67 @@
+.heatmap {
+  stroke: black;
+  stroke-width: 1;
+}
+.ss {
+  stroke: white;
+  stroke-width: 1;
+}
+
+.annotation_text {
+  font-family: sans-serif
+}
+
+.annotation_cell .ss {
+  stroke: black;
+  stroke-width: 1;
+}
+.annotation_cell .clustal {
+  stroke: black;
+  stroke-width: 1;
+}
+
+.annotation_cell .lesk {
+  stroke: black;
+  stroke-width: 1;
+}
+
+.clustal {
+  stroke: white;
+  stroke-width: 1;
+}
+
+.lesk {
+  stroke: white;
+  stroke-width: 1;
+}
+.taylor {
+  stroke: white;
+  stroke-width: 1;
+}
+
+rect:hover {
+  fill: brown;
+}
+
+text:hover {
+  fill: white;
+}
+
+text {
+  fill: black;
+}
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.y.axis path{
+  display: none;
+}
+.x.axis path {
+  display: none;
+}
