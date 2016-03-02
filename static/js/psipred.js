@@ -107,6 +107,9 @@ ractive.on('submit', function(event) {
       }
       else {
 
+        ractive.set( 'visible', null );
+        ractive.set( 'visible', 2 );
+
         bio_d3_data = biod3.process_sequence_string(seq);
         ann = ["C","C","C","C","C","C","C","C","C","C",
                "C","C","C","C","C","C","C","C","C","C",
@@ -117,9 +120,6 @@ ractive.on('submit', function(event) {
         bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "ss");
         this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel"});
         this_panel.render(bio_d3_data, "ss");
-
-        ractive.set( 'visible', null );
-        ractive.set( 'visible', 2 );
 
         var job_name = "nada";
         if(psipred_checked === true)

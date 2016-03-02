@@ -5,7 +5,7 @@
 {% block content %}
     <script id='form_template' type='text/ractive'>
     <p class="form_error">{% ractivehtmltag "form_error" %}</p>
-
+    <div class="sequence_plot" id="sequence_plot"></div><br />
     {% templatetag openvariable %}#if visible === 1 {% templatetag closevariable %}
 
     {# Display a form #}
