@@ -208,7 +208,6 @@ function place_cells(cells, em_size, cell_class, user_colours, heatmapColour, co
 {
       if(user_colours !== null && cell_class in user_colours)
       {
-        console.log("hello");
         cells.append("rect")
             .attr("width", em_size)
             .attr("height", em_size)
@@ -392,6 +391,8 @@ function bio_panel(d, gw, svg_element, opt)
           .attr('width', width)
          .append('g')
           .attr("transform", "translate("+margin.left+", "+margin.top+")");
+    console.log(svg_div_class)
+    console.log(local_panel)
 
     if(options.topX !== false)
     {
