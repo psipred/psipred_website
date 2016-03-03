@@ -208,6 +208,7 @@ function place_cells(cells, em_size, cell_class, user_colours, heatmapColour, co
 {
       if(user_colours !== null && cell_class in user_colours)
       {
+        console.log("hello");
         cells.append("rect")
             .attr("width", em_size)
             .attr("height", em_size)
@@ -268,7 +269,7 @@ function place_cells(cells, em_size, cell_class, user_colours, heatmapColour, co
       }
 }
 
-function add_annotation_selector(data, svg_div_class, cell_class, panel_name)
+function add_annotation_selector(data, svg_div_class, cell_class, panel_name, data_name)
 {
   var data_copy = JSON.parse(JSON.stringify(data));
   entry = data_copy[0];
@@ -296,7 +297,7 @@ function add_annotation_selector(data, svg_div_class, cell_class, panel_name)
         .attr("value", function(d) {return d;})
         .attr("name", "annotation_select")
         .attr("class", "annotation_select")
-        .attr("onclick", function(d) {return panel_name+".render(data, '"+d+"')";})
+        .attr("onclick", function(d) {return panel_name+".render("+data_name+", '"+d+"')";})
         .property("checked", function(d) { if(d === cell_class){return "true";} } );
   }
 
@@ -348,6 +349,7 @@ function bio_panel(d, gw, svg_element, opt)
         annotation_selector = false,
         local_panel = null,
         panel_name = null,
+        data_name = null,
         options = {topX: true, bottomX: false, leftY: true, rightY: false},
         user_colours = null
         if(opt !== undefined){
@@ -362,6 +364,7 @@ function bio_panel(d, gw, svg_element, opt)
           if(opt.annotation_key !== undefined){annotation_key = opt.annotation_key;}
           if(opt.annotation_selector !== undefined){annotation_selector = opt.annotation_selector;}
           if(opt.panel_name !== undefined){panel_name = opt.panel_name;}
+          if(opt.data_name !== undefined){data_name = opt.data_name;}
           if(opt.user_colours !== undefined){user_colours = opt.user_colours;}
         }
     if(options.topX === false){top_x_pad = 0;}
@@ -391,8 +394,6 @@ function bio_panel(d, gw, svg_element, opt)
           .attr('width', width)
          .append('g')
           .attr("transform", "translate("+margin.left+", "+margin.top+")");
-    console.log(svg_div_class)
-    console.log(local_panel)
 
     if(options.topX !== false)
     {
@@ -458,7 +459,7 @@ function bio_panel(d, gw, svg_element, opt)
 
         if(annotation_selector === true)
         {
-            add_annotation_selector(data, svg_div_class, cell_class, panel_name);
+            add_annotation_selector(data, svg_div_class, cell_class, panel_name, data_name);
         }
     };
 
@@ -721,7 +722,7 @@ var dynSchemes = {
 };
 
 module.exports = Colors = function(opt){
-  this.maps = clone(staticSchemes);
+  this.maps = clone(staticSchemes);  
   this.dyn = clone(dynSchemes);
   this.opt = opt;
 }
@@ -832,7 +833,7 @@ module.exports = {
 var pid;
 module.exports = pid = {};
 
-// calculating the conservation is expensive
+// calculating the conservation is expensive 
 // we only want to do it once
 pid.init = function(){
   this.cons = this.opt.conservation();
@@ -869,7 +870,7 @@ var StaticSchemeClass = function(map){
   this.map = map;
   this.getColor = function(letter){
     if(this.map[letter] !== undefined){
-      return this.map[letter];
+      return this.map[letter]; 
     }else{
       return this.defaultColor;
     }
