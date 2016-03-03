@@ -68,8 +68,7 @@ ractive.once('poll_trigger', function(){
                 var match = regex.exec(result_dict['result_data'])
                 if(match)
                 {
-
-                  get_file(result_dict['result_data']);
+                  process_file(result_dict['result_data'], true);
                   ractive.set("waiting", data['last_message']);
                 }
               }
@@ -153,7 +152,7 @@ ractive.on('submit', function(event) {
     event.original.preventDefault();
 });
 
-function get_file(url)
+function process_file(url, psipred_ctl)
 {
   var response = '';
   $.ajax({
@@ -162,6 +161,24 @@ function get_file(url)
     url: url,
     complete : function (file)
     {
+      if(psipred_ctl === true)
+      {
+        text = file.responseText;
+        var lines= text.split('\n');
+        var prediction = [];
+        for(var i = 0; i < lines.length; i++)
+        {
+          if(lines[i].substring(0,6) === "Pred: ")
+          {
+            var predict_string = lines[i].substring(6, lines[i].length);
+            var chars = predict_string.split('');
+            prediction.push.apply(prediction, chars);
+            console.log(prediction);
+          }
+        }
+        bio_d3_data = biod3.add_annotation(bio_d3_data, prediction, "ss");
+        this_panel.render(bio_d3_data, "ss");
+      }
       ractive.set('waiting', file.responseText);
     },
     error: function (error) {alert(JSON.stringify(error));}
