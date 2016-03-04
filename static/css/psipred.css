@@ -2,3 +2,24 @@
 {
   color: red;
 }
+
+.results
+{
+  width: 100%;
+  text-align: center;
+}
+.waiting_icon
+{
+  display: inline-block;
+}
+.sequence_plot
+{
+  display: inline-block;
+}
+
+.btn-group
+{
+  display: inline-block;
+}
+
+.title{}

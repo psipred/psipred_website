@@ -16,11 +16,12 @@ var ractive = new Ractive({
   el: '#psipred_site',
   template: '#form_template',
   data: {
-          visible: 1,
+          results_visible: 1,
           psipred_checked: true,
           //psipred_checked: false,
           psipred_job: 'psipred_job',
-          waiting: 'Please wait for your job to process',
+          psipred_waiting_message: '<h2>Please wait for your job to process</h2>',
+          psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>',
           sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
           email: 'daniel.buchan@ucl.ac.uk',
           name: 'test',
@@ -69,7 +70,9 @@ ractive.once('poll_trigger', function(){
                 if(match)
                 {
                   process_file(result_dict['result_data'], true);
-                  ractive.set("waiting", data['last_message']);
+                  ractive.set("psipred_waiting_message", '<h2>This Job Has Completed</h2>');
+                  ractive.set("psipred_waiting_icon", '');
+
                 }
               }
             }
@@ -82,7 +85,7 @@ ractive.once('poll_trigger', function(){
           }
         }
       }
-    }, 2000);
+    }, 20000);
 
 },{init: false,
    defer: true
@@ -106,16 +109,16 @@ ractive.on('submit', function(event) {
       }
       else {
 
-        ractive.set( 'visible', null );
-        ractive.set( 'visible', 2 );
+        ractive.set( 'results_visible', null );
+        ractive.set( 'results_visible', 2 );
 
         bio_d3_data = biod3.process_sequence_string(seq);
-        ann = ["C","C","C","C","C","C","C","C","C","C",
-               "C","C","C","C","C","C","C","C","C","C",
-               "C","C","C","C","C","C","C","C","C","C",
-               "C","C","C","C","C","C","C","C","C","C",
-               "C","C","C"];
-
+        ann = [];
+        //initialise the ss annotations as just coil
+        for(var i = 0; i < seq.length; i++)
+        {
+          ann.push("C");
+        }
         bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "ss");
         this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
         this_panel.render(bio_d3_data, "ss");
@@ -173,13 +176,13 @@ function process_file(url, psipred_ctl)
             var predict_string = lines[i].substring(6, lines[i].length);
             var chars = predict_string.split('');
             prediction.push.apply(prediction, chars);
-            console.log(prediction);
+            //console.log(prediction);
           }
         }
         bio_d3_data = biod3.add_annotation(bio_d3_data, prediction, "ss");
         this_panel.render(bio_d3_data, "ss");
       }
-      ractive.set('waiting', file.responseText);
+      //ractive.set('waiting', file.responseText);
     },
     error: function (error) {alert(JSON.stringify(error));}
   });
