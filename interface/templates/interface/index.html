@@ -26,29 +26,65 @@
       <div class="sequence_plot" id="sequence_plot"></div><br />
 
       <!-- results selector -->
-      <div class="btn-group" role="group">
+      <div class="btn-group" id="selector" role="group">
       {% templatetag openvariable %}#if psipred_checked{% templatetag closevariable %}
-        <button type="button" class="btn btn-sm btn-default">PSIPRED</button>
-        <button type="button" class="btn btn-sm btn-default">pGenTHREADER</button>
-        <button type="button" class="btn btn-sm btn-default">pDomTHREADER</button>
-        <button type="button" class="btn btn-sm btn-default">DISOPRED</button>
-        <button type="button" class="btn btn-sm btn-default">DomPred</button>
-        <button type="button" class="btn btn-sm btn-default">MEMSATSVM</button>
-        <button type="button" class="btn btn-sm btn-default">MEMPACK</button>
-        <button type="button" class="btn btn-sm btn-default">FFPRED</button>
-        <button type="button" class="btn btn-sm btn-default">BioSerf</button>
-        <button type="button" class="btn btn-sm btn-default">DomSerf</button>
-        <button type="button" class="btn btn-sm btn-info">Downloads</button>
-
+        <button on-click='psipred_active' type="button" class="btn btn-default">PSIPRED</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if pgenthreader_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">pGenTHREADER</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if pdomthreader_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">pDomTHREADER</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if disopred_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">DISOPRED</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if dompred_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">DomPred</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if memsatsvm_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">MEMSATSVM</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if mempack_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">MEMPACK</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if ffpred_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">FFPRED</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if bioserf_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">BioSerf</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if domserf_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">DomSerf</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+        <button on-click='downloads_active' type="button" class="btn btn-info">Downloads</button>
+
       </div>
 
-      <h3>Processing ID: {% ractivetag "uuid" %}</h3>
+      <div class="results_panel" >
+      {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
+      <h4>Processing ID: {% ractivetag "uuid" %}</h4>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}</div>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+      {% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
+      {% ractivehtmltag "download_links" %}
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-    </div>
+      </div><!-- closes results_panel class-->
+
+    </div><!-- closes results class -->
     {% templatetag openvariable %}/if{% templatetag closevariable %}
+
 
     </script>
 {% endblock content %}

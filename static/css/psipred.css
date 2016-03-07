@@ -5,24 +5,33 @@
 
 .results
 {
-  width: 100%;
-  text-align: center;
+  width: 800px;
 }
 .waiting_icon
 {
-  display: inline-block;
+ text-align: center;
 }
 .sequence_plot
 {
-  display: inline-block;
+  text-align: center;
 }
-
-.btn-group
+.title
 {
-  display: inline-block;
+  text-align: left;
+}
+#selector
+{
+  text-align: left;
 }
 
-.title{}
+.results_panel
+{
+  border-style: solid;
+  border-width: 0.1em;
+  border-color: #b8b8b8;
+  border-radius: 4px;
+  padding: 0.5em;
+}
 
 .red_text
 {

@@ -17,8 +17,19 @@ var ractive = new Ractive({
   template: '#form_template',
   data: {
           results_visible: 1,
+          results_panel_visible: 1,
           psipred_checked: true,
+          pgenthreader_checked: false,
+          pdomthreader_checked: false,
+          disopred_checked: false,
+          dompred_checked: false,
+          memsatsvm_checked: false,
+          mempack_checked: false,
+          ffpred_checked: false,
+          bioserf_checked: false,
+          domserf_checked: false,
           //psipred_checked: false,
+          download_links: "",
           psipred_job: 'psipred_job',
           psipred_waiting_message: '<h2>Please wait for your job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>',
@@ -52,7 +63,9 @@ ractive.once('poll_trigger', function(){
    var interval = setInterval(function(){
       url = 'http://127.0.0.1:8000/analytics_automated/submission/'+ractive.get('uuid');
       var response = send_request(url, "GET", {});
-      data = JSON.parse(response);
+      var data = JSON.parse(response);
+      console.log(data);
+      var downloads_string = ractive.get('download_links');
       for(var k in data){
         if(k == "state"){
           if(data[k] == "Running" || data[k] == "Submitted")
@@ -60,22 +73,27 @@ ractive.once('poll_trigger', function(){
           }
           if(data[k] == 'Complete')
           {
+            downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
             results = data['results'];
             for( var i in results)
             {
               result_dict = results[i];
-              if(result_dict['name'] == 'psipass2' )
+              if(result_dict['name'] == 'psipass2')
               {
                 var match = regex.exec(result_dict['result_data'])
                 if(match)
                 {
                   process_file(result_dict['result_data'], true);
                   ractive.set("psipred_waiting_message", '<h2>This Job Has Completed</h2>');
+                  downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">Horiz Format Output</a><br />');
                   ractive.set("psipred_waiting_icon", '');
-
+                }
+                else {
+                  downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">SS2 Format Output</a><br />');
                 }
               }
             }
+            ractive.set('download_links', downloads_string);
             clearInterval(interval);
           }
           if(data[k] == 'Error' || data[k] == 'Crash')
@@ -91,6 +109,17 @@ ractive.once('poll_trigger', function(){
    defer: true
  }
 );
+
+ractive.on( 'downloads_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 11 );
+});
+
+ractive.on( 'psipred_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 1 );
+});
+
 
 ractive.on('submit', function(event) {
       seq = this.get('sequence');
