@@ -23,3 +23,4 @@ class Request(TimeStampedModel):
     job_name = models.CharField(max_length=128, null=False, blank=False)
     input_data = models.TextField(null=False, blank=False)
     psipred_job = models.BooleanField(null=False, default=False)
+    disopred_job = models.BooleanField(null=False, default=False)

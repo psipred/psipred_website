@@ -31,6 +31,7 @@ var ractive = new Ractive({
           //psipred_checked: false,
           download_links: "",
           psipred_job: 'psipred_job',
+          disopred_job: 'disopred_job',
           psipred_waiting_message: '<h2>Please wait for your job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>',
           sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
