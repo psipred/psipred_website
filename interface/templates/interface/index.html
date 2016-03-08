@@ -11,7 +11,32 @@
     <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
     {% csrf_token %}
 
-    {% bootstrap_form form %}
+    <div class="form-group">
+        <div class="checkbox">
+    {% for field in form %}
+        {% if "PSIPRED" in field.label %}
+            {{ field.errors }}
+            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
+        {% endif %}
+        {% if "DISOPRED" in field.label %}
+            {{ field.errors }}
+            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
+        {% endif %}
+    {% endfor %}
+        </div>
+    </div>
+
+    {% for field in form %}
+        {% if "PSIPRED" in field.label or "DISOPRED" in field.label %}
+        {% else %}
+        <div class="form-group">
+          {% bootstrap_field field %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    <br />
+
+
 
     {% buttons %}
          <input class="btn btn-danger" type="reset" value="Reset" />
@@ -72,7 +97,7 @@
 
       <div class="results_panel" >
       {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
-      <h4>Processing ID: {% ractivetag "uuid" %}</h4>
+      <h4>Processing ID: {% ractivetag "psipred_uuid" %}</h4>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}

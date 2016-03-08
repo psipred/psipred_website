@@ -37,7 +37,7 @@ var ractive = new Ractive({
           sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
           email: 'daniel.buchan@ucl.ac.uk',
           name: 'test',
-          uuid: null,
+          psipred_uuid: null,
         }
 });
 
@@ -62,7 +62,7 @@ ractive.once('poll_trigger', function(){
    var regex = /\.horiz$/;
 
    var interval = setInterval(function(){
-      url = 'http://127.0.0.1:8000/analytics_automated/submission/'+ractive.get('uuid');
+      url = 'http://127.0.0.1:8000/analytics_automated/submission/'+ractive.get('psipred_uuid');
       var response = send_request(url, "GET", {});
       var data = JSON.parse(response);
       console.log(data);
@@ -177,7 +177,7 @@ ractive.on('submit', function(event) {
         data = JSON.parse(response);
         for(var k in data){
           if(k == "UUID"){
-            this.set('uuid', data[k]);
+            this.set('psipred_uuid', data[k]);
             ractive.fire('poll_trigger');
           }
         }
