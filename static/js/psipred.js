@@ -6,9 +6,23 @@
      6. Show processing animation
      7. listen for result
 */
-var endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
-var submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/';
 
+var endpoints_url = null;
+var submit_url = null;
+if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
+{
+  endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
+  submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/';
+}
+else if(location.hostname === "http://bioinfstage1.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
+  endpoints_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/endpoints/';
+  submit_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/submission/';
+}
+else {
+  endpoints_url = '';
+  submit_url = '';
+}
+alert(location.href);
 var bio_d3_data = null;
 var this_panel = null;
 
@@ -62,7 +76,7 @@ ractive.once('poll_trigger', function(){
    var regex = /\.horiz$/;
 
    var interval = setInterval(function(){
-      url = 'http://127.0.0.1:8000/analytics_automated/submission/'+ractive.get('psipred_uuid');
+      url = submit_url+ractive.get('psipred_uuid');
       var response = send_request(url, "GET", {});
       var data = JSON.parse(response);
       console.log(data);
