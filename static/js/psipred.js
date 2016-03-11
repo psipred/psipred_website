@@ -22,6 +22,7 @@ else {
   endpoints_url = '';
   submit_url = '';
 }
+alert(endpoints_url);
 alert(location.href);
 var bio_d3_data = null;
 var this_panel = null;
