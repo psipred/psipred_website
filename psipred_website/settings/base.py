@@ -40,7 +40,6 @@ STATICFILES_DIRS = (
     STATIC_PATH,
 )
 
-
 BASE_SECRETS_PATH = SETTINGS_PATH.child("base_secrets.json")
 with open(os.path.join(BASE_SECRETS_PATH)) as \
     f: base_secrets = json.loads(f.read())
