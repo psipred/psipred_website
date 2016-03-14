@@ -56,7 +56,10 @@ var ractive = new Ractive({
 });
 
 if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
-  ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>')
+  ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>');
+  ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>');
+  ractive.set('email', null);
+  ractive.set('name', null);
 }
 
 ractive.observe('sequence', function(newValue, oldValue ) {
