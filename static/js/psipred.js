@@ -43,23 +43,23 @@ var ractive = new Ractive({
           bioserf_checked: false,
           domserf_checked: false,
           //psipred_checked: false,
-          download_links: "",
+          download_links: '',
           psipred_job: 'psipred_job',
           disopred_job: 'disopred_job',
           psipred_waiting_message: '<h2>Please wait for your job to process</h2>',
-          psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>',
-          sequence: "asdasdasdasdasdasdasdasdasdasdasdasdasdasda",
-          email: 'daniel.buchan@ucl.ac.uk',
-          name: 'test',
+          psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          sequence: '',
+          email: '',
+          name: '',
           psipred_uuid: null,
         }
 });
 
-if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
-  ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>');
-  ractive.set('email', '');
-  ractive.set('name', '');
-  ractive.set('sequence', '');
+if(location.hostname === "127.0.0.1") {
+  ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
+  ractive.set('email', 'daniel.buchan@ucl.ac.uk');
+  ractive.set('name', 'test');
+  ractive.set('sequence', 'QWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEAS');
 }
 
 ractive.observe('sequence', function(newValue, oldValue ) {
