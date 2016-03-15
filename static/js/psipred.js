@@ -124,7 +124,7 @@ ractive.once('poll_trigger', function(){
           }
         }
       }
-    }, 20000);
+    }, 5000);
 
 },{init: false,
    defer: true
@@ -207,7 +207,7 @@ ractive.on('submit', function(event) {
 
 function process_file(url, psipred_ctl)
 {
-  alert(url);
+  //alert(url);
   var response = '';
   $.ajax({
     type: 'GET',
