@@ -1,5 +1,4 @@
 1) Handle and display backend errors
 2) Send multiple jobs
-3) New graphics
-4) Staging message
-5) look up results if given UUID
+3) PSIPRED ribbon graphic
+4) Look up results if given UUID
