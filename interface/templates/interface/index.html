@@ -4,9 +4,7 @@
 
 {% block content %}
     <script id='form_template' type='text/ractive'>
-    <p class="form_error">{% ractivehtmltag "form_error" %}</p>
     {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
-
     {# Display a form #}
     <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
     {% csrf_token %}
@@ -25,7 +23,7 @@
     {% endfor %}
         </div>
     </div>
-
+    <p class="form_error">{% ractivehtmltag "form_error" %}</p>
     {% for field in form %}
         {% if "PSIPRED" in field.label or "DISOPRED" in field.label %}
         {% else %}
