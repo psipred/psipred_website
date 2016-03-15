@@ -213,7 +213,7 @@ function process_file(url, psipred_ctl)
     type: 'GET',
     async:   true,
     url: url,
-    success : function (file)
+    complete : function (file)
     {
       if(psipred_ctl === true)
       {
@@ -235,7 +235,7 @@ function process_file(url, psipred_ctl)
       }
       //ractive.set('waiting', file.responseText);
     },
-  error: function (error) {alert(JSON.stringify(error));}
+    error: function (error) {alert(JSON.stringify(error));}
   });
 }
 
@@ -252,7 +252,7 @@ function send_request(url, type, send_data)
     dataType: "json",
     //contentType: "application/json",
     url: url,
-    success : function (data)
+    complete : function (data)
     {
       if(data === null){alert("Failed to send data");}
       response=data.responseText;
