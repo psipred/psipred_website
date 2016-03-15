@@ -1,4 +1,5 @@
 1) Handle and display backend errors
 2) Send multiple jobs
 3) PSIPRED ribbon graphic
+4) download png of the SVGs
 4) Look up results if given UUID
