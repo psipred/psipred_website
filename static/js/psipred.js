@@ -83,8 +83,7 @@ ractive.once('poll_trigger', function(){
 
    var interval = setInterval(function(){
       url = submit_url+ractive.get('psipred_uuid');
-      var response = send_request(url, "GET", {});
-      var data = JSON.parse(response);
+      var data = send_request(url, "GET", {});
       console.log(data);
       var downloads_string = ractive.get('download_links');
       for(var k in data){
@@ -193,8 +192,8 @@ ractive.on('submit', function(event) {
         fd.append("task1_all", true);
         fd.append("task2_number", 12);
 
-        var response = send_request(submit_url, "POST", fd);
-        data = JSON.parse(response);
+        var data = send_request(submit_url, "POST", fd);
+        //data = JSON.parse(response);
         for(var k in data){
           if(k == "UUID"){
             this.set('psipred_uuid', data[k]);
@@ -213,11 +212,11 @@ function process_file(url, psipred_ctl)
     type: 'GET',
     async:   true,
     url: url,
-    complete : function (file)
+    success : function (file)
     {
       if(psipred_ctl === true)
       {
-        text = file.responseText;
+        text = file;
         var lines= text.split('\n');
         var prediction = [];
         for(var i = 0; i < lines.length; i++)
@@ -252,10 +251,10 @@ function send_request(url, type, send_data)
     dataType: "json",
     //contentType: "application/json",
     url: url,
-    complete : function (data)
+    success : function (data)
     {
       if(data === null){alert("Failed to send data");}
-      response=data.responseText;
+      response=data;
       //alert(JSON.stringify(response, null, 2))
     },
     error: function (error) {alert(JSON.stringify(error));}

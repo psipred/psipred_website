@@ -1,6 +1,5 @@
 1) Handle and display backend errors
 2) Send multiple jobs
 3) New graphics
-4) remove form errors on correct submission
-5) Staging message
-6) look up results given URL path
+4) Staging message
+5) look up results given URL path
