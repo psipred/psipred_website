@@ -94,10 +94,10 @@ ractive.once('poll_trigger', function(){
       var downloads_string = ractive.get('download_links');
       for(var k in data){
         if(k == "state"){
-          if(data[k] == "Running" || data[k] == "Submitted")
+          if(data[k] === "Running" || data[k] === "Submitted")
           {
           }
-          if(data[k] == 'Complete')
+          if(data[k] === 'Complete')
           {
             downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
             results = data['results'];
@@ -122,9 +122,11 @@ ractive.once('poll_trigger', function(){
             ractive.set('download_links', downloads_string);
             clearInterval(interval);
           }
-          if(data[k] == 'Error' || data[k] == 'Crash')
+          if(data[k] === 'Error' || data[k] === 'Crash')
           {
             ractive.set("form_error", data['last_message'])
+            ractive.set("psipred_waiting_icon", '');
+            ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
             clearInterval(interval)
           }
         }
