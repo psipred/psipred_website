@@ -212,10 +212,15 @@ ractive.on('submit', function(event) {
     event.original.preventDefault();
 });
 
+// Here having set up ractive and the functions we need we then check
+// if we were provided a UUID, if yes then we display those results
+// Or go back to polling
 if(getUrlVars()["psipred_uuid"] && uuid_match)
 {
   ractive.set( 'results_visible', null );
   ractive.set( 'results_visible', 2 );
+  ractive.set("psipred_uuid", getUrlVars()["psipred_uuid"]);
+  ractive.set('sequence',get_previous_seq(getUrlVars()["psipred_uuid"]));
 
   seq = ractive.get('sequence');
   bio_d3_data = biod3.process_sequence_string(seq);
@@ -229,10 +234,18 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
   this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
   this_panel.render(bio_d3_data, "ss");
 
-  ractive.set("psipred_uuid", getUrlVars()["psipred_uuid"]);
   ractive.fire('poll_trigger');
 }
 
+function get_previous_seq(uuid)
+{
+    url = submit_url+ractive.get('psipred_uuid');
+    var submission_response = send_request(url, "GET", {});
+    var data = get_text(submission_response.input_data, "GET", {});
+    return(data);
+}
+
+// Helper functions below here
 function process_file(url, psipred_ctl)
 {
   //alert(url);
@@ -265,6 +278,30 @@ function process_file(url, psipred_ctl)
     },
     error: function (error) {alert(JSON.stringify(error));}
   });
+}
+
+function get_text(url, type, send_data)
+{
+  var response = null;
+  $.ajax({
+    type: type,
+    data: send_data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    async:   false,
+    //dataType: "txt",
+    //contentType: "application/json",
+    url: url,
+    success : function (data)
+    {
+      if(data === null){alert("Failed to request input data text");}
+      response=data;
+      //alert(JSON.stringify(response, null, 2))
+    },
+    error: function (error) {alert("The Backend processing service is not available. Something Catastrophic has gone wrong. Please contact psipred@cs.ucl.ac.uk");}
+  });
+  return(response);
 }
 
 function send_request(url, type, send_data)
