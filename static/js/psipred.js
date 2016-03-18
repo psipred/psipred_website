@@ -7,6 +7,7 @@
      7. listen for result
 */
 
+// SET ENDPOINTS FOR DEV, STAGING OR PROD
 var endpoints_url = null;
 var submit_url = null;
 if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
@@ -23,6 +24,7 @@ else {
   submit_url = '';
 }
 
+// DECLARE VARIABLES
 var bio_d3_data = null;
 var this_panel = null;
 
@@ -61,7 +63,11 @@ if(location.hostname === "127.0.0.1") {
   ractive.set('name', 'test');
   ractive.set('sequence', 'QWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEAS');
 }
+//4b6ad792-ed1f-11e5-8986-989096c13ee6
+uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+uuid_match = uuid_regex.exec(getUrlVars()["psipred_uuid"]);
 
+//APPLICATION FROM HERE
 ractive.observe('sequence', function(newValue, oldValue ) {
   regex = /^>(.+?)\s/;
   match = regex.exec(newValue);
@@ -206,6 +212,27 @@ ractive.on('submit', function(event) {
     event.original.preventDefault();
 });
 
+if(getUrlVars()["psipred_uuid"] && uuid_match)
+{
+  ractive.set( 'results_visible', null );
+  ractive.set( 'results_visible', 2 );
+
+  seq = ractive.get('sequence');
+  bio_d3_data = biod3.process_sequence_string(seq);
+  ann = [];
+  //initialise the ss annotations as just coil
+  for(var i = 0; i < seq.length; i++)
+  {
+    ann.push("C");
+  }
+  bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "ss");
+  this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+  this_panel.render(bio_d3_data, "ss");
+
+  ractive.set("psipred_uuid", getUrlVars()["psipred_uuid"]);
+  ractive.fire('poll_trigger');
+}
+
 function process_file(url, psipred_ctl)
 {
   //alert(url);
@@ -308,12 +335,13 @@ function isInArray(value, array) {
     return(false);
   }
 }
-/* ractive.on({
-    process_form: function ( event, which ) {
-      ractive.set( 'visible', null ).then( function () {
-        ractive.set( 'visible', which );
-        ractive.set( 'visible', 3 );
-      });
-    }
-  });
-*/
+
+function getUrlVars() {
+    var vars = {};
+    //consider using location.search instead here
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+    function(m,key,value) {
+      vars[key] = value;
+    });
+    return vars;
+  }
