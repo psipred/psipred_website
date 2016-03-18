@@ -96,6 +96,7 @@
       <div class="results_panel" >
       {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
       <h4>Processing ID: {% ractivetag "psipred_uuid" %}</h4>
+      <h5>You can use <a href="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">http://127.0.0.1:4000/interface/&#38;psipred_uuid={% ractivetag "psipred_uuid" %}</a> to retrieve your job later</h5>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
