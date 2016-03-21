@@ -10,18 +10,22 @@
 // SET ENDPOINTS FOR DEV, STAGING OR PROD
 var endpoints_url = null;
 var submit_url = null;
+var times_url = null;
 if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
 {
   endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
   submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/';
+  times_url = 'http://127.0.0.1:8000/analytics_automated/jobtimes/';
 }
 else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
   endpoints_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/endpoints/';
   submit_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/submission/';
+  times_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/jobtimes';
 }
 else {
   endpoints_url = '';
   submit_url = '';
+  times_url = '';
 }
 
 // DECLARE VARIABLES
@@ -50,6 +54,7 @@ var ractive = new Ractive({
           disopred_job: 'disopred_job',
           psipred_waiting_message: '<h2>Please wait for your job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          psipred_time: 'Unknown',
           sequence: '',
           email: '',
           name: '',
@@ -203,7 +208,14 @@ ractive.on('submit', function(event) {
           this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
           this_panel.render(bio_d3_data, "ss");
 
-        for(var k in data){
+          times = send_request(times_url,'GET',{});
+          if("psipred" in times)
+          {
+            console.log(times.psipred);
+            this.set('psipred_time', times.psipred);
+          }
+
+          for(var k in data){
           if(k == "UUID"){
             this.set('psipred_uuid', data[k]);
             ractive.fire('poll_trigger');
