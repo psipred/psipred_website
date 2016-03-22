@@ -96,54 +96,63 @@ ractive.observe('sequence', function(newValue, oldValue ) {
    defer: true
  });
 
-ractive.once('poll_trigger', function(){
-   var regex = /\.horiz$/;
+ractive.once('poll_trigger', function(job_type){
+  //alert(job_type);
+  var regex = /\.horiz$/;
+  var regex = '';
 
-   var interval = setInterval(function(){
-      url = submit_url+ractive.get('psipred_uuid');
-      var data = send_request(url, "GET", {});
-      console.log(data);
-      var downloads_string = ractive.get('download_links');
-      for(var k in data){
-        if(k == "state"){
-          if(data[k] === "Running" || data[k] === "Submitted")
+  if(job_type === "psipred")
+  {
+    regex = /\.horiz$/;
+  }
+
+  var interval = setInterval(function(){
+  url = submit_url+ractive.get('psipred_uuid');
+  var data = send_request(url, "GET", {});
+  //console.log(data);
+
+  var downloads_string = ractive.get('download_links');
+    for(var k in data){
+      if(k == "state"){
+        if(data[k] === "Running" || data[k] === "Submitted")
+        {
+        }
+        if(data[k] === 'Complete')
+        {
+          downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
+          results = data['results'];
+          for( var i in results)
           {
-          }
-          if(data[k] === 'Complete')
-          {
-            downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
-            results = data['results'];
-            for( var i in results)
+            result_dict = results[i];
+            if(result_dict['name'] == 'psipass2')
             {
-              result_dict = results[i];
-              if(result_dict['name'] == 'psipass2')
+              var match = regex.exec(result_dict['result_data'])
+              if(match)
               {
-                var match = regex.exec(result_dict['result_data'])
-                if(match)
-                {
-                  process_file(result_dict['result_data'], true);
-                  ractive.set("psipred_waiting_message", '<h2>This PSIPRED Job Has Completed</h2>');
-                  downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">Horiz Format Output</a><br />');
-                  ractive.set("psipred_waiting_icon", '');
-                }
-                else {
-                  downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">SS2 Format Output</a><br />');
-                }
+                process_file(result_dict['result_data'], true);
+                ractive.set("psipred_waiting_message", '<h2>This PSIPRED Job Has Completed</h2>');
+                downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">Horiz Format Output</a><br />');
+                ractive.set("psipred_waiting_icon", '');
+                ractive.set("psipred_time", '')
+              }
+              else {
+                downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">SS2 Format Output</a><br />');
               }
             }
-            ractive.set('download_links', downloads_string);
-            clearInterval(interval);
           }
-          if(data[k] === 'Error' || data[k] === 'Crash')
-          {
-            ractive.set("form_error", data['last_message'])
-            ractive.set("psipred_waiting_icon", '');
-            ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
-            clearInterval(interval)
-          }
+          ractive.set('download_links', downloads_string);
+          clearInterval(interval);
+        }
+        if(data[k] === 'Error' || data[k] === 'Crash')
+        {
+          ractive.set("form_error", data['last_message'])
+          ractive.set("psipred_waiting_icon", '');
+          ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
+          clearInterval(interval)
         }
       }
-    }, 5000);
+    }
+  }, 5000);
 
 },{init: false,
    defer: true
@@ -203,8 +212,8 @@ ractive.on('submit', function(event) {
         fd.append("task1_all", true);
         fd.append("task2_number", 12);
 
-        var data = send_request(submit_url, "POST", fd);
-        if(data !== null)
+        var psipred_data = send_request(submit_url, "POST", fd);
+        if(psipred_data !== null)
         {
           ractive.set( 'results_visible', null );
           ractive.set( 'results_visible', 2 );
@@ -224,13 +233,16 @@ ractive.on('submit', function(event) {
           if("psipred" in times)
           {
             console.log(times.psipred);
-            this.set('psipred_time', times.psipred);
+            this.set('psipred_time', "PISPRED jobs typically take "+times.psipred+" seconds");
+          }
+          else {
+            this.set('psipred_time', "Unable to retrieve average time for PSIPRED jobs.");
           }
 
-          for(var k in data){
+          for(var k in psipred_data){
           if(k == "UUID"){
-            this.set('psipred_uuid', data[k]);
-            ractive.fire('poll_trigger');
+            this.set('psipred_uuid', psipred_data[k]);
+            ractive.fire('poll_trigger', 'psipred');
           }
         }
         }
