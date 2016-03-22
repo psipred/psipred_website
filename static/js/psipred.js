@@ -52,18 +52,25 @@ var ractive = new Ractive({
           download_links: '',
           psipred_job: 'psipred_job',
           disopred_job: 'disopred_job',
-          psipred_waiting_message: '<h2>Please wait for your job to process</h2>',
+          psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
           psipred_time: 'Unknown',
+
+          disopred_waiting_message: '<h2>Please wait for your DISOPRED job to process</h2>',
+          disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          disopred_time: 'Unknown',
+
           sequence: '',
           email: '',
           name: '',
           psipred_uuid: null,
+          disopred_uuid: null,
         }
 });
 
 if(location.hostname === "127.0.0.1") {
   ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
+  ractive.set('disopred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
   ractive.set('email', 'daniel.buchan@ucl.ac.uk');
   ractive.set('name', 'test');
   ractive.set('sequence', 'QWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEAS');
@@ -115,7 +122,7 @@ ractive.once('poll_trigger', function(){
                 if(match)
                 {
                   process_file(result_dict['result_data'], true);
-                  ractive.set("psipred_waiting_message", '<h2>This Job Has Completed</h2>');
+                  ractive.set("psipred_waiting_message", '<h2>This PSIPRED Job Has Completed</h2>');
                   downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">Horiz Format Output</a><br />');
                   ractive.set("psipred_waiting_icon", '');
                 }
@@ -151,6 +158,11 @@ ractive.on( 'downloads_active', function ( event ) {
 ractive.on( 'psipred_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 1 );
+});
+
+ractive.on( 'disopred_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 4 );
 });
 
 
@@ -231,8 +243,8 @@ ractive.on('submit', function(event) {
 // Or go back to polling
 if(getUrlVars()["psipred_uuid"] && uuid_match)
 {
-  ractive.set( 'results_visible', null );
-  ractive.set( 'results_visible', 2 );
+  ractive.set('results_visible', null );
+  ractive.set('results_visible', 2 );
   ractive.set("psipred_uuid", getUrlVars()["psipred_uuid"]);
   ractive.set('sequence',get_previous_seq(getUrlVars()["psipred_uuid"]));
 
@@ -259,7 +271,9 @@ function get_previous_seq(uuid)
     return(data);
 }
 
-// Helper functions below here
+//
+// HELPER FUNCTIONS BELOW HERE
+//
 function process_file(url, psipred_ctl)
 {
   //alert(url);
