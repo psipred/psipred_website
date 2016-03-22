@@ -272,7 +272,7 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
   this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
   this_panel.render(bio_d3_data, "ss");
 
-  ractive.fire('poll_trigger');
+  ractive.fire('poll_trigger', 'psipred');
 }
 
 function get_previous_seq(uuid)
