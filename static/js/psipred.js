@@ -286,8 +286,11 @@ function send_job(job_name, ractive_instance)
   fd.append("job",job_name);
   fd.append("submission_name",name);
   fd.append("email",email);
-  fd.append("task1_all", true);
-  fd.append("task2_number", 12);
+  if(job_name === 'psipred')
+  {
+    fd.append("task1_all", true);
+    fd.append("task2_number", 12);
+  }
   var response_data = send_request(submit_url, "POST", fd);
   if(response_data !== null)
   {
