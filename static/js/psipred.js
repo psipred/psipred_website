@@ -183,6 +183,9 @@ ractive.on('submit', function(event) {
       email = this.get('email');
       psipred_job = this.get('psipred_job');
       psipred_checked = this.get('psipred_checked');
+      disopred_job = this.get('disopred_job');
+      disopred_checked = this.get('disopred_checked');
+
       /*verify that everything here is ok*/
       error_message=null;
       error_message = verify_form(seq, name, email, [psipred_checked]);
@@ -191,34 +194,14 @@ ractive.on('submit', function(event) {
         this.set('form_error', error_message);
       }
       else {
-
-        var job_name = "nada";
+        //initialise the page
+        bio_d3_data = biod3.process_sequence_string(seq);
+        ractive.set( 'results_visible', null );
+        var ann = null;
+        //Post the jobs and intialise the annotations for each job
         if(psipred_checked === true)
         {
-          job_name = "psipred";
-        }
-        var file = null;
-        try {
-          file = new File([seq], 'input.txt');
-        } catch (e) {
-          alert(e);
-        }
-
-        var fd = new FormData();
-        fd.append("input_data", file);
-        fd.append("job",job_name);
-        fd.append("submission_name",name);
-        fd.append("email",email);
-        fd.append("task1_all", true);
-        fd.append("task2_number", 12);
-
-        var psipred_data = send_request(submit_url, "POST", fd);
-        if(psipred_data !== null)
-        {
-          ractive.set( 'results_visible', null );
-          ractive.set( 'results_visible', 2 );
-
-          bio_d3_data = biod3.process_sequence_string(seq);
+          send_job("psipred", this);
           ann = [];
           //initialise the ss annotations as just coil
           for(var i = 0; i < seq.length; i++)
@@ -226,26 +209,33 @@ ractive.on('submit', function(event) {
             ann.push("C");
           }
           bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "ss");
+        }
+        if(disopred_checked === true)
+        {
+          send_job("disopred", this);
+          ann = [];
+          //initialise the ss annotations as just coil
+          for(i = 0; i < seq.length; i++)
+          {
+            ann.push("ORDERED");
+          }
+          bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "disorder");
+        }
+
+        //set visibility and render panel once
+        if (psipred_checked === true)
+        {
+          ractive.set( 'results_visible', 2 );
           this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
           this_panel.render(bio_d3_data, "ss");
-
-          times = send_request(times_url,'GET',{});
-          if("psipred" in times)
-          {
-            console.log(times.psipred);
-            this.set('psipred_time', "PISPRED jobs typically take "+times.psipred+" seconds");
-          }
-          else {
-            this.set('psipred_time', "Unable to retrieve average time for PSIPRED jobs.");
-          }
-
-          for(var k in psipred_data){
-          if(k == "UUID"){
-            this.set('psipred_uuid', psipred_data[k]);
-            ractive.fire('poll_trigger', 'psipred');
-          }
         }
+        else if(disopred_checked === true)
+        {
+          ractive.set( 'results_visible', 4 );
+          this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+          this_panel.render(bio_d3_data, "disorder");
         }
+
       }
     event.original.preventDefault();
 });
@@ -275,6 +265,52 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
   ractive.fire('poll_trigger', 'psipred');
 }
 
+
+
+//
+// HELPER FUNCTIONS BELOW HERE
+//
+function send_job(job_name, ractive_instance)
+{
+  var file = null;
+  upper_name = job_name.toUpperCase();
+  try
+  {
+    file = new File([seq], 'input.txt');
+  } catch (e)
+  {
+    alert(e);
+  }
+  var fd = new FormData();
+  fd.append("input_data", file);
+  fd.append("job",job_name);
+  fd.append("submission_name",name);
+  fd.append("email",email);
+  fd.append("task1_all", true);
+  fd.append("task2_number", 12);
+  var response_data = send_request(submit_url, "POST", fd);
+  if(response_data !== null)
+  {
+    times = send_request(times_url,'GET',{});
+    if(job_name in times)
+    {
+      ractive_instance.set(job_name+'_time', upper_name+" jobs typically take "+times[job_name]+" seconds");
+    }
+    else
+    {
+      ractive_instance.set(job_name+'_time', "Unable to retrieve average time for "+upper_name+" jobs.");
+    }
+    for(var k in response_data)
+    {
+      if(k == "UUID")
+      {
+        ractive_instance.set(job_name+'_uuid', response_data[k]);
+        ractive.fire('poll_trigger', job_name);
+      }
+    }
+  }
+}
+
 function get_previous_seq(uuid)
 {
     url = submit_url+ractive.get('psipred_uuid');
@@ -283,9 +319,6 @@ function get_previous_seq(uuid)
     return(data);
 }
 
-//
-// HELPER FUNCTIONS BELOW HERE
-//
 function process_file(url, psipred_ctl)
 {
   //alert(url);
