@@ -98,18 +98,19 @@ ractive.observe('sequence', function(newValue, oldValue ) {
 
 ractive.once('poll_trigger', function(job_type){
   //alert(job_type);
-  var regex = /\.horiz$/;
-  var regex = '';
+  var data_regex = '';
+  var image_regex = '';
 
   if(job_type === "psipred")
   {
-    regex = /\.horiz$/;
+    data_regex = /\.horiz$/;
+    image_regex = /\.png$/;
   }
 
   var interval = setInterval(function(){
   url = submit_url+ractive.get('psipred_uuid');
   var data = send_request(url, "GET", {});
-  //console.log(data);
+  console.log(data);
 
   var downloads_string = ractive.get('download_links');
     for(var k in data){
@@ -126,17 +127,25 @@ ractive.once('poll_trigger', function(job_type){
             result_dict = results[i];
             if(result_dict['name'] == 'psipass2')
             {
-              var match = regex.exec(result_dict['result_data'])
+              var match = data_regex.exec(result_dict['result_data'])
               if(match)
               {
                 process_file(result_dict['result_data'], true);
-                ractive.set("psipred_waiting_message", '<h2>This PSIPRED Job Has Completed</h2>');
+                // ractive.set("psipred_waiting_message", '<h2>This PSIPRED Job Has Completed</h2>');
                 downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">Horiz Format Output</a><br />');
                 ractive.set("psipred_waiting_icon", '');
                 ractive.set("psipred_time", '')
               }
               else {
                 downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">SS2 Format Output</a><br />');
+              }
+            }
+            if(result_dict['name'] == 'PsipredGS')
+            {
+              var match = image_regex.exec(result_dict['result_data'])
+              if(match)
+              {
+                ractive.set("psipred_waiting_message", '<img src='+result_dict['result_data']+'>');
               }
             }
           }
@@ -196,6 +205,7 @@ ractive.on('submit', function(event) {
       else {
         //initialise the page
         bio_d3_data = biod3.process_sequence_string(seq);
+        // alert(bio_d3_data);
         ractive.set( 'results_visible', null );
         var ann = null;
         //Post the jobs and intialise the annotations for each job
@@ -237,6 +247,7 @@ ractive.on('submit', function(event) {
         }
 
       }
+    // alert("huh");
     event.original.preventDefault();
 });
 
@@ -324,6 +335,7 @@ function get_previous_seq(uuid)
 
 function process_file(url, psipred_ctl)
 {
+  //get a results file and push the data in to the bio3d object
   //alert(url);
   var response = null;
   $.ajax({
