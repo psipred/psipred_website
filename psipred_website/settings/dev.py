@@ -25,3 +25,7 @@ DEBUG = True
 STAGING = False
 
 INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'JQUERY_URL': "/static/js/jquery.min.js",
+}
