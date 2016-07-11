@@ -10,7 +10,7 @@ from .models import *
 
 class PsipredForm(forms.ModelForm):
     psipred_job = forms.BooleanField(label="PSIPRED 4.0", widget=forms.CheckboxInput(attrs={'value': '{{psipred_job}}', 'checked': '{{psipred_checked}}'}))
-    disopred_job = forms.BooleanField(label="DISOPRED2 & DISOPRED3", widget=forms.CheckboxInput(attrs={'value': '{{disopred_job}}', 'checked': '{{disopred_checked}}'}))
+    disopred_job = forms.BooleanField(label="DISOPRED3", widget=forms.CheckboxInput(attrs={'value': '{{disopred_job}}', 'checked': '{{disopred_checked}}'}))
 
     input_data = forms.CharField(initial="Input Sequence",
                                  widget=forms.Textarea(attrs={'value': '{{sequence}}'}))
