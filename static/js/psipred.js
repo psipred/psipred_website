@@ -40,11 +40,11 @@ var ractive = new Ractive({
           results_panel_visible: 1,
           psipred_checked: false,
           disopred_checked: true,
+          memsatsvm_checked: false,
 
           pgenthreader_checked: false,
           pdomthreader_checked: false,
           dompred_checked: false,
-          memsatsvm_checked: false,
           mempack_checked: false,
           ffpred_checked: false,
           bioserf_checked: false,
@@ -53,6 +53,8 @@ var ractive = new Ractive({
           download_links: '',
           psipred_job: 'psipred_job',
           disopred_job: 'disopred_job',
+          memsatsvm_job: 'memsatsvm_job',
+
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
           psipred_time: 'Unknown',
@@ -61,17 +63,23 @@ var ractive = new Ractive({
           disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
           disopred_time: 'Unknown',
 
+          memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT_SVM job to process</h2>',
+          memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          memsatsvm_time: 'Unknown',
+
           sequence: '',
           email: '',
           name: '',
           psipred_uuid: null,
           disopred_uuid: null,
+          memsatsvm_uuid: null,
         }
 });
 
 if(location.hostname === "127.0.0.1") {
   ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
   ractive.set('disopred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
+  ractive.set('memsatsvm_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
   ractive.set('email', 'daniel.buchan@ucl.ac.uk');
   ractive.set('name', 'test');
   ractive.set('sequence', 'QWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEAS');
@@ -119,9 +127,16 @@ ractive.once('poll_trigger', function(job_type){
       //alert("hello");
       url += ractive.get('disopred_uuid');
     }
+    if(job_type === "memsatsvm")
+    {
+      //alert("hello");
+      url += ractive.get('memsatsvm_uuid');
+    }
+
     var data = send_request(url, "GET", {});
     console.log(data);
 
+    //TODO ADAPT THIS FOR DOMPRED AND MEMSATSVM RESULTS
     var downloads_string = ractive.get('download_links');
       for(var k in data){
         if(k == "state"){
@@ -193,6 +208,12 @@ ractive.on( 'disopred_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 4 );
 });
+
+ractive.on( 'memsatsvm_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 6 );
+});
+
 // END RESULTS PANEL TOGGLE WATCHERS
 
 ractive.on('submit', function(event) {
@@ -205,6 +226,8 @@ ractive.on('submit', function(event) {
       psipred_checked = this.get('psipred_checked');
       disopred_job = this.get('disopred_job');
       disopred_checked = this.get('disopred_checked');
+      memsatsvm_job = this.get('memsatsvm_job');
+      memsatsvm_checked = this.get('memsatsvm_checked');
 
       /*verify that everything here is ok*/
       error_message=null;
@@ -242,6 +265,17 @@ ractive.on('submit', function(event) {
           }
           bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "disorder");
         }
+        if(memsatsvm_checked === true)
+        {
+          send_job("memsatsvm", this);
+          ann = [];
+          //initialise the ss annotations as just coil
+          for(i = 0; i < seq.length; i++)
+          {
+            ann.push("INTRACELLULAR");
+          }
+          // bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "MEMBRANE");
+        }
 
         //set visibility and render panel once
         if (psipred_checked === true)
@@ -260,6 +294,15 @@ ractive.on('submit', function(event) {
           // this_panel.render(bio_d3_data, "disorder");}
           // catch(err){alert(err.message)}
         }
+        else if(disopred_checked === true)
+        {
+          ractive.set( 'results_visible', 2 );
+          ractive.fire( 'memsatsvm_active' );
+          this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+          // try{
+          // this_panel.render(bio_d3_data, "disorder");}
+          // catch(err){alert(err.message)}
+        }
 
       }
     //alert("huh");
@@ -269,6 +312,9 @@ ractive.on('submit', function(event) {
 // Here having set up ractive and the functions we need we then check
 // if we were provided a UUID, if yes then we display those results
 // Or go back to polling
+//
+//TODO: Handle loading that page with use the MEMSAT and DISOPRED UUID
+//
 if(getUrlVars()["psipred_uuid"] && uuid_match)
 {
   ractive.set('results_visible', null );

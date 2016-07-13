@@ -11,6 +11,7 @@ from .models import *
 class PsipredForm(forms.ModelForm):
     psipred_job = forms.BooleanField(label="PSIPRED 4.0", widget=forms.CheckboxInput(attrs={'value': '{{psipred_job}}', 'checked': '{{psipred_checked}}'}))
     disopred_job = forms.BooleanField(label="DISOPRED3", widget=forms.CheckboxInput(attrs={'value': '{{disopred_job}}', 'checked': '{{disopred_checked}}'}))
+    memsatsvm_job = forms.BooleanField(label="MEMSAT-SVM", widget=forms.CheckboxInput(attrs={'value': '{{memsatsvm_job}}', 'checked': '{{memsatsvm_checked}}'}))
 
     input_data = forms.CharField(initial="Input Sequence",
                                  widget=forms.Textarea(attrs={'value': '{{sequence}}'}))
@@ -19,5 +20,5 @@ class PsipredForm(forms.ModelForm):
 
     class Meta:
         model = Request
-        fields = ('psipred_job', 'disopred_job', 'input_data', 'job_name',
-                  'email', )
+        fields = ('psipred_job', 'disopred_job', 'memsatsvm_job', 'input_data',
+                  'job_name', 'email', )
