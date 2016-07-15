@@ -231,7 +231,7 @@ ractive.on('submit', function(event) {
 
       /*verify that everything here is ok*/
       error_message=null;
-      error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked]);
+      error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
       if(error_message.length > 0)
       {
         this.set('form_error', error_message);
@@ -294,7 +294,7 @@ ractive.on('submit', function(event) {
           // this_panel.render(bio_d3_data, "disorder");}
           // catch(err){alert(err.message)}
         }
-        else if(disopred_checked === true)
+        else if(memsatsvm_checked === true)
         {
           ractive.set( 'results_visible', 2 );
           ractive.fire( 'memsatsvm_active' );
@@ -374,7 +374,7 @@ function send_job(job_name, ractive_instance)
     times = send_request(times_url,'GET',{});
     if(job_name in times)
     {
-      alert("HI THERE"+job_name);
+      // alert("HI THERE"+job_name);
       ractive_instance.set(job_name+'_time', upper_name+" jobs typically take "+times[job_name]+" seconds");
     }
     else
