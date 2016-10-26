@@ -9,7 +9,7 @@
 5) memsatsvm
     get images and data table
 6) Bioserf
-    get images and output data
+    get images and output data/pdb
 7) Dompred
     get images and output data
 8) FFPred-Human v3
@@ -19,10 +19,16 @@
 10) genthreader
     get output table
 11) MEMPACK
-    
+    tables and diagrams
 12) Domserf
+     tables and diagrams/pdb
 
 13) Metsite
+    diagrams/pdb
+
 14) HSpred
+    tables and pdb
 15) Memembed
+    tables and data
 16) GenerateTDB
+    output file
