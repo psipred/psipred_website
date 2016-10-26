@@ -1,3 +1,28 @@
-3) Send multiple jobs
-4) PSIPRED ribbon graphic
-5) download png of the SVGs
+1) Psipred
+    display the images
+2) pGenTHREADER
+    get the table of data and format appropriately
+3) pDomTHREADER
+    get the table of data and format appropriately
+4) Disopred
+    get and display the images
+5) memsatsvm
+    get images and data table
+6) Bioserf
+    get images and output data
+7) Dompred
+    get images and output data
+8) FFPred-Human v3
+    get images and output data
+9) FFPRed-Fly v1
+    get images and output data
+10) genthreader
+    get output table
+11) MEMPACK
+    
+12) Domserf
+
+13) Metsite
+14) HSpred
+15) Memembed
+16) GenerateTDB
