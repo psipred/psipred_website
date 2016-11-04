@@ -38,8 +38,8 @@ var ractive = new Ractive({
   data: {
           results_visible: 1,
           results_panel_visible: 1,
-          psipred_checked: false,
-          disopred_checked: true,
+          psipred_checked: true,
+          disopred_checked: false,
           memsatsvm_checked: false,
 
           pgenthreader_checked: false,
@@ -454,14 +454,14 @@ function get_text(url, type, send_data)
       response=data;
       //alert(JSON.stringify(response, null, 2))
     },
-    error: function (error) {alert("The Backend processing service is not available. Something Catastrophic has gone wrong. Please contact psipred@cs.ucl.ac.uk");}
+    error: function (error) {alert("Gettings results failed. The Backend processing service is not available. Something Catastrophic has gone wrong. Please contact psipred@cs.ucl.ac.uk");}
   });
   return(response);
 }
 
 function send_request(url, type, send_data)
 {
-  // alert(url);
+  //alert(url);
   var response = null;
   $.ajax({
     type: type,
@@ -479,7 +479,7 @@ function send_request(url, type, send_data)
       response=data;
       //alert(JSON.stringify(response, null, 2))
     },
-    error: function (error) {alert("The Backend processing service is not available. Something Catastrophic has gone wrong. Please contact psipred@cs.ucl.ac.uk");}
+    error: function (error) {alert("Sending Job Failed. The Backend processing service is not available. Something Catastrophic has gone wrong. Please contact psipred@cs.ucl.ac.uk");}
   }).responseJSON
   return(response);
 }

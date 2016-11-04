@@ -24,3 +24,4 @@ class Request(TimeStampedModel):
     input_data = models.TextField(null=False, blank=False)
     psipred_job = models.BooleanField(null=False, default=False)
     disopred_job = models.BooleanField(null=False, default=False)
+    memsatsvm_job = models.BooleanField(null=False, default=False)
