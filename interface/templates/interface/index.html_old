@@ -1,0 +1,133 @@
+{% extends "interface/base.html" %}
+{% load bootstrap3 %}
+{% load ractive_tags %}
+
+{% block content %}
+    <script id='form_template' type='text/ractive'>
+    {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
+    {# Display a form #}
+    <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <div class="checkbox">
+    {% for field in form %}
+        {% if "PSIPRED" in field.label %}
+            {{ field.errors }}
+            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
+        {% endif %}
+        {% if "DISOPRED" in field.label %}
+            {{ field.errors }}
+            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
+        {% endif %}
+        {% if "MEMSAT-SVM" in field.label %}
+            {{ field.errors }}
+            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
+        {% endif %}
+
+    {% endfor %}
+        </div>
+    </div>
+
+    <p class="form_error">{% ractivehtmltag "form_error" %}</p>
+    {% for field in form %}
+        {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label %}
+        {% else %}
+        <div class="form-group">
+          {% bootstrap_field field %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    <br />
+
+    {% buttons %}
+         <input class="btn btn-danger" type="reset" value="Reset" />
+         <input value="Submit" type="submit" class="btn btn-primary" />
+    {% endbuttons %}
+    </form>
+
+    <!-- Annotation panel -->
+    {% templatetag openvariable %}elseif results_visible === 2 {% templatetag closevariable %}
+    <div class="results" intro="slide" outro="slide">
+      <div class="title"><h2>Submission Name : {% ractivetag "name" %}</h2></div>
+      <div class="sequence_plot" id="sequence_plot"></div><br />
+
+      <!-- results selector -->
+      <div class="btn-group" id="selector" role="group">
+      {% templatetag openvariable %}#if psipred_checked{% templatetag closevariable %}
+        <button on-click='psipred_active' type="button" class="btn btn-default">PSIPRED</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if pgenthreader_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">pGenTHREADER</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if pdomthreader_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">pDomTHREADER</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if disopred_checked{% templatetag closevariable %}
+        <button on-click='disopred_active' type="button" class="btn btn-default">DISOPRED</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if dompred_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">DomPred</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if memsatsvm_checked{% templatetag closevariable %}
+        <button on-click='memsatsvm_active' type="button" class="btn btn-default">MEMSAT-SVM</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if mempack_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">MEMPACK</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if ffpred_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">FFPRED</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if bioserf_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">BioSerf</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if domserf_checked{% templatetag closevariable %}
+        <button type="button" class="btn btn-default">DomSerf</button>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+        <button on-click='downloads_active' type="button" class="btn btn-info">Downloads</button>
+
+      </div>
+
+      <div class="results_panel" >
+      {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
+      <h4>Analysis ID: {% ractivetag "psipred_uuid" %}</h4>
+      <h5>You can use <a href="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">http://127.0.0.1:4000/interface/&#38;psipred_uuid={% ractivetag "psipred_uuid" %}</a> to retrieve this analysis.</h5>
+      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
+      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}<br />{% ractivehtmltag "psipred_time" %}</div>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
+      <h4>Analysis ID: {% ractivetag "disopred_uuid" %}</h4>
+      <h5>You can use <a href="http://127.0.0.1:4000/interface/&disopred_uuid={% ractivetag "disopred_uuid" %}">http://127.0.0.1:4000/interface/&#38;disopred_uuid={% ractivetag "disopred_uuid" %}</a> to retrieve this analysis.</h5>
+      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_message" %}</div>
+      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_icon" %}<br />{% ractivehtmltag "disopred_time" %}</div>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
+      <h4>Analysis ID: {% ractivetag "memsatsvm_uuid" %}</h4>
+      <h5>You can use <a href="http://127.0.0.1:4000/interface/&memsatsvm_uuid={% ractivetag "disopred_uuid" %}">http://127.0.0.1:4000/interface/&#38;memsatsvm_uuid={% ractivetag "memsatsvm_uuid" %}</a> to retrieve this analysis.</h5>
+      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_message" %}</div>
+      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_icon" %}<br />{% ractivehtmltag "memsatsvm_time" %}</div>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
+      {% ractivehtmltag "download_links" %}
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      </div><!-- closes results_panel class-->
+
+    </div><!-- closes results class -->
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+
+    </script>
+{% endblock content %}

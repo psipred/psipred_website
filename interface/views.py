@@ -6,11 +6,11 @@ from django.conf import settings
 
 from .forms import *
 
+
 def index(request):
 
     template = loader.get_template('interface/index.html')
-    context = RequestContext(request, {"form": PsipredForm(),
-                                       "staging": settings.STAGING,
-                                       "debug": settings.DEBUG} )
-    return HttpResponse(template.render(context))
-# Create your views here.
+    passing_data = {"form": PsipredForm(),
+                    "staging": settings.STAGING,
+                    "debug": settings.DEBUG}
+    return render(request, 'interface/index.html', passing_data)
