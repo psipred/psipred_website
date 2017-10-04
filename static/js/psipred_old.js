@@ -28,7 +28,6 @@ else {
   times_url = '';
 }
 
-
 // DECLARE VARIABLES
 var bio_d3_data = null;
 var this_panel = null;
@@ -40,8 +39,8 @@ var ractive = new Ractive({
           results_visible: 1,
           results_panel_visible: 1,
           psipred_checked: true,
-          // disopred_checked: false,
-          // memsatsvm_checked: false,
+          disopred_checked: false,
+          memsatsvm_checked: false,
 
           pgenthreader_checked: false,
           pdomthreader_checked: false,
@@ -53,27 +52,27 @@ var ractive = new Ractive({
           //psipred_checked: false,
           download_links: '',
           psipred_job: 'psipred_job',
-          //disopred_job: 'disopred_job',
-          //memsatsvm_job: 'memsatsvm_job',
+          disopred_job: 'disopred_job',
+          memsatsvm_job: 'memsatsvm_job',
 
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
           psipred_time: 'Unknown',
 
-          // disopred_waiting_message: '<h2>Please wait for your DISOPRED job to process</h2>',
-          // disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
-          // disopred_time: 'Unknown',
-          //
-          // memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT_SVM job to process</h2>',
-          // memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
-          // memsatsvm_time: 'Unknown',
+          disopred_waiting_message: '<h2>Please wait for your DISOPRED job to process</h2>',
+          disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          disopred_time: 'Unknown',
+
+          memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT_SVM job to process</h2>',
+          memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          memsatsvm_time: 'Unknown',
 
           sequence: '',
           email: '',
           name: '',
           psipred_uuid: null,
-          //disopred_uuid: null,
-          //memsatsvm_uuid: null,
+          disopred_uuid: null,
+          memsatsvm_uuid: null,
         }
 });
 
@@ -85,20 +84,11 @@ if(location.hostname === "127.0.0.1") {
   ractive.set('name', 'test');
   ractive.set('sequence', 'QWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEAS');
 }
-
 //4b6ad792-ed1f-11e5-8986-989096c13ee6
-let uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-let uuid_match = uuid_regex.exec(getUrlVars().psipred_uuid);
+uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+uuid_match = uuid_regex.exec(getUrlVars()["psipred_uuid"]);
 
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//
-// APPLICATION HERE
-//
-//
-///////////////////////////////////////////////////////////////////////////////
-
+//APPLICATION FROM HERE
 ractive.observe('sequence', function(newValue, oldValue ) {
   regex = /^>(.+?)\s/;
   match = regex.exec(newValue);
@@ -115,28 +105,34 @@ ractive.observe('sequence', function(newValue, oldValue ) {
    defer: true
  });
 
-//After a job has been sent or a URL accepted this ractive block is called to
-//poll the backend to get the results
-ractive.once('poll_trigger', function(name, job_type){
+ractive.once('poll_trigger', function(job_type){
+  //alert(job_type);
   var data_regex = '';
   var image_regex = '';
-  var url = submit_url;
+
   if(job_type === "psipred")
   {
     data_regex = /\.horiz$/;
     image_regex = /\.png$/;
-    url += ractive.get('psipred_uuid');
   }
-  // if(job_type === "disopred")
-  // {
-  //   url += ractive.get('disopred_uuid');
-  // }
-  // if(job_type === "memsatsvm")
-  // {
-  //   url += ractive.get('memsatsvm_uuid');
-  // }
+  var url = submit_url;
 
   var interval = setInterval(function(){
+    if(job_type === "psipred")
+    {
+      url += ractive.get('psipred_uuid');
+    }
+    if(job_type === "disopred")
+    {
+      //alert("hello");
+      url += ractive.get('disopred_uuid');
+    }
+    if(job_type === "memsatsvm")
+    {
+      //alert("hello");
+      url += ractive.get('memsatsvm_uuid');
+    }
+
     var data = send_request(url, "GET", {});
     if(! data){alert("NO DATA");}
 
@@ -208,15 +204,17 @@ ractive.on( 'psipred_active', function ( event ) {
   ractive.set( 'results_panel_visible', 1 );
 });
 
-// ractive.on( 'disopred_active', function ( event ) {
-//   ractive.set( 'results_panel_visible', null );
-//   ractive.set( 'results_panel_visible', 4 );
-// });
-//
-// ractive.on( 'memsatsvm_active', function ( event ) {
-//   ractive.set( 'results_panel_visible', null );
-//   ractive.set( 'results_panel_visible', 6 );
-// });
+ractive.on( 'disopred_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 4 );
+});
+
+ractive.on( 'memsatsvm_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 6 );
+});
+
+// END RESULTS PANEL TOGGLE WATCHERS
 
 ractive.on('submit', function(event) {
       seq = this.get('sequence');
@@ -226,16 +224,14 @@ ractive.on('submit', function(event) {
       email = this.get('email');
       psipred_job = this.get('psipred_job');
       psipred_checked = this.get('psipred_checked');
-      // disopred_job = this.get('disopred_job');
-      // disopred_checked = this.get('disopred_checked');
-      // memsatsvm_job = this.get('memsatsvm_job');
-      // memsatsvm_checked = this.get('memsatsvm_checked');
+      disopred_job = this.get('disopred_job');
+      disopred_checked = this.get('disopred_checked');
+      memsatsvm_job = this.get('memsatsvm_job');
+      memsatsvm_checked = this.get('memsatsvm_checked');
 
       /*verify that everything here is ok*/
       error_message=null;
-      //error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
-      error_message = verify_form(seq, name, email, [psipred_checked]);
-
+      error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
       if(error_message.length > 0)
       {
         this.set('form_error', error_message);
@@ -250,29 +246,36 @@ ractive.on('submit', function(event) {
         if(psipred_checked === true)
         {
           response = send_job("psipred", this);
+          ann = [];
+          //initialise the ss annotations as just coil
+          for(var i = 0; i < seq.length; i++)
+          {
+            ann.push("C");
+          }
+          //bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "ss");
         }
-        // if(disopred_checked === true)
-        // {
-        //   response = send_job("disopred", this);
-        //   ann = [];
-        //   //initialise the ss annotations as just coil
-        //   for(let i = 0; i < seq.length; i++)
-        //   {
-        //     ann.push("ORDERED");
-        //   }
-        //   //bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "disorder");
-        // }
-        // if(memsatsvm_checked === true)
-        // {
-        //   response = send_job("memsatsvm", this);
-        //   ann = [];
-        //   //initialise the ss annotations as just coil
-        //   for(let i = 0; i < seq.length; i++)
-        //   {
-        //     ann.push("INTRACELLULAR");
-        //   }
-        //   // bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "MEMBRANE");
-        // }
+        if(disopred_checked === true)
+        {
+          response = send_job("disopred", this);
+          ann = [];
+          //initialise the ss annotations as just coil
+          for(let i = 0; i < seq.length; i++)
+          {
+            ann.push("ORDERED");
+          }
+          //bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "disorder");
+        }
+        if(memsatsvm_checked === true)
+        {
+          response = send_job("memsatsvm", this);
+          ann = [];
+          //initialise the ss annotations as just coil
+          for(let i = 0; i < seq.length; i++)
+          {
+            ann.push("INTRACELLULAR");
+          }
+          // bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "MEMBRANE");
+        }
 
         //set visibility and render panel once
         if (psipred_checked === true && response)
@@ -280,33 +283,32 @@ ractive.on('submit', function(event) {
           ractive.set( 'results_visible', 2 );
           ractive.fire( 'psipred_active' );
           //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-          //this_panel.render(bio_d3_data, "ss");
+          this_panel.render(bio_d3_data, "ss");
         }
-        // else if(disopred_checked === true && response)
-        // {
-        //   ractive.set( 'results_visible', 2 );
-        //   ractive.fire( 'disopred_active' );
-        //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-        //   // try{
-        //   // this_panel.render(bio_d3_data, "disorder");}
-        //   // catch(err){alert(err.message)}
-        // }
-        // else if(memsatsvm_checked === true && response)
-        // {
-        //   ractive.set( 'results_visible', 2 );
-        //   ractive.fire( 'memsatsvm_active' );
-        //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-        //   // try{
-        //   // this_panel.render(bio_d3_data, "disorder");}
-        //   // catch(err){alert(err.message)}
-        // }
+        else if(disopred_checked === true && response)
+        {
+          ractive.set( 'results_visible', 2 );
+          ractive.fire( 'disopred_active' );
+          //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+          // try{
+          // this_panel.render(bio_d3_data, "disorder");}
+          // catch(err){alert(err.message)}
+        }
+        else if(memsatsvm_checked === true && response)
+        {
+          ractive.set( 'results_visible', 2 );
+          ractive.fire( 'memsatsvm_active' );
+          //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+          // try{
+          // this_panel.render(bio_d3_data, "disorder");}
+          // catch(err){alert(err.message)}
+        }
         if(! response){window.location.href = window.location.href;}
       }
     //alert("huh");
 
     event.original.preventDefault();
 });
-
 
 // Here having set up ractive and the functions we need we then check
 // if we were provided a UUID, if yes then we display those results
@@ -323,19 +325,75 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
 
   seq = ractive.get('sequence');
   ann = [];
+  //initialise the ss annotations as just coil
+  for(var i = 0; i < seq.length; i++)
+  {
+    ann.push("C");
+  }
+  //bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "ss");
+  this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+  this_panel.render(bio_d3_data, "ss");
+
   ractive.fire('poll_trigger', 'psipred');
 }
 
 
 
-///////////////////////////////////////////////////////////////////////////////
 //
+// HELPER FUNCTIONS BELOW HERE
 //
-// HELPER FUNCTIONS
-//
-//
-///////////////////////////////////////////////////////////////////////////////
-
+function send_job(job_name, ractive_instance)
+{
+  var file = null;
+  upper_name = job_name.toUpperCase();
+  try
+  {
+    file = new File([seq], 'input.txt');
+  } catch (e)
+  {
+    alert(e);
+  }
+  var fd = new FormData();
+  fd.append("input_data", file);
+  fd.append("job",job_name);
+  fd.append("submission_name",name);
+  fd.append("email",email);
+  if(job_name === 'psipred')
+  {
+    fd.append("task1_all", true);
+    fd.append("task2_number", 12);
+  }
+  if(job_name === 'disopred')
+  {
+    // ADD PARAM SETTINGS TO FORM IF NEEDED
+  }
+  let response_data = send_request(submit_url, "POST", fd);
+  if(response_data !== null)
+  {
+    times = send_request(times_url,'GET',{});
+    if(job_name in times)
+    {
+      // alert("HI THERE"+job_name);
+      ractive_instance.set(job_name+'_time', upper_name+" jobs typically take "+times[job_name]+" seconds");
+    }
+    else
+    {
+      ractive_instance.set(job_name+'_time', "Unable to retrieve average time for "+upper_name+" jobs.");
+    }
+    for(var k in response_data)
+    {
+      if(k == "UUID")
+      {
+        ractive_instance.set(job_name+'_uuid', response_data[k]);
+        ractive.fire('poll_trigger', job_name);
+      }
+    }
+  }
+  else
+  {
+    return null;
+  }
+}
 
 function get_previous_seq(uuid)
 {
@@ -381,7 +439,6 @@ function process_file(url, psipred_ctl)
   });
 }
 
-//get text contents of a result
 function get_text(url, type, send_data)
 {
   var response = null;
@@ -406,66 +463,9 @@ function get_text(url, type, send_data)
   return(response);
 }
 
-
-//given a job name prep all the form elements and send an http request to the
-//backend
-function send_job(job_name, ractive_instance)
-{
-  var file = null;
-  upper_name = job_name.toUpperCase();
-  try
-  {
-    file = new File([seq], 'input.txt');
-  } catch (e)
-  {
-    alert(e);
-  }
-  let fd = new FormData();
-  fd.append("input_data", file);
-  fd.append("job",job_name);
-  fd.append("submission_name",name);
-  fd.append("email",email);
-  // if(job_name === 'psipred')
-  // {
-  //   fd.append("task1_all", true);
-  //   fd.append("task2_number", 12);
-  // }
-  if(job_name === 'disopred')
-  {
-    // ADD PARAM SETTINGS TO FORM IF NEEDED
-  }
-  let response_data = send_request(submit_url, "POST", fd);
-  if(response_data !== null)
-  {
-    times = send_request(times_url,'GET',{});
-    if(job_name in times)
-    {
-      ractive_instance.set(job_name+'_time', upper_name+" jobs typically take "+times[job_name]+" seconds");
-    }
-    else
-    {
-      ractive_instance.set(job_name+'_time', "Unable to retrieve average time for "+upper_name+" jobs.");
-    }
-    for(var k in response_data)
-    {
-      if(k == "UUID")
-      {
-        ractive_instance.set(job_name+'_uuid', response_data[k]);
-        //alert(job_name);
-        ractive.fire('poll_trigger', job_name);
-      }
-    }
-  }
-  else
-  {
-    return null;
-  }
-  return true;
-}
-
-//given a url, http request type and some form data make an http request
 function send_request(url, type, send_data)
 {
+  //alert(url);
   var response = null;
   $.ajax({
     type: type,
@@ -483,13 +483,11 @@ function send_request(url, type, send_data)
       response=data;
       //alert(JSON.stringify(response, null, 2))
     },
-    error: function (error) {alert("Sending Job to "+url+" Failed. "+error.responseText+". The Backend processing service is not available. Something Catastrophic has gone wrong. Please contact psipred@cs.ucl.ac.uk"); return null;}
-  }).responseJSON;
+    error: function (error) {alert("Sending Job Failed. The Backend processing service is not available. Something Catastrophic has gone wrong. Please contact psipred@cs.ucl.ac.uk"); return null;}
+  }).responseJSON
   return(response);
 }
 
-
-//Takes the form elements and checks they are valid
 function verify_form(seq, job_name, email, checked_array )
 {
   error_message = "";
@@ -525,7 +523,6 @@ function verify_form(seq, job_name, email, checked_array )
   return(error_message);
 }
 
-//guven and array return whether and element is present
 function isInArray(value, array) {
   if(array.indexOf(value) > -1)
   {
@@ -536,7 +533,6 @@ function isInArray(value, array) {
   }
 }
 
-//given a URL return the attached variables
 function getUrlVars() {
     var vars = {};
     //consider using location.search instead here
