@@ -31,7 +31,6 @@ else {
 
 // DECLARE VARIABLES
 var bio_d3_data = null;
-var this_panel = null;
 
 var ractive = new Ractive({
   el: '#psipred_site',
@@ -138,7 +137,6 @@ ractive.once('poll_trigger', function(name, job_type){
 
   var interval = setInterval(function(){
     var data = send_request(url, "GET", {});
-    if(! data){alert("NO DATA");}
 
     //TODO ADAPT THIS FOR DOMPRED AND MEMSATSVM RESULTS
     var downloads_string = ractive.get('download_links');
@@ -150,31 +148,31 @@ ractive.once('poll_trigger', function(name, job_type){
           if(data[k] === 'Complete')
           {
             downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
-            results = data['results'];
+            results = data.results;
             for( var i in results)
             {
               result_dict = results[i];
-              if(result_dict['name'] == 'psipass2')
+              if(result_dict.name == 'psipass2')
               {
-                var match = data_regex.exec(result_dict['result_data'])
+                var match = data_regex.exec(result_dict.result_data);
                 if(match)
                 {
-                  process_file(result_dict['result_data'], true);
+                  process_file(result_dict.results_data, true);
                   // ractive.set("psipred_waiting_message", '<h2>This PSIPRED Job Has Completed</h2>');
-                  downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">Horiz Format Output</a><br />');
+                  downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
                   ractive.set("psipred_waiting_icon", '');
-                  ractive.set("psipred_time", '')
+                  ractive.set("psipred_time", '');
                 }
                 else {
-                  downloads_string = downloads_string.concat('<a href="'+result_dict['result_data']+'">SS2 Format Output</a><br />');
+                  downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
                 }
               }
-              if(result_dict['name'] == 'PsipredGS')
+              if(result_dict.name == 'PsipredGS')
               {
-                var match = image_regex.exec(result_dict['result_data'])
-                if(match)
+                var GSmatch = image_regex.exec(result_dict.result_data);
+                if(GSmatch)
                 {
-                  ractive.set("psipred_waiting_message", '<img src='+result_dict['result_data']+'>');
+                  ractive.set("psipred_waiting_message", '<img src='+result_dict.result_data+'>');
                 }
               }
             }
@@ -183,10 +181,10 @@ ractive.once('poll_trigger', function(name, job_type){
           }
           if(data[k] === 'Error' || data[k] === 'Crash')
           {
-            ractive.set("form_error", data['last_message'])
+            ractive.set("form_error", data.last_message);
             ractive.set("psipred_waiting_icon", '');
             ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
-            clearInterval(interval)
+            clearInterval(interval);
           }
         }
       }
@@ -373,7 +371,6 @@ function process_file(url, psipred_ctl)
           }
         }
         //bio_d3_data = biod3.add_annotation(bio_d3_data, prediction, "ss");
-        this_panel.render(bio_d3_data, "ss");
       }
       //ractive.set('waiting', file.responseText);
     },

@@ -65,40 +65,28 @@ Red : #bf4440
       {# Display django.contrib.messages as Bootstrap alerts #}
       {% bootstrap_messages %}
       {% if staging or debug %}
+      <div id="header_info" class="container">
         <div class="row">
-            <div class="col-sm-1"><!--Column left--></div>
-                <div class="col-sm-10">
+                <div class="col-sm-10 col-sm-offset-1">
 
                 <div style="color:red"><p>This is the new PSIPRED beta server. This service shows
                 work in progress for our new service. Please feel free to
                 test the new service. We welcome any feedback and feature requests
                 to <a href="mailto:psipred@cs.ucl.ac.uk">psipred@cs.ucl.ac.uk</a>.</p>
 
-                <p>Please note the service is currently running test versions of
-                the underlying databases and predictions ARE NOT accurate.
-                Return to our main site for accurate predictions.<br />
+                <p>You may wish to use our old service at:<br />
                 <a href="http://bioinf.cs.ucl.ac.uk/psipred/">http://bioinf.cs.ucl.ac.uk/psipred/</a></p><hr /></div>
 
                 </div>
             <div class="col-sm-1"><!--Column right--></div>
         </div>
+      </div>
       {% endif %}
-
       <div id="psipred_site" class="container">
-
-        <div class="row">
-            <div class="col-sm-1"><!--Column left--></div>
-                <div class="col-sm-10">
-
-                {% block content %}{% endblock content %}
-
-                </div>
-            <div class="col-sm-1"><!--Column right--></div>
-        </div>
-
+                {% block content %}{% endblock content%}
       </div>
     {# Load javascript #}
-    {% if staging %}{# Production shouls also use this unqualified links #}
+    {% if staging %}{# Production should also use this unqualified links #}
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery-2.2.0.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
