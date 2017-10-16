@@ -5,7 +5,9 @@
 
 .results
 {
-  width: 800px;
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 0px;
 }
 .waiting_icon
 {
@@ -26,8 +28,8 @@
 
 .results_panel
 {
-  border-style: solid;
-  border-width: 0.1em;
+  /*border-style: solid;*/
+  border-width: 0.0em;
   border-color: #b8b8b8;
   border-radius: 4px;
   padding: 0.5em;

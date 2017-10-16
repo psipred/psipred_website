@@ -30,7 +30,6 @@ else {
 
 
 // DECLARE VARIABLES
-var bio_d3_data = null;
 
 var ractive = new Ractive({
   el: '#psipred_site',
@@ -58,6 +57,7 @@ var ractive = new Ractive({
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
           psipred_time: 'Unknown',
+          psipred_horiz: null,
 
           // disopred_waiting_message: '<h2>Please wait for your DISOPRED job to process</h2>',
           // disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
@@ -68,6 +68,7 @@ var ractive = new Ractive({
           // memsatsvm_time: 'Unknown',
 
           sequence: '',
+          annotations: null,
           email: '',
           name: '',
           psipred_uuid: null,
@@ -135,6 +136,15 @@ ractive.once('poll_trigger', function(name, job_type){
   //   url += ractive.get('memsatsvm_uuid');
   // }
 
+  seq = ractive.get('sequence');
+  residues = seq.split('');
+  let annotations = [];
+  residues.forEach(function(res){
+    annotations.push({'res': res});
+  });
+  ractive.set('annotations', annotations);
+  biod3.psipredGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2});
+
   var interval = setInterval(function(){
     var data = send_request(url, "GET", {});
 
@@ -149,6 +159,7 @@ ractive.once('poll_trigger', function(name, job_type){
           {
             downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
             results = data.results;
+            //console.log(JSON.stringify(results));
             for( var i in results)
             {
               result_dict = results[i];
@@ -157,8 +168,8 @@ ractive.once('poll_trigger', function(name, job_type){
                 var match = data_regex.exec(result_dict.result_data);
                 if(match)
                 {
-                  process_file(result_dict.results_data, true);
-                  // ractive.set("psipred_waiting_message", '<h2>This PSIPRED Job Has Completed</h2>');
+                  process_file(result_dict.result_data, true);
+                  ractive.set("psipred_waiting_message", '');
                   downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
                   ractive.set("psipred_waiting_icon", '');
                   ractive.set("psipred_time", '');
@@ -167,14 +178,14 @@ ractive.once('poll_trigger', function(name, job_type){
                   downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
                 }
               }
-              if(result_dict.name == 'PsipredGS')
-              {
-                var GSmatch = image_regex.exec(result_dict.result_data);
-                if(GSmatch)
-                {
-                  ractive.set("psipred_waiting_message", '<img src='+result_dict.result_data+'>');
-                }
-              }
+              // if(result_dict.name == 'PsipredGS')
+              // {
+              //   var GSmatch = image_regex.exec(result_dict.result_data);
+              //   if(GSmatch)
+              //   {
+              //     ractive.set("psipred_waiting_message", '<img src='+result_dict.result_data+'>');
+              //   }
+              // }
             }
             ractive.set('download_links', downloads_string);
             clearInterval(interval);
@@ -204,6 +215,10 @@ ractive.on( 'downloads_active', function ( event ) {
 ractive.on( 'psipred_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 1 );
+  if(ractive.get('psipred_horiz'))
+  {
+    biod3.psipred(ractive.get('psipred_horiz'), 'psipredChart', {parent: 'div.psipred_cartoon', margin_scaler: 2});
+  }
 });
 
 // ractive.on( 'disopred_active', function ( event ) {
@@ -243,7 +258,6 @@ ractive.on('submit', function(event) {
         let response = true;
         // alert(bio_d3_data);
         ractive.set( 'results_visible', null );
-        var ann = null;
         //Post the jobs and intialise the annotations for each job
         if(psipred_checked === true)
         {
@@ -277,8 +291,7 @@ ractive.on('submit', function(event) {
         {
           ractive.set( 'results_visible', 2 );
           ractive.fire( 'psipred_active' );
-          //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "ss", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-          //this_panel.render(bio_d3_data, "ss");
+          // parse sequence and make seq plot
         }
         // else if(disopred_checked === true && response)
         // {
@@ -320,7 +333,7 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
   ractive.set('sequence',get_previous_seq(getUrlVars()["psipred_uuid"]));
 
   seq = ractive.get('sequence');
-  ann = [];
+
   ractive.fire('poll_trigger', 'psipred');
 }
 
@@ -348,6 +361,8 @@ function process_file(url, psipred_ctl)
 {
   //get a results file and push the data in to the bio3d object
   //alert(url);
+  //alert(psipred_ctl);
+  //alert(getEmPixels());
   var response = null;
   $.ajax({
     type: 'GET',
@@ -357,20 +372,8 @@ function process_file(url, psipred_ctl)
     {
       if(psipred_ctl === true)
       {
-        text = file;
-        var lines= text.split('\n');
-        var prediction = [];
-        for(var i = 0; i < lines.length; i++)
-        {
-          if(lines[i].substring(0,6) === "Pred: ")
-          {
-            var predict_string = lines[i].substring(6, lines[i].length);
-            var chars = predict_string.split('');
-            prediction.push.apply(prediction, chars);
-            //console.log(prediction);
-          }
-        }
-        //bio_d3_data = biod3.add_annotation(bio_d3_data, prediction, "ss");
+        ractive.set('psipred_horiz', file);
+        biod3.psipred(file, 'psipredChart', {parent: 'div.psipred_cartoon', margin_scaler: 2});
       }
       //ractive.set('waiting', file.responseText);
     },
@@ -543,3 +546,45 @@ function getUrlVars() {
     });
     return vars;
   }
+
+/*! getEmPixels  | Author: Tyson Matanich (http://matanich.com), 2013 | License: MIT */
+(function (document, documentElement) {
+    // Enable strict mode
+    "use strict";
+
+    // Form the style on the fly to result in smaller minified file
+    var important = "!important;";
+    var style = "position:absolute" + important + "visibility:hidden" + important + "width:1em" + important + "font-size:1em" + important + "padding:0" + important;
+
+    window.getEmPixels = function (element) {
+
+        var extraBody;
+
+        if (!element) {
+            // Emulate the documentElement to get rem value (documentElement does not work in IE6-7)
+            element = extraBody = document.createElement("body");
+            extraBody.style.cssText = "font-size:1em" + important;
+            documentElement.insertBefore(extraBody, document.body);
+        }
+
+        // Create and style a test element
+        var testElement = document.createElement("i");
+        testElement.style.cssText = style;
+        element.appendChild(testElement);
+
+        // Get the client width of the test element
+        var value = testElement.clientWidth;
+
+        if (extraBody) {
+            // Remove the extra body element
+            documentElement.removeChild(extraBody);
+        }
+        else {
+            // Remove the test element
+            element.removeChild(testElement);
+        }
+
+        // Return the em value in pixels
+        return value;
+    };
+}(document, document.documentElement));

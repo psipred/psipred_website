@@ -31,7 +31,7 @@ Red : #bf4440
             <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
             <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
         {% else %}
-            <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+            <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
             <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
             <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
         {% endif %}
@@ -42,12 +42,6 @@ Red : #bf4440
         <div class="container">
 
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar">This</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" href="#" onClick="window.location.reload();return false;" >PSIPRED SERVER: <div class="red_text">Beta</div></a>
           </div>
 
@@ -67,7 +61,7 @@ Red : #bf4440
       {% if staging or debug %}
       <div id="header_info" class="container">
         <div class="row">
-                <div class="col-sm-10 col-sm-offset-1">
+                <div class="col-sm-9 col-sm-offset-1">
 
                 <div style="color:red"><p>This is the new PSIPRED beta server. This service shows
                 work in progress for our new service. Please feel free to
@@ -78,7 +72,7 @@ Red : #bf4440
                 <a href="http://bioinf.cs.ucl.ac.uk/psipred/">http://bioinf.cs.ucl.ac.uk/psipred/</a></p><hr /></div>
 
                 </div>
-            <div class="col-sm-1"><!--Column right--></div>
+            <div class="col-sm-2"><!--Column right--></div>
         </div>
       </div>
       {% endif %}
@@ -88,7 +82,7 @@ Red : #bf4440
     {# Load javascript #}
     {% if staging %}{# Production should also use this unqualified links #}
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery-2.2.0.min.js' %}"></script>
-        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-events-tap.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-transitions-slide.js' %}"></script>
