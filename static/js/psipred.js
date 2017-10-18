@@ -124,7 +124,7 @@ ractive.once('poll_trigger', function(name, job_type){
   if(job_type === "psipred")
   {
     data_regex = /\.horiz$/;
-    image_regex = /\.png$/;
+    ss2_regex = /\.ss2$/;
     url += ractive.get('psipred_uuid');
   }
   // if(job_type === "disopred")
@@ -143,7 +143,7 @@ ractive.once('poll_trigger', function(name, job_type){
     annotations.push({'res': res});
   });
   ractive.set('annotations', annotations);
-  biod3.psipredGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2});
+  biod3.annotationGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 1100, width: 1100, height: 300, container_height: 300});
 
   var interval = setInterval(function(){
     var data = send_request(url, "GET", {});
@@ -160,15 +160,17 @@ ractive.once('poll_trigger', function(name, job_type){
             downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
             results = data.results;
             //console.log(JSON.stringify(results));
-            for( var i in results)
+            for(var i in results)
             {
               result_dict = results[i];
+              //console.log(JSON.stringify(result_dict));
               if(result_dict.name == 'psipass2')
               {
-                var match = data_regex.exec(result_dict.result_data);
+                //console.log(JSON.stringify(result_dict));
+                let match = data_regex.exec(result_dict.result_data);
                 if(match)
                 {
-                  process_file(result_dict.result_data, true);
+                  process_file(result_dict.result_data, 'horiz');
                   ractive.set("psipred_waiting_message", '');
                   downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
                   ractive.set("psipred_waiting_icon", '');
@@ -176,6 +178,12 @@ ractive.once('poll_trigger', function(name, job_type){
                 }
                 else {
                   downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
+                }
+                let ss2_match = ss2_regex.exec(result_dict.result_data);
+                if(ss2_match)
+                {
+                  downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
+                  process_file(result_dict.result_data, 'ss2');
                 }
               }
               // if(result_dict.name == 'PsipredGS')
@@ -357,25 +365,40 @@ function get_previous_seq(uuid)
     return(data);
 }
 
-function process_file(url, psipred_ctl)
+function process_file(url, ctl)
 {
   //get a results file and push the data in to the bio3d object
   //alert(url);
-  //alert(psipred_ctl);
-  //alert(getEmPixels());
-  var response = null;
+
+  let response = null;
   $.ajax({
     type: 'GET',
     async:   true,
     url: url,
     success : function (file)
     {
-      if(psipred_ctl === true)
+      if(ctl === 'horiz')
       {
         ractive.set('psipred_horiz', file);
         biod3.psipred(file, 'psipredChart', {parent: 'div.psipred_cartoon', margin_scaler: 2});
       }
-      //ractive.set('waiting', file.responseText);
+      if(ctl === 'ss2')
+      {
+        let annotations = ractive.get('annotations');
+        let lines = file.split('\n');
+        lines.shift();
+        lines = lines.filter(Boolean);
+        if(annotations.length == lines.length)
+        {
+
+        }
+        else
+        {
+          alert("SS2 annotation length does not match query sequence");
+        }
+        console.log(JSON.stringify(lines));
+
+      }
     },
     error: function (error) {alert(JSON.stringify(error));}
   });
