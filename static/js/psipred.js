@@ -135,15 +135,7 @@ ractive.once('poll_trigger', function(name, job_type){
   // {
   //   url += ractive.get('memsatsvm_uuid');
   // }
-
-  seq = ractive.get('sequence');
-  residues = seq.split('');
-  let annotations = [];
-  residues.forEach(function(res){
-    annotations.push({'res': res});
-  });
-  ractive.set('annotations', annotations);
-  biod3.annotationGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 1100, width: 1100, height: 300, container_height: 300});
+  draw_empty_annotation_panel();
 
   var interval = setInterval(function(){
     var data = send_request(url, "GET", {});
@@ -175,9 +167,6 @@ ractive.once('poll_trigger', function(name, job_type){
                   downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
                   ractive.set("psipred_waiting_icon", '');
                   ractive.set("psipred_time", '');
-                }
-                else {
-                  downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
                 }
                 let ss2_match = ss2_regex.exec(result_dict.result_data);
                 if(ss2_match)
@@ -251,7 +240,6 @@ ractive.on('submit', function(event) {
       // disopred_checked = this.get('disopred_checked');
       // memsatsvm_job = this.get('memsatsvm_job');
       // memsatsvm_checked = this.get('memsatsvm_checked');
-
       /*verify that everything here is ok*/
       error_message=null;
       //error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
@@ -299,6 +287,7 @@ ractive.on('submit', function(event) {
         {
           ractive.set( 'results_visible', 2 );
           ractive.fire( 'psipred_active' );
+          draw_empty_annotation_panel();
           // parse sequence and make seq plot
         }
         // else if(disopred_checked === true && response)
@@ -355,6 +344,17 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+function draw_empty_annotation_panel(){
+
+  let seq = ractive.get('sequence');
+  let residues = seq.split('');
+  let annotations = [];
+  residues.forEach(function(res){
+    annotations.push({'res': res});
+  });
+  ractive.set('annotations', annotations);
+  biod3.annotationGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
+}
 
 function get_previous_seq(uuid)
 {
@@ -390,14 +390,18 @@ function process_file(url, ctl)
         lines = lines.filter(Boolean);
         if(annotations.length == lines.length)
         {
+          let anno = ractive.get("annotations");
+          lines.forEach(function(line, i){
+            let entries = line.split(/\s+/);
+            anno[i].ss = entries[3];
+          });
 
+          biod3.annotationGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
         }
         else
         {
           alert("SS2 annotation length does not match query sequence");
         }
-        console.log(JSON.stringify(lines));
-
       }
     },
     error: function (error) {alert(JSON.stringify(error));}

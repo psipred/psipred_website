@@ -80,7 +80,7 @@ Red : #bf4440
                 {% block content %}{% endblock content%}
       </div>
     {# Load javascript #}
-    {% if staging %}{# Production should also use this unqualified links #}
+    {% if staging %}{# Production should also use these unqualified links #}
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery-2.2.0.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
@@ -90,7 +90,7 @@ Red : #bf4440
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/biod3.js' %}"></script>
     {% else %}
         <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
         <script src="{% static 'js/ractive.min.js' %}"></script>
         <script src="{% static 'js/ractive-events-tap.js' %}"></script>
         <script src="{% static 'js/ractive-transitions-slide.js' %}"></script>
