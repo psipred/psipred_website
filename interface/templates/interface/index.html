@@ -6,9 +6,17 @@
 <script id='form_template' type='text/ractive'>
 {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
 <div class="row">
-  <div class="col-sm-12">
+  <div class="col-sm-8">
     <div class="title"><h2>Submission Name : {% ractivetag "name" %}</h2></div>
   </div>
+  <div class="col-sm-4">
+    <!-- Target -->
+    Retrieve your results later<br />
+    <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}" width="40">
+    <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+    <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
+    </button>
+    </div>
 </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
@@ -115,8 +123,6 @@
 
       <div class="results_panel" width="100%" >
       {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
-      <h4>Analysis ID: {% ractivetag "psipred_uuid" %}</h4>
-      <h5>You can use <a href="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">http://127.0.0.1:4000/interface/&#38;psipred_uuid={% ractivetag "psipred_uuid" %}</a> to retrieve this analysis.</h5>
       <div class='psipred_cartoon'></div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}<br />{% ractivehtmltag "psipred_time" %}</div>

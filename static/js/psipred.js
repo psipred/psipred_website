@@ -7,6 +7,14 @@
      7. listen for result
 */
 
+var clipboard = new Clipboard('.copyButton');
+clipboard.on('success', function(e) {
+    console.log(e);
+});
+clipboard.on('error', function(e) {
+    console.log(e);
+});
+
 // SET ENDPOINTS FOR DEV, STAGING OR PROD
 var endpoints_url = null;
 var submit_url = null;
