@@ -11,8 +11,8 @@
   </div>
   <div class="col-sm-4">
     <!-- Target -->
-    Retrieve your results later<br />
-    <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}" width="40">
+    Result Link:<br />
+    <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">
     <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
     <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
     </button>
@@ -153,7 +153,21 @@
 
   </div><!-- closes the col-sm-10 panel -->
 
-  <div class="col-sm-1"><h4>Resubmission Widget</h4></div>
+  <div class="col-sm-1">
+    {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
+    <h5>Resubmit Segment</h5>
+    <form method="Post" class="form" intro="slide" outro="slide" on-submit="resubmit">
+      <input id="start_coord" class="sequence_coord" value="{% ractivetag "subsequence_start" %}"> - <input id="stop_coord" class="sequence_coord" value="{% ractivetag "subsequence_stop" %}">
+      <div class="form-group">
+        <div class="checkbox">
+          <label for="id_psipred_job">PSIPRED 4.0:</label>
+          <input id="id_psipred_job" name="psipred_job" value="psipred_job" type="checkbox" checked="true">
+        </div>
+      </div>
+      <input value="Submit" type="submit" class="btn btn-primary" />
+    </form>
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
+  </div>
 </div>  <!--closes the row -->
     </script>
 {% endblock content %}

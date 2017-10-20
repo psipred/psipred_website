@@ -46,6 +46,7 @@ var ractive = new Ractive({
           results_visible: 1,
           results_panel_visible: 1,
           psipred_checked: true,
+          submission_widget_visible: 0,
           // disopred_checked: false,
           // memsatsvm_checked: false,
 
@@ -76,6 +77,9 @@ var ractive = new Ractive({
           // memsatsvm_time: 'Unknown',
 
           sequence: '',
+          sequence_length: 1,
+          subsequence_start: 1,
+          subsequence_stop: 1,
           annotations: null,
           email: '',
           name: '',
@@ -220,6 +224,7 @@ ractive.on( 'downloads_active', function ( event ) {
 ractive.on( 'psipred_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 1 );
+  ractive.set( 'submission_widget_visible', 1 );
   if(ractive.get('psipred_horiz'))
   {
     biod3.psipred(ractive.get('psipred_horiz'), 'psipredChart', {parent: 'div.psipred_cartoon', margin_scaler: 2});
@@ -240,6 +245,9 @@ ractive.on('submit', function(event) {
       seq = this.get('sequence');
       seq = seq.replace(/^>.+$/mg, "").toUpperCase();
       seq = seq.replace(/\n|\s/g,"");
+      ractive.set('sequence_length', seq.length);
+      ractive.set('subsequence_stop', seq.length);
+
       name = this.get('name');
       email = this.get('email');
       psipred_job = this.get('psipred_job');
@@ -251,8 +259,9 @@ ractive.on('submit', function(event) {
       /*verify that everything here is ok*/
       error_message=null;
       //error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
-      error_message = verify_form(seq, name, email, [psipred_checked]);
+      ractive.set( 'submission_widget_visible', 1 );
 
+      error_message = verify_form(seq, name, email, [psipred_checked]);
       if(error_message.length > 0)
       {
         this.set('form_error', error_message);
@@ -338,11 +347,37 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
   ractive.set('sequence',get_previous_seq(getUrlVars()["psipred_uuid"]));
 
   seq = ractive.get('sequence');
+  ractive.set('sequence_length', seq.length);
+  ractive.set('subsequence_stop', seq.length);
 
   ractive.fire('poll_trigger', 'psipred');
 }
 
 
+ractive.observe( 'subsequence_stop', function ( value ) {
+  let seq_length = ractive.get('sequence_length');
+  let seq_start = ractive.get('subsequence_start');
+  if(value > seq_length)
+  {
+    ractive.set('subsequence_stop', seq_length);
+  }
+  if(value <= seq_start)
+  {
+    ractive.set('subsequence_stop', seq_start+1);
+  }
+});
+
+ractive.observe( 'subsequence_start', function ( value ) {
+  let seq_stop = ractive.get('subsequence_stop');
+  if(value < 1)
+  {
+    ractive.set('subsequence_start', 1);
+  }
+  if(value >= seq_stop)
+  {
+    ractive.set('subsequence_start', seq_stop-1);
+  }
+});
 
 ///////////////////////////////////////////////////////////////////////////////
 //
