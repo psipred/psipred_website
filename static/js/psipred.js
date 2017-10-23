@@ -16,19 +16,22 @@ clipboard.on('error', function(e) {
 });
 
 // SET ENDPOINTS FOR DEV, STAGING OR PROD
-var endpoints_url = null;
-var submit_url = null;
-var times_url = null;
+let endpoints_url = null;
+let submit_url = null;
+let times_url = null;
+let gears_svg = "http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg";
 if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
 {
   endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
   submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/';
   times_url = 'http://127.0.0.1:8000/analytics_automated/jobtimes/';
+  gears_svg = "../static/images/gears.svg";
 }
 else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
   endpoints_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/endpoints/';
   submit_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/submission/';
   times_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/jobtimes';
+  gears_svg = "../static/images/gears.svg";
 }
 else {
   endpoints_url = '';
@@ -46,6 +49,7 @@ var ractive = new Ractive({
           results_visible: 1,
           results_panel_visible: 1,
           psipred_checked: true,
+          psipred_button: false,
           submission_widget_visible: 0,
           // disopred_checked: false,
           // memsatsvm_checked: false,
@@ -64,7 +68,7 @@ var ractive = new Ractive({
           //memsatsvm_job: 'memsatsvm_job',
 
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
-          psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
           psipred_time: 'Unknown',
           psipred_horiz: null,
 
@@ -90,9 +94,6 @@ var ractive = new Ractive({
 });
 
 if(location.hostname === "127.0.0.1") {
-  ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
-  ractive.set('disopred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
-  ractive.set('memsatsvm_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"/>');
   ractive.set('email', 'daniel.buchan@ucl.ac.uk');
   ractive.set('name', 'test');
   ractive.set('sequence', 'QWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEASDQWEAS');
@@ -112,8 +113,8 @@ let uuid_match = uuid_regex.exec(getUrlVars().psipred_uuid);
 ///////////////////////////////////////////////////////////////////////////////
 
 ractive.observe('sequence', function(newValue, oldValue ) {
-  regex = /^>(.+?)\s/;
-  match = regex.exec(newValue);
+  let regex = /^>(.+?)\s/;
+  let match = regex.exec(newValue);
   if(match)
   {
     this.set('name', match[1]);
@@ -130,9 +131,9 @@ ractive.observe('sequence', function(newValue, oldValue ) {
 //After a job has been sent or a URL accepted this ractive block is called to
 //poll the backend to get the results
 ractive.once('poll_trigger', function(name, job_type){
-  var data_regex = '';
-  var image_regex = '';
-  var url = submit_url;
+  let data_regex = '';
+  let image_regex = '';
+  let url = submit_url;
   if(job_type === "psipred")
   {
     data_regex = /\.horiz$/;
@@ -147,46 +148,50 @@ ractive.once('poll_trigger', function(name, job_type){
   // {
   //   url += ractive.get('memsatsvm_uuid');
   // }
+  console.log("tiggered");
+  console.log(url);
   draw_empty_annotation_panel();
 
-  var interval = setInterval(function(){
-    var data = send_request(url, "GET", {});
+  let interval = setInterval(function(){
+    let data = send_request(url, "GET", {});
 
     //TODO ADAPT THIS FOR DOMPRED AND MEMSATSVM RESULTS
-    var downloads_string = ractive.get('download_links');
-      for(var k in data){
-        if(k == "state"){
-          if(data[k] === "Running" || data[k] === "Submitted")
+    let downloads_string = ractive.get('download_links');
+    for(var k in data)
+    {
+      if(k == "state")
+      {
+        if(data[k] === "Running" || data[k] === "Submitted")
+        {
+        }
+        if(data[k] === 'Complete')
+        {
+          downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
+          let results = data.results;
+          //console.log(JSON.stringify(results));
+          for(var i in results)
           {
-          }
-          if(data[k] === 'Complete')
-          {
-            downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
-            results = data.results;
-            //console.log(JSON.stringify(results));
-            for(var i in results)
+            let result_dict = results[i];
+            //console.log(JSON.stringify(result_dict));
+            if(result_dict.name == 'psipass2')
             {
-              result_dict = results[i];
               //console.log(JSON.stringify(result_dict));
-              if(result_dict.name == 'psipass2')
+              let match = data_regex.exec(result_dict.result_data);
+              if(match)
               {
-                //console.log(JSON.stringify(result_dict));
-                let match = data_regex.exec(result_dict.result_data);
-                if(match)
-                {
-                  process_file(result_dict.result_data, 'horiz');
-                  ractive.set("psipred_waiting_message", '');
-                  downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
-                  ractive.set("psipred_waiting_icon", '');
-                  ractive.set("psipred_time", '');
-                }
-                let ss2_match = ss2_regex.exec(result_dict.result_data);
-                if(ss2_match)
-                {
-                  downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
-                  process_file(result_dict.result_data, 'ss2');
-                }
+                process_file(result_dict.result_data, 'horiz');
+                ractive.set("psipred_waiting_message", '');
+                downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
+                ractive.set("psipred_waiting_icon", '');
+                ractive.set("psipred_time", '');
               }
+              let ss2_match = ss2_regex.exec(result_dict.result_data);
+              if(ss2_match)
+              {
+                downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
+                process_file(result_dict.result_data, 'ss2');
+              }
+            }
               // if(result_dict.name == 'PsipredGS')
               // {
               //   var GSmatch = image_regex.exec(result_dict.result_data);
@@ -196,18 +201,18 @@ ractive.once('poll_trigger', function(name, job_type){
               //   }
               // }
             }
-            ractive.set('download_links', downloads_string);
-            clearInterval(interval);
-          }
-          if(data[k] === 'Error' || data[k] === 'Crash')
-          {
-            ractive.set("form_error", data.last_message);
-            ractive.set("psipred_waiting_icon", '');
-            ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
-            clearInterval(interval);
-          }
+          ractive.set('download_links', downloads_string);
+          clearInterval(interval);
+        }
+        if(data[k] === 'Error' || data[k] === 'Crash')
+        {
+          ractive.set("form_error", data.last_message);
+          ractive.set("psipred_waiting_icon", '');
+          ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
+          clearInterval(interval);
         }
       }
+    }
   }, 5000);
 
 },{init: false,
@@ -242,96 +247,48 @@ ractive.on( 'psipred_active', function ( event ) {
 // });
 
 ractive.on('submit', function(event) {
-      seq = this.get('sequence');
+      let seq = this.get('sequence');
       seq = seq.replace(/^>.+$/mg, "").toUpperCase();
       seq = seq.replace(/\n|\s/g,"");
       ractive.set('sequence_length', seq.length);
       ractive.set('subsequence_stop', seq.length);
 
-      name = this.get('name');
-      email = this.get('email');
-      psipred_job = this.get('psipred_job');
-      psipred_checked = this.get('psipred_checked');
+      let name = this.get('name');
+      let email = this.get('email');
+      let psipred_job = this.get('psipred_job');
+      let psipred_checked = this.get('psipred_checked');
       // disopred_job = this.get('disopred_job');
       // disopred_checked = this.get('disopred_checked');
       // memsatsvm_job = this.get('memsatsvm_job');
       // memsatsvm_checked = this.get('memsatsvm_checked');
-      /*verify that everything here is ok*/
-      error_message=null;
-      //error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
-      ractive.set( 'submission_widget_visible', 1 );
 
-      error_message = verify_form(seq, name, email, [psipred_checked]);
-      if(error_message.length > 0)
-      {
-        this.set('form_error', error_message);
-      }
-      else {
-        //initialise the page
-        let response = true;
-        // alert(bio_d3_data);
-        ractive.set( 'results_visible', null );
-        //Post the jobs and intialise the annotations for each job
-        if(psipred_checked === true)
-        {
-          response = send_job("psipred", this);
-        }
-        // if(disopred_checked === true)
-        // {
-        //   response = send_job("disopred", this);
-        //   ann = [];
-        //   //initialise the ss annotations as just coil
-        //   for(let i = 0; i < seq.length; i++)
-        //   {
-        //     ann.push("ORDERED");
-        //   }
-        //   //bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "disorder");
-        // }
-        // if(memsatsvm_checked === true)
-        // {
-        //   response = send_job("memsatsvm", this);
-        //   ann = [];
-        //   //initialise the ss annotations as just coil
-        //   for(let i = 0; i < seq.length; i++)
-        //   {
-        //     ann.push("INTRACELLULAR");
-        //   }
-        //   // bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "MEMBRANE");
-        // }
+      verify_and_send_form(seq, name, email, psipred_checked, this);
 
-        //set visibility and render panel once
-        if (psipred_checked === true && response)
-        {
-          ractive.set( 'results_visible', 2 );
-          ractive.fire( 'psipred_active' );
-          draw_empty_annotation_panel();
-          // parse sequence and make seq plot
-        }
-        // else if(disopred_checked === true && response)
-        // {
-        //   ractive.set( 'results_visible', 2 );
-        //   ractive.fire( 'disopred_active' );
-        //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-        //   // try{
-        //   // this_panel.render(bio_d3_data, "disorder");}
-        //   // catch(err){alert(err.message)}
-        // }
-        // else if(memsatsvm_checked === true && response)
-        // {
-        //   ractive.set( 'results_visible', 2 );
-        //   ractive.fire( 'memsatsvm_active' );
-        //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-        //   // try{
-        //   // this_panel.render(bio_d3_data, "disorder");}
-        //   // catch(err){alert(err.message)}
-        // }
-        if(! response){window.location.href = window.location.href;}
-      }
     //alert("huh");
 
     event.original.preventDefault();
 });
 
+ractive.on('resubmit', function(event) {
+  let start = ractive.get("subsequence_start");
+  let stop = ractive.get("subsequence_stop");
+  let sequence = ractive.get("sequence");
+  let subsequence = sequence.substring(start-1, stop);
+  ractive.set('sequence_length', subsequence.length);
+  ractive.set('subsequence_stop', subsequence.length);
+  ractive.set('sequence', subsequence);
+  let name = this.get('name');
+  let email = this.get('email');
+  let psipred_job = this.get('psipred_job');
+  let psipred_checked = this.get('psipred_checked');
+  //clear what we have previously written
+  clear_settings();
+  //verify form contents and post
+  verify_and_send_form(subsequence, name, email, psipred_checked, this);
+  //write new annotation diagram
+  //submit subsection
+  event.original.preventDefault();
+});
 
 // Here having set up ractive and the functions we need we then check
 // if we were provided a UUID, if yes then we display those results
@@ -343,10 +300,11 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
 {
   ractive.set('results_visible', null );
   ractive.set('results_visible', 2 );
+  ractive.set('psipred_button', true);
   ractive.set("psipred_uuid", getUrlVars()["psipred_uuid"]);
   ractive.set('sequence',get_previous_seq(getUrlVars()["psipred_uuid"]));
 
-  seq = ractive.get('sequence');
+  let seq = ractive.get('sequence');
   ractive.set('sequence_length', seq.length);
   ractive.set('subsequence_stop', seq.length);
 
@@ -386,6 +344,97 @@ ractive.observe( 'subsequence_start', function ( value ) {
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
+function verify_and_send_form(seq, name, email, psipred_checked, ractive_instance)
+{
+  /*verify that everything here is ok*/
+  let error_message=null;
+  //error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
+  ractive.set( 'submission_widget_visible', 1 );
+
+  error_message = verify_form(seq, name, email, [psipred_checked]);
+  if(error_message.length > 0)
+  {
+    ractive.set('form_error', error_message);
+    alert("FORM ERROR:"+error_message);
+  }
+  else {
+    //initialise the page
+    let response = true;
+    ractive.set( 'results_visible', null );
+    //Post the jobs and intialise the annotations for each job
+    if(psipred_checked === true)
+    {
+      response = send_job("psipred", seq, name, email, ractive_instance);
+      ractive.set('psipred_button', true);
+    }
+    // if(disopred_checked === true)
+    // {
+    //   response = send_job("disopred", name, email, this);
+    //   ann = [];
+    //   //initialise the ss annotations as just coil
+    //   for(let i = 0; i < seq.length; i++)
+    //   {
+    //     ann.push("ORDERED");
+    //   }
+    //   //bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "disorder");
+    // }
+    // if(memsatsvm_checked === true)
+    // {
+    //   response = send_job("memsatsvm", name, email, this);
+    //   ann = [];
+    //   //initialise the ss annotations as just coil
+    //   for(let i = 0; i < seq.length; i++)
+    //   {
+    //     ann.push("INTRACELLULAR");
+    //   }
+    //   // bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "MEMBRANE");
+    // }
+
+    //set visibility and render panel once
+    if (psipred_checked === true && response)
+    {
+      ractive.set( 'results_visible', 2 );
+      ractive.fire( 'psipred_active' );
+      draw_empty_annotation_panel();
+      // parse sequence and make seq plot
+    }
+    // else if(disopred_checked === true && response)
+    // {
+    //   ractive.set( 'results_visible', 2 );
+    //   ractive.fire( 'disopred_active' );
+    //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+    //   // try{
+    //   // this_panel.render(bio_d3_data, "disorder");}
+    //   // catch(err){alert(err.message)}
+    // }
+    // else if(memsatsvm_checked === true && response)
+    // {
+    //   ractive.set( 'results_visible', 2 );
+    //   ractive.fire( 'memsatsvm_active' );
+    //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
+    //   // try{
+    //   // this_panel.render(bio_d3_data, "disorder");}
+    //   // catch(err){alert(err.message)}
+    // }
+    if(! response){window.location.href = window.location.href;}
+  }
+}
+
+
+function clear_settings(){
+  ractive.set('results_visible', 2);
+  ractive.set('results_panel_visible', 1);
+  ractive.set('psipred_button', false);
+  ractive.set('download_links', '');
+  ractive.set('psipred_waiting_message', '<h2>Please wait for your PSIPRED job to process</h2>');
+  ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
+  ractive.set('psipred_time', 'Unknown');
+  ractive.set('psipred_horiz',null);
+  ractive.set('annotations',null);
+  ractive.set('psipred_uuid',null);
+  biod3.clearSelection('div.sequence_plot');
+  biod3.clearSelection('div.psipred_cartoon');
+}
 
 function draw_empty_annotation_panel(){
 
@@ -401,10 +450,10 @@ function draw_empty_annotation_panel(){
 
 function get_previous_seq(uuid)
 {
-    url = submit_url+ractive.get('psipred_uuid');
-    var submission_response = send_request(url, "GET", {});
+    let url = submit_url+ractive.get('psipred_uuid');
+    let submission_response = send_request(url, "GET", {});
     if(! submission_response){alert("NO SUBMISSION DATA");}
-    var data = get_text(submission_response.input_data, "GET", {});
+    let data = get_text(submission_response.input_data, "GET", {});
     return(data);
 }
 
@@ -454,7 +503,7 @@ function process_file(url, ctl)
 //get text contents of a result
 function get_text(url, type, send_data)
 {
-  var response = null;
+ let response = null;
   $.ajax({
     type: type,
     data: send_data,
@@ -479,10 +528,11 @@ function get_text(url, type, send_data)
 
 //given a job name prep all the form elements and send an http request to the
 //backend
-function send_job(job_name, ractive_instance)
+function send_job(job_name, seq, name, email, ractive_instance)
 {
+  alert(seq);
   var file = null;
-  upper_name = job_name.toUpperCase();
+  let upper_name = job_name.toUpperCase();
   try
   {
     file = new File([seq], 'input.txt');
@@ -521,7 +571,7 @@ function send_job(job_name, ractive_instance)
       if(k == "UUID")
       {
         ractive_instance.set(job_name+'_uuid', response_data[k]);
-        //alert(job_name);
+        alert(job_name+" "+response_data[k]);
         ractive.fire('poll_trigger', job_name);
       }
     }
@@ -560,9 +610,9 @@ function send_request(url, type, send_data)
 
 
 //Takes the form elements and checks they are valid
-function verify_form(seq, job_name, email, checked_array )
+function verify_form(seq, job_name, email, checked_array)
 {
-  error_message = "";
+  let error_message = "";
   if(! /^[\x00-\x7F]+$/.test(job_name))
   {
     error_message = error_message + "Please restrict Job Names to valid letters numbers and basic punctuation<br />";
@@ -579,7 +629,7 @@ function verify_form(seq, job_name, email, checked_array )
   }
 
   /* nucleotide checks */
-  nucleotide_count = (seq.match(/A|T|C|G|U|N|a|t|c|g|u|n/g)||[]).length;
+  let nucleotide_count = (seq.match(/A|T|C|G|U|N|a|t|c|g|u|n/g)||[]).length;
   if((nucleotide_count/seq.length) > 0.95)
   {
     error_message = error_message + "Your sequence appears to be nucleotide sequence. This service requires protein sequence as input<br />";
@@ -608,9 +658,9 @@ function isInArray(value, array) {
 
 //given a URL return the attached variables
 function getUrlVars() {
-    var vars = {};
+    let vars = {};
     //consider using location.search instead here
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+    let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
     function(m,key,value) {
       vars[key] = value;
     });
@@ -623,12 +673,12 @@ function getUrlVars() {
     "use strict";
 
     // Form the style on the fly to result in smaller minified file
-    var important = "!important;";
-    var style = "position:absolute" + important + "visibility:hidden" + important + "width:1em" + important + "font-size:1em" + important + "padding:0" + important;
+    let important = "!important;";
+    let style = "position:absolute" + important + "visibility:hidden" + important + "width:1em" + important + "font-size:1em" + important + "padding:0" + important;
 
     window.getEmPixels = function (element) {
 
-        var extraBody;
+        let extraBody;
 
         if (!element) {
             // Emulate the documentElement to get rem value (documentElement does not work in IE6-7)
@@ -638,12 +688,12 @@ function getUrlVars() {
         }
 
         // Create and style a test element
-        var testElement = document.createElement("i");
+        let testElement = document.createElement("i");
         testElement.style.cssText = style;
         element.appendChild(testElement);
 
         // Get the client width of the test element
-        var value = testElement.clientWidth;
+        let value = testElement.clientWidth;
 
         if (extraBody) {
             // Remove the extra body element

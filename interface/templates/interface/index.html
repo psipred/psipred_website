@@ -25,43 +25,43 @@
   <div class="btn-group-vertical" id="selector" role="group">
     {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
       <div class="btn-group-vertical" id="selector" role="group">
-      {% templatetag openvariable %}#if psipred_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if psipred_button{% templatetag closevariable %}
         <button on-click='psipred_active' type="button" class="btn btn-default">PSIPRED</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if pgenthreader_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if pgenthreader_button{% templatetag closevariable %}
         <button type="button" class="btn btn-default">pGenTHREADER</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if pdomthreader_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if pdomthreader_button{% templatetag closevariable %}
         <button type="button" class="btn btn-default">pDomTHREADER</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if disopred_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if disopred_button{% templatetag closevariable %}
         <button on-click='disopred_active' type="button" class="btn btn-default">DISOPRED</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if dompred_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if dompred_button{% templatetag closevariable %}
         <button type="button" class="btn btn-default">DomPred</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if memsatsvm_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if memsatsvm_button{% templatetag closevariable %}
         <button on-click='memsatsvm_active' type="button" class="btn btn-default">MEMSAT-SVM</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if mempack_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if mempack_button{% templatetag closevariable %}
         <button type="button" class="btn btn-default">MEMPACK</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if ffpred_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if ffpred_button{% templatetag closevariable %}
         <button type="button" class="btn btn-default">FFPRED</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if bioserf_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if bioserf_button{% templatetag closevariable %}
         <button type="button" class="btn btn-default">BioSerf</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      {% templatetag openvariable %}#if domserf_checked{% templatetag closevariable %}
+      {% templatetag openvariable %}#if domserf_button{% templatetag closevariable %}
         <button type="button" class="btn btn-default">DomSerf</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
         <button on-click='downloads_active' type="button" class="btn btn-info">Downloads</button>
@@ -162,10 +162,10 @@
       <div class="form-group">
         <div class="checkbox">
           <label for="id_psipred_job">PSIPRED 4.0:</label>
-          <input id="id_psipred_job" name="psipred_job" value="psipred_job" type="checkbox" checked="true">
+          <input id="id_psipred_job" name="psipred_job" value="psipred_job" type="checkbox" checked="{% ractivetag "psipred_checked" %}">
         </div>
       </div>
-      <input value="Submit" type="submit" class="btn btn-primary" />
+      <input value="Resubmit" type="submit" class="btn btn-primary" />
     </form>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div>
