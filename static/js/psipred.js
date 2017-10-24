@@ -539,7 +539,7 @@ function get_text(url, type, send_data)
 //backend
 function send_job(job_name, seq, name, email, ractive_instance)
 {
-  alert(seq);
+  //alert(seq);
   var file = null;
   let upper_name = job_name.toUpperCase();
   try
@@ -567,6 +567,7 @@ function send_job(job_name, seq, name, email, ractive_instance)
   if(response_data !== null)
   {
     times = send_request(times_url,'GET',{});
+    alert(JSON.stringify(times);
     if(job_name in times)
     {
       ractive_instance.set(job_name+'_time', upper_name+" jobs typically take "+times[job_name]+" seconds");
