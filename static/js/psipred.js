@@ -30,7 +30,7 @@ if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
 else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
   endpoints_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/endpoints/';
   submit_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/submission/';
-  times_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/jobtimes';
+  times_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/jobtimes/';
   gears_svg = "../static/images/gears.svg";
 }
 else {
