@@ -40,7 +40,7 @@ else {
 }
 
 
-// DECLARE VARIABLES
+// DECLARE VARIABLES and init ractive instance
 
 var ractive = new Ractive({
   el: '#psipred_site',
@@ -103,7 +103,6 @@ if(location.hostname === "127.0.0.1") {
 let uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 let uuid_match = uuid_regex.exec(getUrlVars().psipred_uuid);
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -112,6 +111,8 @@ let uuid_match = uuid_regex.exec(getUrlVars().psipred_uuid);
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+//Here were keep an eye on some form elements and rewrite the name if people
+//have provided a fasta formatted seq
 ractive.observe('sequence', function(newValue, oldValue ) {
   let regex = /^>(.+?)\s/;
   let match = regex.exec(newValue);
@@ -128,9 +129,34 @@ ractive.observe('sequence', function(newValue, oldValue ) {
    defer: true
  });
 
+//theses two observers stop people setting the resubmission widget out of bounds
+ractive.observe( 'subsequence_stop', function ( value ) {
+  let seq_length = ractive.get('sequence_length');
+  let seq_start = ractive.get('subsequence_start');
+  if(value > seq_length)
+  {
+    ractive.set('subsequence_stop', seq_length);
+  }
+  if(value <= seq_start)
+  {
+    ractive.set('subsequence_stop', seq_start+1);
+  }
+});
+ractive.observe( 'subsequence_start', function ( value ) {
+  let seq_stop = ractive.get('subsequence_stop');
+  if(value < 1)
+  {
+    ractive.set('subsequence_start', 1);
+  }
+  if(value >= seq_stop)
+  {
+    ractive.set('subsequence_start', seq_stop-1);
+  }
+});
+
 //After a job has been sent or a URL accepted this ractive block is called to
 //poll the backend to get the results
-ractive.once('poll_trigger', function(name, job_type){
+ractive.on('poll_trigger', function(name, job_type){
   let data_regex = '';
   let image_regex = '';
   let url = submit_url;
@@ -148,8 +174,6 @@ ractive.once('poll_trigger', function(name, job_type){
   // {
   //   url += ractive.get('memsatsvm_uuid');
   // }
-  console.log("tiggered");
-  console.log(url);
   draw_empty_annotation_panel();
 
   let interval = setInterval(function(){
@@ -246,6 +270,7 @@ ractive.on( 'psipred_active', function ( event ) {
 //   ractive.set( 'results_panel_visible', 6 );
 // });
 
+//grab the submit event from the main form and send the sequence to the backend
 ractive.on('submit', function(event) {
       let seq = this.get('sequence');
       seq = seq.replace(/^>.+$/mg, "").toUpperCase();
@@ -269,6 +294,8 @@ ractive.on('submit', function(event) {
     event.original.preventDefault();
 });
 
+// grab the submit event from the Resubmission widget, truncate the sequence
+// and send a new job
 ractive.on('resubmit', function(event) {
   let start = ractive.get("subsequence_start");
   let stop = ractive.get("subsequence_stop");
@@ -291,9 +318,8 @@ ractive.on('resubmit', function(event) {
 });
 
 // Here having set up ractive and the functions we need we then check
-// if we were provided a UUID, if yes then we display those results
-// Or go back to polling
-//
+// if we were provided a UUID, If the page is loaded with a UUID rather than a
+// form submit.
 //TODO: Handle loading that page with use the MEMSAT and DISOPRED UUID
 //
 if(getUrlVars()["psipred_uuid"] && uuid_match)
@@ -311,32 +337,6 @@ if(getUrlVars()["psipred_uuid"] && uuid_match)
   ractive.fire('poll_trigger', 'psipred');
 }
 
-
-ractive.observe( 'subsequence_stop', function ( value ) {
-  let seq_length = ractive.get('sequence_length');
-  let seq_start = ractive.get('subsequence_start');
-  if(value > seq_length)
-  {
-    ractive.set('subsequence_stop', seq_length);
-  }
-  if(value <= seq_start)
-  {
-    ractive.set('subsequence_stop', seq_start+1);
-  }
-});
-
-ractive.observe( 'subsequence_start', function ( value ) {
-  let seq_stop = ractive.get('subsequence_stop');
-  if(value < 1)
-  {
-    ractive.set('subsequence_start', 1);
-  }
-  if(value >= seq_stop)
-  {
-    ractive.set('subsequence_start', seq_stop-1);
-  }
-});
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -344,6 +344,9 @@ ractive.observe( 'subsequence_start', function ( value ) {
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
+
+//Takes the data needed to verify the input form data, either the main form
+//or the submisson widget verifies that data and then posts it to the backend.
 function verify_and_send_form(seq, name, email, psipred_checked, ractive_instance)
 {
   /*verify that everything here is ok*/
@@ -420,7 +423,7 @@ function verify_and_send_form(seq, name, email, psipred_checked, ractive_instanc
   }
 }
 
-
+//before a resubmission is sent all variables are reset to the page defaults
 function clear_settings(){
   ractive.set('results_visible', 2);
   ractive.set('results_panel_visible', 1);
@@ -436,6 +439,8 @@ function clear_settings(){
   biod3.clearSelection('div.psipred_cartoon');
 }
 
+//when a results page is instantiated and before some annotations have come back
+//we draw and empty annotation panel
 function draw_empty_annotation_panel(){
 
   let seq = ractive.get('sequence');
@@ -448,6 +453,8 @@ function draw_empty_annotation_panel(){
   biod3.annotationGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
 }
 
+//utility function that gets the sequence from a previous submission is the
+//page was loaded with a UUID
 function get_previous_seq(uuid)
 {
     let url = submit_url+ractive.get('psipred_uuid');
@@ -457,6 +464,8 @@ function get_previous_seq(uuid)
     return(data);
 }
 
+//polls the backend to get results and then parses those results to display
+//them on the page
 function process_file(url, ctl)
 {
   //get a results file and push the data in to the bio3d object
@@ -500,7 +509,7 @@ function process_file(url, ctl)
   });
 }
 
-//get text contents of a result
+//get text contents from a result URI
 function get_text(url, type, send_data)
 {
  let response = null;
