@@ -311,13 +311,12 @@ ractive.on('resubmit', function(event) {
   let stop = ractive.get("subsequence_stop");
   let sequence = ractive.get("sequence");
   let subsequence = sequence.substring(start-1, stop);
+  let name = this.get('name')+"_segment";
+  let email = this.get('email');
   ractive.set('sequence_length', subsequence.length);
   ractive.set('subsequence_stop', subsequence.length);
   ractive.set('sequence', subsequence);
-  let name = this.get('name')+"_segment";
-  console.log(this.get('name'));
-  let email = this.get('email');
-  console.log(this.get('email'));
+  ractive.set('name', name);
   let psipred_job = this.get('psipred_job');
   let psipred_checked = this.get('psipred_checked');
   //clear what we have previously written
