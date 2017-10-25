@@ -20,6 +20,7 @@ let endpoints_url = null;
 let submit_url = null;
 let times_url = null;
 let gears_svg = "http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg";
+alert("HOST: "+location.hostname);
 if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
 {
   endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
