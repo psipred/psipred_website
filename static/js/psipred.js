@@ -336,7 +336,7 @@ if(getUrlVars().psipred_uuid && uuid_match)
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
   ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
-  ractive.set('sequence',get_previous_seq(getUrlVars().psipred_uui));
+  ractive.set('sequence',get_previous_data(getUrlVars().psipred_uuid));
 
   let seq = ractive.get('sequence');
   ractive.set('sequence_length', seq.length);
@@ -463,12 +463,13 @@ function draw_empty_annotation_panel(){
 
 //utility function that gets the sequence from a previous submission is the
 //page was loaded with a UUID
-function get_previous_seq(uuid)
+function get_previous_data(uuid)
 {
     console.log('Requesting details given URI');
     let url = submit_url+ractive.get('psipred_uuid');
     let submission_response = send_request(url, "GET", {});
     if(! submission_response){alert("NO SUBMISSION DATA");}
+    console.log(JSON.stringify(submission_response));
     let data = get_text(submission_response.input_data, "GET", {});
     return(data);
 }
