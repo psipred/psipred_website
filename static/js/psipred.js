@@ -34,6 +34,7 @@ else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === 
   gears_svg = "../static/images/gears.svg";
 }
 else {
+  console.log('UNSETTING ENDPOINTS WARNING, WARNING!');
   endpoints_url = '';
   submit_url = '';
   times_url = '';
