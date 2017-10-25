@@ -168,6 +168,7 @@ ractive.on('poll_trigger', function(name, job_type){
     data_regex = /\.horiz$/;
     ss2_regex = /\.ss2$/;
     url += ractive.get('psipred_uuid');
+    history.pushState(null, '', '/&psipred_uuid='+ractive.get('psipred_uuid'));
   }
   // if(job_type === "disopred")
   // {
@@ -336,18 +337,13 @@ if(getUrlVars().psipred_uuid && uuid_match)
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
   ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
-  console.log('Getting Previous data');
   let previous_data = get_previous_data(getUrlVars().psipred_uuid);
-  console.log('GOT PREVIOUS DATA');
-  console.log(JSON.stringify(previous_data));
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
-  ractive.set('name',previous_data.submission_name);
-
+  ractive.set('name',previous_data.name);
   let seq = ractive.get('sequence');
   ractive.set('sequence_length', seq.length);
   ractive.set('subsequence_stop', seq.length);
-
   ractive.fire('poll_trigger', 'psipred');
 }
 
