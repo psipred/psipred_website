@@ -336,7 +336,9 @@ if(getUrlVars().psipred_uuid && uuid_match)
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
   ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
+  console.log('Getting Previous data');
   let previous_data = get_previous_data(getUrlVars().psipred_uuid);
+  console.log('GOT PREVIOUS DATA');
   console.log(JSON.stringify(previous_data));
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
@@ -473,9 +475,7 @@ function get_previous_data(uuid)
     let url = submit_url+ractive.get('psipred_uuid');
     let submission_response = send_request(url, "GET", {});
     if(! submission_response){alert("NO SUBMISSION DATA");}
-    console.log(JSON.stringify(submission_response));
     let seq = get_text(submission_response.input_data, "GET", {});
-    console.log(JSON.stringify(seq));
     return({'seq': data, 'email': submission_response.email, 'name': submission_reponse.submission_name});
 }
 
