@@ -476,7 +476,7 @@ function get_previous_data(uuid)
     let submission_response = send_request(url, "GET", {});
     if(! submission_response){alert("NO SUBMISSION DATA");}
     let seq = get_text(submission_response.input_data, "GET", {});
-    return({'seq': data, 'email': submission_response.email, 'name': submission_reponse.submission_name});
+    return({'seq': data, 'email': submission_response.email, 'name': submission_response.submission_name});
 }
 
 //polls the backend to get results and then parses those results to display
