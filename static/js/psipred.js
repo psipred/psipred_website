@@ -325,14 +325,14 @@ ractive.on('resubmit', function(event) {
 // form submit.
 //TODO: Handle loading that page with use the MEMSAT and DISOPRED UUID
 //
-if(getUrlVars()["psipred_uuid"] && uuid_match)
+if(getUrlVars().psipred_uuid && uuid_match)
 {
   console.log('Caught an incoming UUID');
   ractive.set('results_visible', null );
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
-  ractive.set("psipred_uuid", getUrlVars()["psipred_uuid"]);
-  ractive.set('sequence',get_previous_seq(getUrlVars()["psipred_uuid"]));
+  ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
+  ractive.set('sequence',get_previous_seq(getUrlVars().psipred_uui));
 
   let seq = ractive.get('sequence');
   ractive.set('sequence_length', seq.length);
@@ -461,6 +461,7 @@ function draw_empty_annotation_panel(){
 //page was loaded with a UUID
 function get_previous_seq(uuid)
 {
+    console.log('Requesting details given URI');
     let url = submit_url+ractive.get('psipred_uuid');
     let submission_response = send_request(url, "GET", {});
     if(! submission_response){alert("NO SUBMISSION DATA");}
@@ -474,7 +475,7 @@ function process_file(url, ctl)
 {
   //get a results file and push the data in to the bio3d object
   //alert(url);
-
+  console.log('Getting Results File and processing');
   let response = null;
   $.ajax({
     type: 'GET',
@@ -516,6 +517,7 @@ function process_file(url, ctl)
 //get text contents from a result URI
 function get_text(url, type, send_data)
 {
+
  let response = null;
   $.ajax({
     type: type,
@@ -544,6 +546,7 @@ function get_text(url, type, send_data)
 function send_job(job_name, seq, name, email, ractive_instance)
 {
   //alert(seq);
+  console.log("Sending form data");
   var file = null;
   let upper_name = job_name.toUpperCase();
   try
@@ -600,6 +603,7 @@ function send_job(job_name, seq, name, email, ractive_instance)
 //given a url, http request type and some form data make an http request
 function send_request(url, type, send_data)
 {
+  console.log('Sending URI request');
   var response = null;
   $.ajax({
     type: type,
