@@ -33,9 +33,9 @@ if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
   gears_svg = "../static/images/gears.svg";
 }
 else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.hostname  === "bioinf.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
-  endpoints_url = main_url+'/api/endpoints/';
-  submit_url = main_url+'/api/submission/';
-  times_url = main_url+'/api/jobtimes/';
+  endpoints_url = main_url+app_path+'/api/endpoints/';
+  submit_url = main_url+app_path+'/api/submission/';
+  times_url = main_url+app_path+'/api/jobtimes/';
   //gears_svg = "../static/images/gears.svg";
 }
 else {
