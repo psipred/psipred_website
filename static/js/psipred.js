@@ -157,6 +157,7 @@ ractive.observe( 'subsequence_start', function ( value ) {
 //After a job has been sent or a URL accepted this ractive block is called to
 //poll the backend to get the results
 ractive.on('poll_trigger', function(name, job_type){
+  console.log("Polling backend for results");
   let data_regex = '';
   let image_regex = '';
   let url = submit_url;
@@ -272,6 +273,7 @@ ractive.on( 'psipred_active', function ( event ) {
 
 //grab the submit event from the main form and send the sequence to the backend
 ractive.on('submit', function(event) {
+      console.log('Submitting data')
       let seq = this.get('sequence');
       seq = seq.replace(/^>.+$/mg, "").toUpperCase();
       seq = seq.replace(/\n|\s/g,"");
@@ -297,6 +299,7 @@ ractive.on('submit', function(event) {
 // grab the submit event from the Resubmission widget, truncate the sequence
 // and send a new job
 ractive.on('resubmit', function(event) {
+  console.log('Resubmitting segment');
   let start = ractive.get("subsequence_start");
   let stop = ractive.get("subsequence_stop");
   let sequence = ractive.get("sequence");
@@ -324,6 +327,7 @@ ractive.on('resubmit', function(event) {
 //
 if(getUrlVars()["psipred_uuid"] && uuid_match)
 {
+  console.log('Caught an incoming UUID');
   ractive.set('results_visible', null );
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
