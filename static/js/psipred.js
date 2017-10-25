@@ -475,6 +475,7 @@ function get_previous_data(uuid)
     if(! submission_response){alert("NO SUBMISSION DATA");}
     console.log(JSON.stringify(submission_response));
     let seq = get_text(submission_response.input_data, "GET", {});
+    console.log(JSON.stringify(seq));
     return({'seq': data, 'email': submission_response.email, 'name': submission_reponse.submission_name});
 }
 
