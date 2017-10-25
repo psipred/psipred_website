@@ -12,9 +12,15 @@
   <div class="col-sm-4">
     <!-- Target -->
     Result Link:<br />
-    <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">
-    <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
-    <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
+    {% if staging %}
+      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_beta/&psipred_uuid={% ractivetag "psipred_uuid" %}">
+      <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+      <img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/clippy.svg %}" alt="Copy to clipboard" width="16">
+    {% else %}
+      <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">
+      <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+      <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
+    {% endif %}
     </button>
     </div>
 </div>
