@@ -275,7 +275,7 @@ ractive.on( 'psipred_active', function ( event ) {
 
 //grab the submit event from the main form and send the sequence to the backend
 ractive.on('submit', function(event) {
-      console.log('Submitting data');
+      console.log('Submitting data')
       let seq = this.get('sequence');
       seq = seq.replace(/^>.+$/mg, "").toUpperCase();
       seq = seq.replace(/\n|\s/g,"");
@@ -316,8 +316,8 @@ ractive.on('resubmit', function(event) {
   //clear what we have previously written
   clear_settings();
   //verify form contents and post
-  //console.log(name);
-  //console.log(email);
+  console.log(name);
+  console.log(email);
   verify_and_send_form(subsequence, name, email, psipred_checked, this);
   //write new annotation diagram
   //submit subsection
@@ -337,9 +337,10 @@ if(getUrlVars().psipred_uuid && uuid_match)
   ractive.set('psipred_button', true);
   ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
   let previous_data = get_previous_data(getUrlVars().psipred_uuid);
+  console.log(JSON.stringify(previous_data));
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
-  ractive.set('name',previous_data.name);
+  ractive.set('name',previous_data.submission_name);
 
   let seq = ractive.get('sequence');
   ractive.set('sequence_length', seq.length);
@@ -472,7 +473,7 @@ function get_previous_data(uuid)
     let url = submit_url+ractive.get('psipred_uuid');
     let submission_response = send_request(url, "GET", {});
     if(! submission_response){alert("NO SUBMISSION DATA");}
-    //console.log(JSON.stringify(submission_response));
+    console.log(JSON.stringify(submission_response));
     let seq = get_text(submission_response.input_data, "GET", {});
     return({'seq': data, 'email': submission_response.email, 'name': submission_reponse.submission_name});
 }
