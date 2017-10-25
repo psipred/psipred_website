@@ -309,7 +309,7 @@ ractive.on('resubmit', function(event) {
   ractive.set('sequence_length', subsequence.length);
   ractive.set('subsequence_stop', subsequence.length);
   ractive.set('sequence', subsequence);
-  let name = this.get('name');
+  let name = this.get('name')+"_segment";
   let email = this.get('email');
   let psipred_job = this.get('psipred_job');
   let psipred_checked = this.get('psipred_checked');
