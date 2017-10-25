@@ -604,6 +604,9 @@ function send_job(job_name, seq, name, email, ractive_instance)
 function send_request(url, type, send_data)
 {
   console.log('Sending URI request');
+  console.log(url);
+  console.log(type);
+
   var response = null;
   $.ajax({
     type: type,
