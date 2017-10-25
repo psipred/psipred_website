@@ -317,6 +317,7 @@ ractive.on('resubmit', function(event) {
   let name = this.get('name')+"_segment";
   console.log(this.get('name'));
   let email = this.get('email');
+  console.log(this.get('email'));
   let psipred_job = this.get('psipred_job');
   let psipred_checked = this.get('psipred_checked');
   //clear what we have previously written
