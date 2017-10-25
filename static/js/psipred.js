@@ -127,7 +127,7 @@ ractive.observe('sequence', function(newValue, oldValue ) {
     this.set('name', match[1]);
   }
   else {
-    this.set('name', null);
+    //this.set('name', null);
   }
 
   },
