@@ -20,18 +20,22 @@ let endpoints_url = null;
 let submit_url = null;
 let times_url = null;
 let gears_svg = "http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg";
+let main_url = "http://bioinf.cs.ucl.ac.uk";
+let app_path = "/psipred_beta";
 
 if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
 {
   endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
   submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/';
   times_url = 'http://127.0.0.1:8000/analytics_automated/jobtimes/';
+  app_path = '/analytics_automated';
+  main_url = 'http://127.0.0.1:8000';
   gears_svg = "../static/images/gears.svg";
 }
 else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.hostname  === "bioinf.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
-  endpoints_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/endpoints/';
-  submit_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/submission/';
-  times_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/jobtimes/';
+  endpoints_url = main_url+'/api/endpoints/';
+  submit_url = main_url+'/api/submission/';
+  times_url = main_url+'/api/jobtimes/';
   //gears_svg = "../static/images/gears.svg";
 }
 else {
@@ -168,7 +172,7 @@ ractive.on('poll_trigger', function(name, job_type){
     data_regex = /\.horiz$/;
     ss2_regex = /\.ss2$/;
     url += ractive.get('psipred_uuid');
-    history.pushState(null, '', '/&psipred_uuid='+ractive.get('psipred_uuid'));
+    history.pushState(null, '', app_path+'/&psipred_uuid='+ractive.get('psipred_uuid'));
   }
   // if(job_type === "disopred")
   // {
