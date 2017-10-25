@@ -20,8 +20,6 @@ let endpoints_url = null;
 let submit_url = null;
 let times_url = null;
 let gears_svg = "http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg";
-// alert("HOST: "+location.hostname);
-// alert("HREF: "+location.href);
 
 if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
 {
