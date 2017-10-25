@@ -119,7 +119,7 @@ let uuid_match = uuid_regex.exec(getUrlVars().psipred_uuid);
 
 //Here were keep an eye on some form elements and rewrite the name if people
 //have provided a fasta formatted seq
-ractive.observe('sequence', function(newValue, oldValue ) {
+let seq_observer = ractive.observe('sequence', function(newValue, oldValue ) {
   let regex = /^>(.+?)\s/;
   let match = regex.exec(newValue);
   if(match)
@@ -127,7 +127,7 @@ ractive.observe('sequence', function(newValue, oldValue ) {
     this.set('name', match[1]);
   }
   else {
-    //this.set('name', null);
+    this.set('name', null);
   }
 
   },
@@ -311,7 +311,7 @@ ractive.on('resubmit', function(event) {
   let stop = ractive.get("subsequence_stop");
   let sequence = ractive.get("sequence");
   let subsequence = sequence.substring(start-1, stop);
-  let name = this.get('name')+"_segment";
+  let name = this.get('name')+"_seg";
   let email = this.get('email');
   ractive.set('sequence_length', subsequence.length);
   ractive.set('subsequence_stop', subsequence.length);
@@ -338,6 +338,7 @@ ractive.on('resubmit', function(event) {
 if(getUrlVars().psipred_uuid && uuid_match)
 {
   console.log('Caught an incoming UUID');
+  seq_observer.cancel();
   ractive.set('results_visible', null );
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
