@@ -276,7 +276,7 @@ ractive.on( 'psipred_active', function ( event ) {
 
 //grab the submit event from the main form and send the sequence to the backend
 ractive.on('submit', function(event) {
-      console.log('Submitting data')
+      console.log('Submitting data');
       let seq = this.get('sequence');
       seq = seq.replace(/^>.+$/mg, "").toUpperCase();
       seq = seq.replace(/\n|\s/g,"");
@@ -311,6 +311,7 @@ ractive.on('resubmit', function(event) {
   ractive.set('subsequence_stop', subsequence.length);
   ractive.set('sequence', subsequence);
   let name = this.get('name')+"_segment";
+  console.log(this.get('name'));
   let email = this.get('email');
   let psipred_job = this.get('psipred_job');
   let psipred_checked = this.get('psipred_checked');
