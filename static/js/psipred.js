@@ -336,7 +336,10 @@ if(getUrlVars().psipred_uuid && uuid_match)
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
   ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
-  ractive.set('sequence',get_previous_data(getUrlVars().psipred_uuid));
+  let previous_data = get_previous_data(getUrlVars().psipred_uuid);
+  ractive.set('sequence',previous_data.seq);
+  ractive.set('email',previous_data.email);
+  ractive.set('name',previous_data.name);
 
   let seq = ractive.get('sequence');
   ractive.set('sequence_length', seq.length);
@@ -470,8 +473,8 @@ function get_previous_data(uuid)
     let submission_response = send_request(url, "GET", {});
     if(! submission_response){alert("NO SUBMISSION DATA");}
     console.log(JSON.stringify(submission_response));
-    let data = get_text(submission_response.input_data, "GET", {});
-    return(data);
+    let seq = get_text(submission_response.input_data, "GET", {});
+    return({'seq': data, 'email': submission_response.email, 'name': submission_reponse.submission_name});
 }
 
 //polls the backend to get results and then parses those results to display
