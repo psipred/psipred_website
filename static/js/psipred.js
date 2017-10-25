@@ -21,6 +21,8 @@ let submit_url = null;
 let times_url = null;
 let gears_svg = "http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg";
 alert("HOST: "+location.hostname);
+alert("HREF: "+location.href);
+
 if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
 {
   endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
@@ -28,7 +30,7 @@ if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
   times_url = 'http://127.0.0.1:8000/analytics_automated/jobtimes/';
   gears_svg = "../static/images/gears.svg";
 }
-else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === "bioinf.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
+else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.hostname  === "bioinf.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
   endpoints_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/endpoints/';
   submit_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/submission/';
   times_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/api/jobtimes/';
