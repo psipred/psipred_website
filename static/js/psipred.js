@@ -316,8 +316,8 @@ ractive.on('resubmit', function(event) {
   //clear what we have previously written
   clear_settings();
   //verify form contents and post
-  console.log('name');
-  console.log('email');
+  console.log(name);
+  console.log(email);
   verify_and_send_form(subsequence, name, email, psipred_checked, this);
   //write new annotation diagram
   //submit subsection
