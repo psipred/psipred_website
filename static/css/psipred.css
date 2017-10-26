@@ -45,6 +45,16 @@ body
   -webkit-appearance: none;
 }
 
+:not(output):-moz-ui-invalid {
+    box-shadow: none;
+}
+input:required {
+    box-shadow:none;
+}
+input:invalid {
+    box-shadow: none;
+}
+
 .sequence_coord
 {
   width: 25px;
