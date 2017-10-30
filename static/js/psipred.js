@@ -28,7 +28,7 @@ if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
   endpoints_url = 'http://127.0.0.1:8000/analytics_automated/endpoints/';
   submit_url = 'http://127.0.0.1:8000/analytics_automated/submission/';
   times_url = 'http://127.0.0.1:8000/analytics_automated/jobtimes/';
-  app_path = '/analytics_automated';
+  app_path = '/interface';
   main_url = 'http://127.0.0.1:8000';
   gears_svg = "../static/images/gears.svg";
 }
@@ -286,6 +286,7 @@ ractive.on('submit', function(event) {
       seq = seq.replace(/\n|\s/g,"");
       ractive.set('sequence_length', seq.length);
       ractive.set('subsequence_stop', seq.length);
+      ractive.set('sequence', seq);
 
       let name = this.get('name');
       let email = this.get('email');
