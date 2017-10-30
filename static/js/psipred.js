@@ -126,9 +126,9 @@ let seq_observer = ractive.observe('sequence', function(newValue, oldValue ) {
   {
     this.set('name', match[1]);
   }
-  else {
-    this.set('name', null);
-  }
+  // else {
+  //   this.set('name', null);
+  // }
 
   },
   {init: false,
@@ -298,8 +298,6 @@ ractive.on('submit', function(event) {
       // memsatsvm_checked = this.get('memsatsvm_checked');
 
       verify_and_send_form(seq, name, email, psipred_checked, this);
-
-    //alert("huh");
 
     event.original.preventDefault();
 });
