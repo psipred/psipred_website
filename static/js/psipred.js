@@ -215,14 +215,14 @@ ractive.on('poll_trigger', function(name, job_type){
               {
                 process_file(file_url+result_dict.data_path, 'horiz');
                 ractive.set("psipred_waiting_message", '');
-                downloads_string = downloads_string.concat('<a href="'+result_dict.data_path+'">Horiz Format Output</a><br />');
+                downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />');
                 ractive.set("psipred_waiting_icon", '');
                 ractive.set("psipred_time", '');
               }
               let ss2_match = ss2_regex.exec(result_dict.data_path);
               if(ss2_match)
               {
-                downloads_string = downloads_string.concat('<a href="'+result_dict.data_path+'">SS2 Format Output</a><br />');
+                downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />');
                 process_file(file_url+result_dict.data_path, 'ss2');
               }
             }
