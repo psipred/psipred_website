@@ -476,6 +476,7 @@ function get_previous_data(uuid)
 {
     console.log('Requesting details given URI');
     let url = submit_url+ractive.get('psipred_uuid');
+    alert(url);
     let submission_response = send_request(url, "GET", {});
     //console.log(submission_response);
     if(! submission_response){alert("NO SUBMISSION DATA");}
