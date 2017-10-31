@@ -211,7 +211,7 @@ ractive.on('poll_trigger', function(name, job_type){
               let match = data_regex.exec(result_dict.result_data);
               if(match)
               {
-                process_file(result_dict.result_data, 'horiz');
+                process_file(main_url+app_path+result_dict.data_path, 'horiz');
                 ractive.set("psipred_waiting_message", '');
                 downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
                 ractive.set("psipred_waiting_icon", '');
@@ -221,7 +221,7 @@ ractive.on('poll_trigger', function(name, job_type){
               if(ss2_match)
               {
                 downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
-                process_file(result_dict.result_data, 'ss2');
+                process_file(main_url+app_path+result_dict.data_path, 'ss2');
               }
             }
               // if(result_dict.name == 'PsipredGS')
