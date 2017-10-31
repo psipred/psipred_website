@@ -31,11 +31,13 @@ if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
   app_path = '/interface';
   main_url = 'http://127.0.0.1:8000';
   gears_svg = "../static/images/gears.svg";
+  file_url = main_url;
 }
 else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.hostname  === "bioinf.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
   endpoints_url = main_url+app_path+'/api/endpoints/';
   submit_url = main_url+app_path+'/api/submission/';
   times_url = main_url+app_path+'/api/jobtimes/';
+  file_url = main_url+app_path+"/api";
   //gears_svg = "../static/images/gears.svg";
 }
 else {
@@ -208,20 +210,20 @@ ractive.on('poll_trigger', function(name, job_type){
             if(result_dict.name == 'psipass2')
             {
               //console.log(JSON.stringify(result_dict));
-              let match = data_regex.exec(result_dict.result_data);
+              let match = data_regex.exec(result_dict.data_path);
               if(match)
               {
-                process_file(main_url+app_path+result_dict.data_path, 'horiz');
+                process_file(file_url+result_dict.data_path, 'horiz');
                 ractive.set("psipred_waiting_message", '');
-                downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">Horiz Format Output</a><br />');
+                downloads_string = downloads_string.concat('<a href="'+result_dict.data_path+'">Horiz Format Output</a><br />');
                 ractive.set("psipred_waiting_icon", '');
                 ractive.set("psipred_time", '');
               }
-              let ss2_match = ss2_regex.exec(result_dict.result_data);
+              let ss2_match = ss2_regex.exec(result_dict.data_path);
               if(ss2_match)
               {
-                downloads_string = downloads_string.concat('<a href="'+result_dict.result_data+'">SS2 Format Output</a><br />');
-                process_file(main_url+app_path+result_dict.data_path, 'ss2');
+                downloads_string = downloads_string.concat('<a href="'+result_dict.data_path+'">SS2 Format Output</a><br />');
+                process_file(file_url+result_dict.data_path, 'ss2');
               }
             }
               // if(result_dict.name == 'PsipredGS')
@@ -321,8 +323,8 @@ ractive.on('resubmit', function(event) {
   //clear what we have previously written
   clear_settings();
   //verify form contents and post
-  console.log(name);
-  console.log(email);
+  //console.log(name);
+  //console.log(email);
   verify_and_send_form(subsequence, name, email, psipred_checked, this);
   //write new annotation diagram
   //submit subsection
@@ -477,7 +479,7 @@ function get_previous_data(uuid)
     let submission_response = send_request(url, "GET", {});
     //console.log(submission_response);
     if(! submission_response){alert("NO SUBMISSION DATA");}
-    let seq = get_text(submission_response.input_data, "GET", {});
+    let seq = get_text(file_url+submission_response.input_file, "GET", {});
     return({'seq': seq, 'email': submission_response.email, 'name': submission_response.submission_name});
 }
 
