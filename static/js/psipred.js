@@ -188,63 +188,71 @@ ractive.on('poll_trigger', function(name, job_type){
 
   let interval = setInterval(function(){
     let batch = send_request(url, "GET", {});
-    let downloads_string = ractive.get('download_links');
+    //let downloads_string = ractive.get('download_links');
+    let downloads_info = {};
+
     if(batch.state === 'Complete')
     {
       console.log("Render results");
       let submissions = batch.submissions;
       submissions.forEach(function(data){
-          // console.log(data);
-          downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
-          let results = data.results;
-          for(var i in results)
+          console.log(data);
+          if(data.job_name === 'psipred')
           {
-            let result_dict = results[i];
-            //console.log(JSON.stringify(result_dict));
-            if(result_dict.name == 'psipass2')
+            downloads_info.psipred = {};
+            downloads_info.psipred.header = "<h5>PSIPRED DOWNLOADS</h5>";
+            let results = data.results;
+            for(var i in results)
             {
+              let result_dict = results[i];
               //console.log(JSON.stringify(result_dict));
-              let match = data_regex.exec(result_dict.data_path);
-              if(match)
+              if(result_dict.name == 'psipass2')
               {
-                process_file(file_url+result_dict.data_path, 'horiz');
-                ractive.set("psipred_waiting_message", '');
-                downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />');
-                ractive.set("psipred_waiting_icon", '');
-                ractive.set("psipred_time", '');
-              }
-              let ss2_match = ss2_regex.exec(result_dict.data_path);
-              if(ss2_match)
-              {
-                downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />');
-                process_file(file_url+result_dict.data_path, 'ss2');
+                //console.log(JSON.stringify(result_dict));
+                let match = data_regex.exec(result_dict.data_path);
+                if(match)
+                {
+                  process_file(file_url+result_dict.data_path, 'horiz');
+                  ractive.set("psipred_waiting_message", '');
+                  downloads_info.psipred.horiz = '<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />';
+                  //downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />');
+                  ractive.set("psipred_waiting_icon", '');
+                  ractive.set("psipred_time", '');
+                }
+                let ss2_match = ss2_regex.exec(result_dict.data_path);
+                if(ss2_match)
+                {
+                  downloads_info.psipred.ss2 = '<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />';
+                  //downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />');
+                  process_file(file_url+result_dict.data_path, 'ss2');
+                }
               }
             }
-              // if(result_dict.name == 'PsipredGS')
-              // {
-              //   var GSmatch = image_regex.exec(result_dict.result_data);
-              //   if(GSmatch)
-              //   {
-              //     ractive.set("psipred_waiting_message", '<img src='+result_dict.result_data+'>');
-              //   }
-              // }
-            }
-          ractive.set('download_links', downloads_string);
-          clearInterval(interval);
+          }
+
       });
     }
+    let downloads_string = ractive.get('download_links');
+    if('psipred' in downloads_info)
+    {
+      downloads_string = downloads_string.concat(downloads_info.psipred.header);
+      downloads_string = downloads_string.concat(downloads_info.psipred.horiz);
+      downloads_string = downloads_string.concat(downloads_info.psipred.ss2);
+    }
+    ractive.set('download_links', downloads_string);
+
     if(batch.state === 'Error' || batch.state === 'Crash')
     {
       // TODO: we should open an error panel and print out all the errors that came back
-      submissions.forEach(function(data){
-        if(data.state === 'Error' || data.state === 'Crash'){}
-      });
-      ractive.set("form_error", data.last_message);
-      ractive.set("psipred_waiting_icon", '');
-      ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
-      clearInterval(interval);
+      // submissions.forEach(function(data){
+      //   if(data.state === 'Error' || data.state === 'Crash'){}
+      // });
+      // ractive.set("form_error", data.last_message);
+      // ractive.set("psipred_waiting_icon", '');
+      // ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
+      // clearInterval(interval);
     }
-
+    clearInterval(interval);
   }, 5000);
 
 },{init: false,
