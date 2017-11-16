@@ -187,22 +187,16 @@ ractive.on('poll_trigger', function(name, job_type){
   draw_empty_annotation_panel();
 
   let interval = setInterval(function(){
-    let data = send_request(url, "GET", {});
-
-    //TODO ADAPT THIS FOR DOMPRED AND MEMSATSVM RESULTS
+    let batch = send_request(url, "GET", {});
     let downloads_string = ractive.get('download_links');
-    for(var k in data)
+    if(batch.state === 'Complete')
     {
-      if(k == "state")
-      {
-        if(data[k] === "Running" || data[k] === "Submitted")
-        {
-        }
-        if(data[k] === 'Complete')
-        {
+      console.log("Render results");
+      let submissions = batch.submissions;
+      submissions.forEach(function(data){
+          // console.log(data);
           downloads_string = downloads_string.concat("<h5>PSIPRED DOWNLOADS</h5>");
           let results = data.results;
-          //console.log(JSON.stringify(results));
           for(var i in results)
           {
             let result_dict = results[i];
@@ -237,16 +231,20 @@ ractive.on('poll_trigger', function(name, job_type){
             }
           ractive.set('download_links', downloads_string);
           clearInterval(interval);
-        }
-        if(data[k] === 'Error' || data[k] === 'Crash')
-        {
-          ractive.set("form_error", data.last_message);
-          ractive.set("psipred_waiting_icon", '');
-          ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
-          clearInterval(interval);
-        }
-      }
+      });
     }
+    if(batch.state === 'Error' || batch.state === 'Crash')
+    {
+      // TODO: we should open an error panel and print out all the errors that came back
+      submissions.forEach(function(data){
+        if(data.state === 'Error' || data.state === 'Crash'){}
+      });
+      ractive.set("form_error", data.last_message);
+      ractive.set("psipred_waiting_icon", '');
+      ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
+      clearInterval(interval);
+    }
+
   }, 5000);
 
 },{init: false,
@@ -345,6 +343,7 @@ if(getUrlVars().psipred_uuid && uuid_match)
   ractive.set('psipred_button', true);
   ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
   let previous_data = get_previous_data(getUrlVars().psipred_uuid);
+  //console.log(previous_data);
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
   ractive.set('name',previous_data.name);
@@ -478,10 +477,10 @@ function get_previous_data(uuid)
     let url = submit_url+ractive.get('psipred_uuid');
     //alert(url);
     let submission_response = send_request(url, "GET", {});
-    //console.log(submission_response);
+    //console.log(submission_response.submissions[0]);
     if(! submission_response){alert("NO SUBMISSION DATA");}
-    let seq = get_text(file_url+submission_response.input_file, "GET", {});
-    return({'seq': seq, 'email': submission_response.email, 'name': submission_response.submission_name});
+    let seq = get_text(file_url+submission_response.submissions[0].input_file, "GET", {});
+    return({'seq': seq, 'email': submission_response.submissions[0].email, 'name': submission_response.submissions[0].submission_name});
 }
 
 //polls the backend to get results and then parses those results to display
