@@ -8,6 +8,8 @@
 */
 
 var clipboard = new Clipboard('.copyButton');
+var zip = new JSZip();
+
 clipboard.on('success', function(e) {
     console.log(e);
 });
@@ -95,7 +97,7 @@ var ractive = new Ractive({
           annotations: null,
           email: '',
           name: '',
-          psipred_uuid: null,
+          batch_uuid: null,
           //disopred_uuid: null,
           //memsatsvm_uuid: null,
         }
@@ -109,7 +111,7 @@ if(location.hostname === "127.0.0.1") {
 
 //4b6ad792-ed1f-11e5-8986-989096c13ee6
 let uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-let uuid_match = uuid_regex.exec(getUrlVars().psipred_uuid);
+let uuid_match = uuid_regex.exec(getUrlVars().uuid);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -173,8 +175,8 @@ ractive.on('poll_trigger', function(name, job_type){
   {
     data_regex = /\.horiz$/;
     ss2_regex = /\.ss2$/;
-    url += ractive.get('psipred_uuid');
-    history.pushState(null, '', app_path+'/&psipred_uuid='+ractive.get('psipred_uuid'));
+    url += ractive.get('batch_uuid');
+    history.pushState(null, '', app_path+'/&uuid='+ractive.get('batch_uuid'));
   }
   // if(job_type === "disopred")
   // {
@@ -196,7 +198,7 @@ ractive.on('poll_trigger', function(name, job_type){
       console.log("Render results");
       let submissions = batch.submissions;
       submissions.forEach(function(data){
-          console.log(data);
+          // console.log(data);
           if(data.job_name === 'psipred')
           {
             downloads_info.psipred = {};
@@ -212,10 +214,9 @@ ractive.on('poll_trigger', function(name, job_type){
                 let match = data_regex.exec(result_dict.data_path);
                 if(match)
                 {
-                  process_file(file_url+result_dict.data_path, 'horiz');
+                  process_file(file_url, result_dict.data_path, 'horiz');
                   ractive.set("psipred_waiting_message", '');
                   downloads_info.psipred.horiz = '<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />';
-                  //downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />');
                   ractive.set("psipred_waiting_icon", '');
                   ractive.set("psipred_time", '');
                 }
@@ -223,8 +224,7 @@ ractive.on('poll_trigger', function(name, job_type){
                 if(ss2_match)
                 {
                   downloads_info.psipred.ss2 = '<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />';
-                  //downloads_string = downloads_string.concat('<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />');
-                  process_file(file_url+result_dict.data_path, 'ss2');
+                  process_file(file_url, result_dict.data_path, 'ss2');
                 }
               }
             }
@@ -238,6 +238,8 @@ ractive.on('poll_trigger', function(name, job_type){
       downloads_string = downloads_string.concat(downloads_info.psipred.header);
       downloads_string = downloads_string.concat(downloads_info.psipred.horiz);
       downloads_string = downloads_string.concat(downloads_info.psipred.ss2);
+      downloads_string = downloads_string.concat("<br />");
+
     }
     ractive.set('download_links', downloads_string);
 
@@ -259,6 +261,13 @@ ractive.on('poll_trigger', function(name, job_type){
    defer: true
  }
 );
+
+ractive.on('get_zip', function (context) {
+    let uuid = ractive.get('batch_uuid');
+    zip.generateAsync({type:"blob"}).then(function (blob) {
+        saveAs(blob, uuid+".zip");
+    });
+});
 
 // These react to the headers being clicked to toggle the results panel
 ractive.on( 'downloads_active', function ( event ) {
@@ -342,15 +351,15 @@ ractive.on('resubmit', function(event) {
 // form submit.
 //TODO: Handle loading that page with use the MEMSAT and DISOPRED UUID
 //
-if(getUrlVars().psipred_uuid && uuid_match)
+if(getUrlVars().uuid && uuid_match)
 {
   console.log('Caught an incoming UUID');
   seq_observer.cancel();
   ractive.set('results_visible', null );
   ractive.set('results_visible', 2 );
   ractive.set('psipred_button', true);
-  ractive.set("psipred_uuid", getUrlVars().psipred_uuid);
-  let previous_data = get_previous_data(getUrlVars().psipred_uuid);
+  ractive.set("batch_uuid", getUrlVars().uuid);
+  let previous_data = get_previous_data(getUrlVars().uuid);
   //console.log(previous_data);
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
@@ -458,9 +467,10 @@ function clear_settings(){
   ractive.set('psipred_time', 'Unknown');
   ractive.set('psipred_horiz',null);
   ractive.set('annotations',null);
-  ractive.set('psipred_uuid',null);
+  ractive.set('batch_uuid',null);
   biod3.clearSelection('div.sequence_plot');
   biod3.clearSelection('div.psipred_cartoon');
+  zip = new JSZip();
 }
 
 //when a results page is instantiated and before some annotations have come back
@@ -482,7 +492,7 @@ function draw_empty_annotation_panel(){
 function get_previous_data(uuid)
 {
     console.log('Requesting details given URI');
-    let url = submit_url+ractive.get('psipred_uuid');
+    let url = submit_url+ractive.get('batch_uuid');
     //alert(url);
     let submission_response = send_request(url, "GET", {});
     //console.log(submission_response.submissions[0]);
@@ -493,8 +503,10 @@ function get_previous_data(uuid)
 
 //polls the backend to get results and then parses those results to display
 //them on the page
-function process_file(url, ctl)
+function process_file(url_stub, path, ctl)
 {
+  let url = url_stub + path;
+  let path_bits = path.split("/");
   //get a results file and push the data in to the bio3d object
   //alert(url);
   console.log('Getting Results File and processing');
@@ -505,6 +517,7 @@ function process_file(url, ctl)
     url: url,
     success : function (file)
     {
+      zip.folder(path_bits[1]).file(path_bits[2], file);
       if(ctl === 'horiz')
       {
         ractive.set('psipred_horiz', file);
@@ -523,7 +536,6 @@ function process_file(url, ctl)
             let entries = line.split(/\s+/);
             anno[i].ss = entries[3];
           });
-
           biod3.annotationGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
         }
         else
