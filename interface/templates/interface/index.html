@@ -91,12 +91,11 @@
             {{ field.errors }}
             {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
         {% endif %}
-
-        <!--
         {% if "DISOPRED" in field.label %}
             {{ field.errors }}
             {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
         {% endif %}
+        <!--
         {% if "MEMSAT-SVM" in field.label %}
             {{ field.errors }}
             {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
@@ -136,15 +135,12 @@
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
       {% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
-      <h4>Analysis ID: {% ractivetag "disopred_uuid" %}</h4>
-      <h5>You can use <a href="http://127.0.0.1:4000/interface/&disopred_uuid={% ractivetag "disopred_uuid" %}">http://127.0.0.1:4000/interface/&#38;disopred_uuid={% ractivetag "disopred_uuid" %}</a> to retrieve this analysis.</h5>
+      <div class="comb_plot"></div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_icon" %}<br />{% ractivehtmltag "disopred_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
       {% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
-      <h4>Analysis ID: {% ractivetag "memsatsvm_uuid" %}</h4>
-      <h5>You can use <a href="http://127.0.0.1:4000/interface/&memsatsvm_uuid={% ractivetag "disopred_uuid" %}">http://127.0.0.1:4000/interface/&#38;memsatsvm_uuid={% ractivetag "memsatsvm_uuid" %}</a> to retrieve this analysis.</h5>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_icon" %}<br />{% ractivehtmltag "memsatsvm_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
@@ -152,7 +148,6 @@
       {% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
       <h5>ZIP FILE</h5>
       <a href="" on-click="@this.fire("get_zip"), false">Get Zip file</a><br /><br />
-
       {% ractivehtmltag "download_links" %}
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 

@@ -58,48 +58,50 @@ var ractive = new Ractive({
   data: {
           results_visible: 1,
           results_panel_visible: 1,
-          psipred_checked: true,
+          psipred_checked: false,
           psipred_button: false,
           submission_widget_visible: 0,
-          // disopred_checked: false,
+          disopred_checked: true,
+          disopred_button: false,
           // memsatsvm_checked: false,
 
-          pgenthreader_checked: false,
-          pdomthreader_checked: false,
-          dompred_checked: false,
-          mempack_checked: false,
-          ffpred_checked: false,
-          bioserf_checked: false,
-          domserf_checked: false,
-          //psipred_checked: false,
+          // pgenthreader_checked: false,
+          // pdomthreader_checked: false,
+          // dompred_checked: false,
+          // mempack_checked: false,
+          // ffpred_checked: false,
+          // bioserf_checked: false,
+          // domserf_checked: false,
           download_links: '',
           psipred_job: 'psipred_job',
-          //disopred_job: 'disopred_job',
+          disopred_job: 'disopred_job',
           //memsatsvm_job: 'memsatsvm_job',
 
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
-          psipred_time: 'Unknown',
+          psipred_time: 'Loading Data',
           psipred_horiz: null,
 
-          // disopred_waiting_message: '<h2>Please wait for your DISOPRED job to process</h2>',
-          // disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
-          // disopred_time: 'Unknown',
+          disopred_waiting_message: '<h2>Please wait for your DISOPRED job to process</h2>',
+          disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
+          disopred_time: 'Loading Data',
+          diso_precision: null,
           //
           // memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT_SVM job to process</h2>',
           // memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
           // memsatsvm_time: 'Unknown',
 
+          // Sequence and job info
           sequence: '',
           sequence_length: 1,
           subsequence_start: 1,
           subsequence_stop: 1,
-          annotations: null,
           email: '',
           name: '',
           batch_uuid: null,
-          //disopred_uuid: null,
-          //memsatsvm_uuid: null,
+
+          //hold annotations that are read from datafiles
+          annotations: null,
         }
 });
 
@@ -168,29 +170,16 @@ ractive.observe( 'subsequence_start', function ( value ) {
 //poll the backend to get the results
 ractive.on('poll_trigger', function(name, job_type){
   console.log("Polling backend for results");
-  let data_regex = '';
+  let horiz_regex = /\.horiz$/;
+  let ss2_regex = /\.ss2$/;
   let image_regex = '';
-  let url = submit_url;
-  if(job_type === "psipred")
-  {
-    data_regex = /\.horiz$/;
-    ss2_regex = /\.ss2$/;
-    url += ractive.get('batch_uuid');
-    history.pushState(null, '', app_path+'/&uuid='+ractive.get('batch_uuid'));
-  }
-  // if(job_type === "disopred")
-  // {
-  //   url += ractive.get('disopred_uuid');
-  // }
-  // if(job_type === "memsatsvm")
-  // {
-  //   url += ractive.get('memsatsvm_uuid');
-  // }
+  let url = submit_url + ractive.get('batch_uuid');
+  history.pushState(null, '', app_path+'/&uuid='+ractive.get('batch_uuid'));
+
   draw_empty_annotation_panel();
 
   let interval = setInterval(function(){
     let batch = send_request(url, "GET", {});
-    //let downloads_string = ractive.get('download_links');
     let downloads_info = {};
 
     if(batch.state === 'Complete')
@@ -198,53 +187,77 @@ ractive.on('poll_trigger', function(name, job_type){
       console.log("Render results");
       let submissions = batch.submissions;
       submissions.forEach(function(data){
-          // console.log(data);
-          if(data.job_name === 'psipred')
+          console.log(data);
+          if(data.job_name.includes('psipred'))
           {
             downloads_info.psipred = {};
             downloads_info.psipred.header = "<h5>PSIPRED DOWNLOADS</h5>";
-            let results = data.results;
-            for(var i in results)
+          }
+          if(data.job_name.includes('disopred'))
+          {
+            downloads_info.disopred = {};
+            downloads_info.disopred.header = "<h5>DISOPRED DOWNLOADS</h5>";
+          }
+          let results = data.results;
+          for(var i in results)
+          {
+            let result_dict = results[i];
+            //psipred files
+            if(result_dict.name == 'psipass2')
             {
-              let result_dict = results[i];
-              //console.log(JSON.stringify(result_dict));
-              if(result_dict.name == 'psipass2')
+              let match = horiz_regex.exec(result_dict.data_path);
+              if(match)
               {
-                //console.log(JSON.stringify(result_dict));
-                let match = data_regex.exec(result_dict.data_path);
-                if(match)
-                {
-                  process_file(file_url, result_dict.data_path, 'horiz');
-                  ractive.set("psipred_waiting_message", '');
-                  downloads_info.psipred.horiz = '<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />';
-                  ractive.set("psipred_waiting_icon", '');
-                  ractive.set("psipred_time", '');
-                }
-                let ss2_match = ss2_regex.exec(result_dict.data_path);
-                if(ss2_match)
-                {
-                  downloads_info.psipred.ss2 = '<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />';
-                  process_file(file_url, result_dict.data_path, 'ss2');
-                }
+                process_file(file_url, result_dict.data_path, 'horiz');
+                ractive.set("psipred_waiting_message", '');
+                downloads_info.psipred.horiz = '<a href="'+file_url+result_dict.data_path+'">Horiz Format Output</a><br />';
+                ractive.set("psipred_waiting_icon", '');
+                ractive.set("psipred_time", '');
               }
+              let ss2_match = ss2_regex.exec(result_dict.data_path);
+              if(ss2_match)
+              {
+                downloads_info.psipred.ss2 = '<a href="'+file_url+result_dict.data_path+'">SS2 Format Output</a><br />';
+                process_file(file_url, result_dict.data_path, 'ss2');
+              }
+            }
+            //disopred files
+            if(result_dict.name === 'diso_format')
+            {
+              process_file(file_url, result_dict.data_path, 'pbdat');
+              ractive.set("disopred_waiting_message", '');
+              downloads_info.disopred.pbdat = '<a href="'+file_url+result_dict.data_path+'">PBDAT Format Output</a><br />';
+              ractive.set("disopred_waiting_icon", '');
+              ractive.set("disopred_time", '');
+            }
+            if(result_dict.name === 'diso_combine')
+            {
+              process_file(file_url, result_dict.data_path, 'comb');
+              downloads_info.disopred.comb = '<a href="'+file_url+result_dict.data_path+'">COMB NN Output</a><br />';
             }
           }
 
       });
+      let downloads_string = ractive.get('download_links');
+      if('psipred' in downloads_info)
+      {
+        downloads_string = downloads_string.concat(downloads_info.psipred.header);
+        downloads_string = downloads_string.concat(downloads_info.psipred.horiz);
+        downloads_string = downloads_string.concat(downloads_info.psipred.ss2);
+        downloads_string = downloads_string.concat("<br />");
+      }
+      if('disopred' in downloads_info)
+      {
+        downloads_string = downloads_string.concat(downloads_info.disopred.header);
+        downloads_string = downloads_string.concat(downloads_info.disopred.pbdat);
+        downloads_string = downloads_string.concat(downloads_info.disopred.comb);
+        downloads_string = downloads_string.concat("<br />");
+      }
+      ractive.set('download_links', downloads_string);
     }
-    let downloads_string = ractive.get('download_links');
-    if('psipred' in downloads_info)
-    {
-      downloads_string = downloads_string.concat(downloads_info.psipred.header);
-      downloads_string = downloads_string.concat(downloads_info.psipred.horiz);
-      downloads_string = downloads_string.concat(downloads_info.psipred.ss2);
-      downloads_string = downloads_string.concat("<br />");
-
-    }
-    ractive.set('download_links', downloads_string);
-
     if(batch.state === 'Error' || batch.state === 'Crash')
     {
+      alert("POLLING ERROR");
       // TODO: we should open an error panel and print out all the errors that came back
       // submissions.forEach(function(data){
       //   if(data.state === 'Error' || data.state === 'Crash'){}
@@ -255,7 +268,7 @@ ractive.on('poll_trigger', function(name, job_type){
       // clearInterval(interval);
     }
     clearInterval(interval);
-  }, 5000);
+  }, 2000);
 
 },{init: false,
    defer: true
@@ -285,10 +298,15 @@ ractive.on( 'psipred_active', function ( event ) {
   }
 });
 
-// ractive.on( 'disopred_active', function ( event ) {
-//   ractive.set( 'results_panel_visible', null );
-//   ractive.set( 'results_panel_visible', 4 );
-// });
+ractive.on( 'disopred_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 4 );
+  ractive.set( 'submission_widget_visible', 1 );
+  if(ractive.get('diso_precision'))
+  {
+    biod3.genericxyLineChart(ractive.get('diso_precision'), 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
+  }
+});
 //
 // ractive.on( 'memsatsvm_active', function ( event ) {
 //   ractive.set( 'results_panel_visible', null );
@@ -297,26 +315,26 @@ ractive.on( 'psipred_active', function ( event ) {
 
 //grab the submit event from the main form and send the sequence to the backend
 ractive.on('submit', function(event) {
-      console.log('Submitting data');
-      let seq = this.get('sequence');
-      seq = seq.replace(/^>.+$/mg, "").toUpperCase();
-      seq = seq.replace(/\n|\s/g,"");
-      ractive.set('sequence_length', seq.length);
-      ractive.set('subsequence_stop', seq.length);
-      ractive.set('sequence', seq);
+  console.log('Submitting data');
+  let seq = this.get('sequence');
+  seq = seq.replace(/^>.+$/mg, "").toUpperCase();
+  seq = seq.replace(/\n|\s/g,"");
+  ractive.set('sequence_length', seq.length);
+  ractive.set('subsequence_stop', seq.length);
+  ractive.set('sequence', seq);
 
-      let name = this.get('name');
-      let email = this.get('email');
-      let psipred_job = this.get('psipred_job');
-      let psipred_checked = this.get('psipred_checked');
-      // disopred_job = this.get('disopred_job');
-      // disopred_checked = this.get('disopred_checked');
-      // memsatsvm_job = this.get('memsatsvm_job');
-      // memsatsvm_checked = this.get('memsatsvm_checked');
+  let name = this.get('name');
+  let email = this.get('email');
+  let psipred_job = this.get('psipred_job');
+  let psipred_checked = this.get('psipred_checked');
+  let disopred_job = this.get('disopred_job');
+  let disopred_checked = this.get('disopred_checked');
+  // memsatsvm_job = this.get('memsatsvm_job');
+  // memsatsvm_checked = this.get('memsatsvm_checked');
 
-      verify_and_send_form(seq, name, email, psipred_checked, this);
-
-    event.original.preventDefault();
+  verify_and_send_form(seq, name, email, psipred_checked, disopred_checked,
+                       this);
+  event.original.preventDefault();
 });
 
 // grab the submit event from the Resubmission widget, truncate the sequence
@@ -355,12 +373,20 @@ if(getUrlVars().uuid && uuid_match)
 {
   console.log('Caught an incoming UUID');
   seq_observer.cancel();
-  ractive.set('results_visible', null );
+  ractive.set('results_visible', null ); // should make a generic one visible until results arrive.
   ractive.set('results_visible', 2 );
-  ractive.set('psipred_button', true);
   ractive.set("batch_uuid", getUrlVars().uuid);
   let previous_data = get_previous_data(getUrlVars().uuid);
-  //console.log(previous_data);
+  if(previous_data.jobs.includes('psipred'))
+  {
+      ractive.set('psipred_button', true );
+      ractive.set('results_panel_visible', 1);
+  }
+  if(previous_data.jobs.includes('disopred'))
+  {
+      ractive.set('disopred_button', true );
+      ractive.set('results_panel_visible', 4);
+  }
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
   ractive.set('name',previous_data.name);
@@ -380,14 +406,17 @@ if(getUrlVars().uuid && uuid_match)
 
 //Takes the data needed to verify the input form data, either the main form
 //or the submisson widget verifies that data and then posts it to the backend.
-function verify_and_send_form(seq, name, email, psipred_checked, ractive_instance)
+function verify_and_send_form(seq, name, email, psipred_checked,
+                              disopred_checked, ractive_instance)
 {
   /*verify that everything here is ok*/
   let error_message=null;
+  let job_string = '';
   //error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
   ractive.set( 'submission_widget_visible', 1 );
 
-  error_message = verify_form(seq, name, email, [psipred_checked]);
+  error_message = verify_form(seq, name, email,
+                              [psipred_checked, disopred_checked]);
   if(error_message.length > 0)
   {
     ractive.set('form_error', error_message);
@@ -400,20 +429,14 @@ function verify_and_send_form(seq, name, email, psipred_checked, ractive_instanc
     //Post the jobs and intialise the annotations for each job
     if(psipred_checked === true)
     {
-      response = send_job("psipred", seq, name, email, ractive_instance);
+      job_string = job_string.concat("psipred,");
       ractive.set('psipred_button', true);
     }
-    // if(disopred_checked === true)
-    // {
-    //   response = send_job("disopred", name, email, this);
-    //   ann = [];
-    //   //initialise the ss annotations as just coil
-    //   for(let i = 0; i < seq.length; i++)
-    //   {
-    //     ann.push("ORDERED");
-    //   }
-    //   //bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "disorder");
-    // }
+    if(disopred_checked === true)
+    {
+      job_string = job_string.concat("disopred,");
+      ractive.set('disopred_button', true);
+    }
     // if(memsatsvm_checked === true)
     // {
     //   response = send_job("memsatsvm", name, email, this);
@@ -425,7 +448,8 @@ function verify_and_send_form(seq, name, email, psipred_checked, ractive_instanc
     //   }
     //   // bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "MEMBRANE");
     // }
-
+    job_string = job_string.slice(0, -1);
+    response = send_job(job_string, seq, name, email, ractive_instance);
     //set visibility and render panel once
     if (psipred_checked === true && response)
     {
@@ -434,15 +458,12 @@ function verify_and_send_form(seq, name, email, psipred_checked, ractive_instanc
       draw_empty_annotation_panel();
       // parse sequence and make seq plot
     }
-    // else if(disopred_checked === true && response)
-    // {
-    //   ractive.set( 'results_visible', 2 );
-    //   ractive.fire( 'disopred_active' );
-    //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-    //   // try{
-    //   // this_panel.render(bio_d3_data, "disorder");}
-    //   // catch(err){alert(err.message)}
-    // }
+    else if(disopred_checked === true && response)
+    {
+      ractive.set( 'results_visible', 2 );
+      ractive.fire( 'disopred_active' );
+      draw_empty_annotation_panel();
+    }
     // else if(memsatsvm_checked === true && response)
     // {
     //   ractive.set( 'results_visible', 2 );
@@ -464,12 +485,20 @@ function clear_settings(){
   ractive.set('download_links', '');
   ractive.set('psipred_waiting_message', '<h2>Please wait for your PSIPRED job to process</h2>');
   ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
-  ractive.set('psipred_time', 'Unknown');
+  ractive.set('psipred_time', 'Loading Data');
   ractive.set('psipred_horiz',null);
+  ractive.set('disopred_waiting_message', '<h2>Please wait for your PSIPRED job to process</h2>');
+  ractive.set('disopred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
+  ractive.set('disopred_time', 'Loading Data');
+  ractive.set('diso_precision');
+
   ractive.set('annotations',null);
   ractive.set('batch_uuid',null);
+
   biod3.clearSelection('div.sequence_plot');
   biod3.clearSelection('div.psipred_cartoon');
+  biod3.clearSelection('div.comb_plot');
+
   zip = new JSZip();
 }
 
@@ -495,10 +524,14 @@ function get_previous_data(uuid)
     let url = submit_url+ractive.get('batch_uuid');
     //alert(url);
     let submission_response = send_request(url, "GET", {});
-    //console.log(submission_response.submissions[0]);
     if(! submission_response){alert("NO SUBMISSION DATA");}
     let seq = get_text(file_url+submission_response.submissions[0].input_file, "GET", {});
-    return({'seq': seq, 'email': submission_response.submissions[0].email, 'name': submission_response.submissions[0].submission_name});
+    let jobs = '';
+    submission_response.submissions.forEach(function(submission){
+      jobs += submission.job_name+",";
+    });
+    jobs = jobs.slice(0, -1);
+    return({'seq': seq, 'email': submission_response.submissions[0].email, 'name': submission_response.submissions[0].submission_name, 'jobs': jobs});
 }
 
 //polls the backend to get results and then parses those results to display
@@ -531,17 +564,50 @@ function process_file(url_stub, path, ctl)
         lines = lines.filter(Boolean);
         if(annotations.length == lines.length)
         {
-          let anno = ractive.get("annotations");
           lines.forEach(function(line, i){
             let entries = line.split(/\s+/);
-            anno[i].ss = entries[3];
+            annotations[i].ss = entries[3];
           });
-          biod3.annotationGrid(ractive.get('annotations'), {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
+          ractive.set('annotations', annotations);
+          biod3.annotationGrid(annotations, {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
         }
         else
         {
           alert("SS2 annotation length does not match query sequence");
         }
+      }
+      if(ctl === 'pbdat')
+      {
+        //alert('PBDAT process');
+        let annotations = ractive.get('annotations');
+        let lines = file.split('\n');
+        lines.shift(); lines.shift(); lines.shift(); lines.shift(); lines.shift();
+        lines = lines.filter(Boolean);
+        if(annotations.length == lines.length)
+        {
+          lines.forEach(function(line, i){
+            let entries = line.split(/\s+/);
+            if(entries[3] === '-'){annotations[i].disopred = 'D';}
+            if(entries[3] === '^'){annotations[i].disopred = 'PB';}
+          });
+          ractive.set('annotations', annotations);
+          biod3.annotationGrid(annotations, {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
+        }
+      }
+      if(ctl === 'comb')
+      {
+        let precision = [];
+        let lines = file.split('\n');
+        lines.shift(); lines.shift(); lines.shift();
+        lines = lines.filter(Boolean);
+        lines.forEach(function(line, i){
+          let entries = line.split(/\s+/);
+          precision[i] = {};
+          precision[i].pos = entries[1];
+          precision[i].precision = entries[4];
+        });
+        ractive.set('diso_precision', precision);
+        biod3.genericxyLineChart(precision, 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
       }
     },
     error: function (error) {alert(JSON.stringify(error));}
@@ -600,10 +666,10 @@ function send_job(job_name, seq, name, email, ractive_instance)
   //   fd.append("task1_all", true);
   //   fd.append("task2_number", 12);
   // }
-  if(job_name === 'disopred')
-  {
-    // ADD PARAM SETTINGS TO FORM IF NEEDED
-  }
+  // if(job_name === 'disopred')
+  // {
+  //   // ADD PARAM SETTINGS TO FORM IF NEEDED
+  // }
   let response_data = send_request(submit_url, "POST", fd);
   if(response_data !== null)
   {
@@ -621,8 +687,7 @@ function send_job(job_name, seq, name, email, ractive_instance)
     {
       if(k == "UUID")
       {
-        ractive_instance.set(job_name+'_uuid', response_data[k]);
-        //alert(job_name+" "+response_data[k]);
+        ractive_instance.set('batch_uuid', response_data[k]);
         ractive.fire('poll_trigger', job_name);
       }
     }
