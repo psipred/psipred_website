@@ -81,7 +81,8 @@ Red : #bf4440
       </div>
     {# Load javascript #}
     {% if staging %}{# Production should also use these unqualified links #}
-        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery-2.2.0.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/popper.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-events-tap.js' %}"></script>
@@ -92,7 +93,8 @@ Red : #bf4440
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/FileSaver.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/psipred.js' %}"></script>
     {% else %}
-        <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/popper.js' %}"></script>
         <script src="{% static 'js/bootstrap.js' %}"></script>
         <script src="{% static 'js/ractive.min.js' %}"></script>
         <script src="{% static 'js/ractive-events-tap.js' %}"></script>

@@ -651,25 +651,17 @@ function send_job(job_name, seq, name, email, ractive_instance)
   let upper_name = job_name.toUpperCase();
   try
   {
-    file = new File([seq], 'input.txt');
+    file = new Blob([seq]);
   } catch (e)
   {
     alert(e);
   }
   let fd = new FormData();
-  fd.append("input_data", file);
+  fd.append("input_data", file, 'input.txt');
   fd.append("job",job_name);
   fd.append("submission_name",name);
-  fd.append("email",email);
-  // if(job_name === 'psipred')
-  // {
-  //   fd.append("task1_all", true);
-  //   fd.append("task2_number", 12);
-  // }
-  // if(job_name === 'disopred')
-  // {
-  //   // ADD PARAM SETTINGS TO FORM IF NEEDED
-  // }
+  fd.append("email", email);
+
   let response_data = send_request(submit_url, "POST", fd);
   if(response_data !== null)
   {
