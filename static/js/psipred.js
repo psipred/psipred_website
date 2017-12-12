@@ -254,6 +254,7 @@ ractive.on('poll_trigger', function(name, job_type){
         downloads_string = downloads_string.concat("<br />");
       }
       ractive.set('download_links', downloads_string);
+      clearInterval(interval);
     }
     if(batch.state === 'Error' || batch.state === 'Crash')
     {
@@ -265,10 +266,9 @@ ractive.on('poll_trigger', function(name, job_type){
       // ractive.set("form_error", data.last_message);
       // ractive.set("psipred_waiting_icon", '');
       // ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
-      // clearInterval(interval);
+      clearInterval(interval);
     }
-    clearInterval(interval);
-  }, 2000);
+  }, 5000);
 
 },{init: false,
    defer: true
