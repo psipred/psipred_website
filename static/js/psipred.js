@@ -58,10 +58,10 @@ var ractive = new Ractive({
   data: {
           results_visible: 1,
           results_panel_visible: 1,
-          psipred_checked: false,
+          psipred_checked: true,
           psipred_button: false,
           submission_widget_visible: 0,
-          disopred_checked: true,
+          disopred_checked: false,
           disopred_button: false,
           // memsatsvm_checked: false,
 
