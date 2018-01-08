@@ -39,6 +39,8 @@
 
 How to add a service:
 
+1) UPDATE TO ADD A NEW JOB TYPE TO THE BACKGROUND AA SERVICE
+
 1) Update models.py request() model to add new BooleanField for the job
     memsatsvm_job = models.BooleanField(null=False, default=False)
 
