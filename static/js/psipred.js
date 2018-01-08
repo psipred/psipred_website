@@ -58,12 +58,13 @@ var ractive = new Ractive({
   data: {
           results_visible: 1,
           results_panel_visible: 1,
-          psipred_checked: true,
+          psipred_checked: false,
           psipred_button: false,
           submission_widget_visible: 0,
           disopred_checked: false,
           disopred_button: false,
-          // memsatsvm_checked: false,
+          memsatsvm_checked: true,
+          memsatsvm_button: false,
 
           // pgenthreader_checked: false,
           // pdomthreader_checked: false,
@@ -75,7 +76,7 @@ var ractive = new Ractive({
           download_links: '',
           psipred_job: 'psipred_job',
           disopred_job: 'disopred_job',
-          //memsatsvm_job: 'memsatsvm_job',
+          memsatsvm_job: 'memsatsvm_job',
 
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
@@ -86,10 +87,10 @@ var ractive = new Ractive({
           disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
           disopred_time: 'Loading Data',
           diso_precision: null,
-          //
-          // memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT_SVM job to process</h2>',
-          // memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
-          // memsatsvm_time: 'Unknown',
+
+          memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT-SVM job to process</h2>',
+          memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          memsatsvm_time: 'Unknown',
 
           // Sequence and job info
           sequence: '',
@@ -329,11 +330,11 @@ ractive.on('submit', function(event) {
   let psipred_checked = this.get('psipred_checked');
   let disopred_job = this.get('disopred_job');
   let disopred_checked = this.get('disopred_checked');
-  // memsatsvm_job = this.get('memsatsvm_job');
-  // memsatsvm_checked = this.get('memsatsvm_checked');
+  let memsatsvm_job = this.get('memsatsvm_job');
+  let memsatsvm_checked = this.get('memsatsvm_checked');
 
   verify_and_send_form(seq, name, email, psipred_checked, disopred_checked,
-                       this);
+                       memsatsvm_checked, this);
   event.original.preventDefault();
 });
 
@@ -353,12 +354,17 @@ ractive.on('resubmit', function(event) {
   ractive.set('name', name);
   let psipred_job = this.get('psipred_job');
   let psipred_checked = this.get('psipred_checked');
+  let disopred_job = this.get('disopred_job');
+  let disopred_checked = this.get('disopred_checked');
+  let memsatsvm_job = this.get('memsatsvm_job');
+  let memsatsvm_checked = this.get('memsatsvm_checked');
   //clear what we have previously written
   clear_settings();
   //verify form contents and post
   //console.log(name);
   //console.log(email);
-  verify_and_send_form(subsequence, name, email, psipred_checked, this);
+  verify_and_send_form(subsequence, name, email, psipred_checked, disopred_checked,
+                       memsatsvm_checked, this);
   //write new annotation diagram
   //submit subsection
   event.original.preventDefault();
@@ -386,6 +392,11 @@ if(getUrlVars().uuid && uuid_match)
   {
       ractive.set('disopred_button', true );
       ractive.set('results_panel_visible', 4);
+  }
+  if(previous_data.jobs.includes('memsatsvm'))
+  {
+      ractive.set('memsatsvm_button', true );
+      ractive.set('results_panel_visible', 6);
   }
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
@@ -437,17 +448,12 @@ function verify_and_send_form(seq, name, email, psipred_checked,
       job_string = job_string.concat("disopred,");
       ractive.set('disopred_button', true);
     }
-    // if(memsatsvm_checked === true)
-    // {
-    //   response = send_job("memsatsvm", name, email, this);
-    //   ann = [];
-    //   //initialise the ss annotations as just coil
-    //   for(let i = 0; i < seq.length; i++)
-    //   {
-    //     ann.push("INTRACELLULAR");
-    //   }
-    //   // bio_d3_data = biod3.add_annotation(bio_d3_data, ann, "MEMBRANE");
-    // }
+    if(memsatsvm_checked === true)
+    {
+      job_string = job_string.concat("memsatsvm,");
+      ractive.set('memsatsvm_button', true);
+    }
+
     job_string = job_string.slice(0, -1);
     response = send_job(job_string, seq, name, email, ractive_instance);
     //set visibility and render panel once
@@ -464,15 +470,13 @@ function verify_and_send_form(seq, name, email, psipred_checked,
       ractive.fire( 'disopred_active' );
       draw_empty_annotation_panel();
     }
-    // else if(memsatsvm_checked === true && response)
-    // {
-    //   ractive.set( 'results_visible', 2 );
-    //   ractive.fire( 'memsatsvm_active' );
-    //   //this_panel = biod3.bio_panel(bio_d3_data, 50, "sequence_plot", {topX : true, bottomX: true, leftY: true, rightY: true, cellClass: "disorder", labelled_axes: false, annotation_selector: true, panel_name: "this_panel", data_name: "bio_d3_data"});
-    //   // try{
-    //   // this_panel.render(bio_d3_data, "disorder");}
-    //   // catch(err){alert(err.message)}
-    // }
+    else if(memsatsvm_checked === true && response)
+    {
+      ractive.set( 'results_visible', 2 );
+      ractive.fire( 'memsatsvm_active' );
+      draw_empty_annotation_panel();
+    }
+
     if(! response){window.location.href = window.location.href;}
   }
 }
@@ -487,10 +491,14 @@ function clear_settings(){
   ractive.set('psipred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
   ractive.set('psipred_time', 'Loading Data');
   ractive.set('psipred_horiz',null);
-  ractive.set('disopred_waiting_message', '<h2>Please wait for your PSIPRED job to process</h2>');
+  ractive.set('disopred_waiting_message', '<h2>Please wait for your DISOPRED job to process</h2>');
   ractive.set('disopred_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
   ractive.set('disopred_time', 'Loading Data');
   ractive.set('diso_precision');
+  ractive.set('memsatsvm_waiting_message', '<h2>Please wait for your MEMSAT-SVM job to process</h2>');
+  ractive.set('memsatsvm_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
+  ractive.set('memsatsvm_time', 'Loading Data');
+  //ractive.set('diso_precision');
 
   ractive.set('annotations',null);
   ractive.set('batch_uuid',null);

@@ -19,7 +19,11 @@ class PsipredForm(forms.ModelForm):
                                        attrs={'value': '{{disopred_job}}',
                                               'checked': '{{disopred_checked}}'
                                               }))
-    # memsatsvm_job = forms.BooleanField(label="MEMSAT-SVM", required=False, widget=forms.CheckboxInput(attrs={'value': '{{memsatsvm_job}}', 'checked': '{{memsatsvm_checked}}'}))
+    memsatsvm_job = forms.BooleanField(label="MEMSAT-SVM", required=False,
+                                       widget=forms.CheckboxInput(
+                                        attrs={'value': '{{memsatsvm_job}}',
+                                               'checked': '{{memsatsvm_checked}}'
+                                               }))
 
     input_data = forms.CharField(initial="Input Sequence",
                                  widget=forms.Textarea(
@@ -31,7 +35,5 @@ class PsipredForm(forms.ModelForm):
 
     class Meta:
         model = Request
-        # fields = ('psipred_job', 'disopred_job', 'memsatsvm_job', 'input_data',
-        #           'job_name', 'email', )
-        fields = ('psipred_job', 'disopred_job', 'input_data',
+        fields = ('psipred_job', 'disopred_job', 'memsatsvm_job', 'input_data',
                   'job_name', 'email', )

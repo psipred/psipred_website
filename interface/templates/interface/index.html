@@ -95,12 +95,10 @@
             {{ field.errors }}
             {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
         {% endif %}
-        <!--
         {% if "MEMSAT-SVM" in field.label %}
             {{ field.errors }}
             {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
         {% endif %}
-        -->
 
     {% endfor %}
         </div>
@@ -173,6 +171,11 @@
           <label for="id_disopred_job">DISOPRED 3.1:</label>
           <input id="id_disopred_job" name="disopred_job" value="disopred_job" type="checkbox" checked="{% ractivetag "psipred_checked" %}">
         </div>
+        <div class="checkbox">
+          <label for="id_memsat_job">MEMSAT-SVM:</label>
+          <input id="id_memsat_job" name="memsat_job" value="memsat_job" type="checkbox" checked="{% ractivetag "memsat_checked" %}">
+        </div>
+
 
       </div>
       <input value="Resubmit" type="submit" class="btn btn-primary" />
