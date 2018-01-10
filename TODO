@@ -115,6 +115,8 @@ ractive.on( 'memsatsvm_active', function ( event ) {
       let memsatsvm_checked = this.get('memsatsvm_checked');
       verify_and_send_form(seq, name, email, psipred_checked, disopred_checked,
                        memsatsvm_checked, this);
+    Then update verify_and_send_form() to accept the new vars and update
+        error_message = verify_form(seq, name, email,
 13) Do the same for resubmitmission line 343 active.on('resubmit', function(event) {
       let memsatsvm_job = this.get('memsatsvm_job');
       let memsatsvm_checked = this.get('memsatsvm_checked');
@@ -144,3 +146,7 @@ and
 
 16) Update clearsettings() as per 8 and 11
 17) Update process_file() to draw the new incoming data file type
+
+
+Panels for images and data: See Annotation Panel in index.html
+inserting annotaions: poll_trigger complete and process_file()

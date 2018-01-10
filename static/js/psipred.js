@@ -89,8 +89,11 @@ var ractive = new Ractive({
           diso_precision: null,
 
           memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT-SVM job to process</h2>',
-          memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
+          memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
           memsatsvm_time: 'Unknown',
+          memsatsvm_schematic: '',
+          memsatsvm_cartoon: '',
+
 
           // Sequence and job info
           sequence: '',
@@ -173,6 +176,9 @@ ractive.on('poll_trigger', function(name, job_type){
   console.log("Polling backend for results");
   let horiz_regex = /\.horiz$/;
   let ss2_regex = /\.ss2$/;
+  let memsat_cartoon_regex = /_cartoon_memsat_svm\.png$/;
+  let memsat_schematic_regex = /_schematic\.png$/;
+  let memsat_data_regex = /memsat_svm$/;
   let image_regex = '';
   let url = submit_url + ractive.get('batch_uuid');
   history.pushState(null, '', app_path+'/&uuid='+ractive.get('batch_uuid'));
@@ -199,6 +205,13 @@ ractive.on('poll_trigger', function(name, job_type){
             downloads_info.disopred = {};
             downloads_info.disopred.header = "<h5>DISOPRED DOWNLOADS</h5>";
           }
+          if(data.job_name.includes('memsatsvm'))
+          {
+            downloads_info.memsatsvm= {};
+            downloads_info.memsatsvm.header = "<h5>MEMSATSVM DOWNLOADS</h5>";
+          }
+
+
           let results = data.results;
           for(var i in results)
           {
@@ -236,6 +249,31 @@ ractive.on('poll_trigger', function(name, job_type){
               process_file(file_url, result_dict.data_path, 'comb');
               downloads_info.disopred.comb = '<a href="'+file_url+result_dict.data_path+'">COMB NN Output</a><br />';
             }
+
+            if(result_dict.name === 'memsatsvm')
+            {
+              ractive.set("memsatsvm_waiting_message", '');
+              ractive.set("memsatsvm_waiting_icon", '');
+              ractive.set("memsatsvm_time", '');
+              let scheme_match = memsat_schematic_regex.exec(result_dict.data_path);
+              if(scheme_match)
+              {
+                ractive.set('memsatsvm_schematic', '<img src="'+file_url+result_dict.data_path+'" />');
+                downloads_info.memsatsvm.schematic = '<a href="'+file_url+result_dict.data_path+'">Schematic Diagram</a><br />';
+              }
+              let cartoon_match = memsat_cartoon_regex.exec(result_dict.data_path);
+              if(cartoon_match)
+              {
+                ractive.set('memsatsvm_cartoon', '<img src="'+file_url+result_dict.data_path+'" />');
+                downloads_info.memsatsvm.cartoon = '<a href="'+file_url+result_dict.data_path+'">Cartoon Diagram</a><br />';
+              }
+              let memsat_match = memsat_schematic_regex.exec(result_dict.data_path);
+              if(memsat_match)
+              {
+                process_file(file_url, result_dict.data_path, 'memsatdata');
+                downloads_info.memsatsvm.data = '<a href="'+file_url+result_dict.data_path+'">Memsat Output</a><br />';
+              }
+            }
           }
 
       });
@@ -254,6 +292,15 @@ ractive.on('poll_trigger', function(name, job_type){
         downloads_string = downloads_string.concat(downloads_info.disopred.comb);
         downloads_string = downloads_string.concat("<br />");
       }
+      if('memsatsvm' in downloads_info)
+      {
+        downloads_string = downloads_string.concat(downloads_info.memsatsvm.header);
+        downloads_string = downloads_string.concat(downloads_info.memsatsvm.data);
+        downloads_string = downloads_string.concat(downloads_info.memsatsvm.schematic);
+        downloads_string = downloads_string.concat(downloads_info.memsatsvm.cartoon);
+        downloads_string = downloads_string.concat("<br />");
+      }
+
       ractive.set('download_links', downloads_string);
       clearInterval(interval);
     }
@@ -307,6 +354,16 @@ ractive.on( 'disopred_active', function ( event ) {
   {
     biod3.genericxyLineChart(ractive.get('diso_precision'), 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
   }
+});
+
+ractive.on( 'memsatsvm_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 6 );
+  ractive.set( 'submission_widget_visible', 1 );
+  // if(ractive.get('memsat_data'))
+  // {
+  //   biod3.genericxyLineChart(ractive.get('diso_precision'), 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
+  // }
 });
 //
 // ractive.on( 'memsatsvm_active', function ( event ) {
@@ -418,7 +475,7 @@ if(getUrlVars().uuid && uuid_match)
 //Takes the data needed to verify the input form data, either the main form
 //or the submisson widget verifies that data and then posts it to the backend.
 function verify_and_send_form(seq, name, email, psipred_checked,
-                              disopred_checked, ractive_instance)
+                              disopred_checked, memsatsvm_checked, ractive_instance)
 {
   /*verify that everything here is ok*/
   let error_message=null;
@@ -427,7 +484,7 @@ function verify_and_send_form(seq, name, email, psipred_checked,
   ractive.set( 'submission_widget_visible', 1 );
 
   error_message = verify_form(seq, name, email,
-                              [psipred_checked, disopred_checked]);
+                              [psipred_checked, disopred_checked, memsatsvm_checked]);
   if(error_message.length > 0)
   {
     ractive.set('form_error', error_message);
@@ -498,6 +555,9 @@ function clear_settings(){
   ractive.set('memsatsvm_waiting_message', '<h2>Please wait for your MEMSAT-SVM job to process</h2>');
   ractive.set('memsatsvm_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
   ractive.set('memsatsvm_time', 'Loading Data');
+  ractive.set('memsatsvm_schematic', '');
+  ractive.set('memsatsvm_cartoon', '');
+
   //ractive.set('diso_precision');
 
   ractive.set('annotations',null);
@@ -617,6 +677,7 @@ function process_file(url_stub, path, ctl)
         ractive.set('diso_precision', precision);
         biod3.genericxyLineChart(precision, 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
       }
+      if(ctl === 'memsatdata'){}
     },
     error: function (error) {alert(JSON.stringify(error));}
   });
