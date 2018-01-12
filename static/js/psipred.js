@@ -267,7 +267,7 @@ ractive.on('poll_trigger', function(name, job_type){
                 ractive.set('memsatsvm_cartoon', '<img src="'+file_url+result_dict.data_path+'" />');
                 downloads_info.memsatsvm.cartoon = '<a href="'+file_url+result_dict.data_path+'">Cartoon Diagram</a><br />';
               }
-              let memsat_match = memsat_schematic_regex.exec(result_dict.data_path);
+              let memsat_match = memsat_data_regex.exec(result_dict.data_path);
               if(memsat_match)
               {
                 process_file(file_url, result_dict.data_path, 'memsatdata');
@@ -677,10 +677,74 @@ function process_file(url_stub, path, ctl)
         ractive.set('diso_precision', precision);
         biod3.genericxyLineChart(precision, 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
       }
-      if(ctl === 'memsatdata'){}
+      if(ctl === 'memsatdata')
+      {
+        let annotations = ractive.get('annotations');
+        let seq = ractive.get('sequence');
+        topo_regions = get_memsat_ranges(/Topology:\s+(.+?)\n/, file);
+        signal_regions = get_memsat_ranges(/Signal\speptide:\s+(.+)\n/, file);
+        reentrant_regions = get_memsat_ranges(/Re-entrant\shelices:\s+(.+?)\n/, file);
+        terminal = get_memsat_ranges(/N-terminal:\s+(.+?)\n/, file);
+        //console.log(signal_regions);
+        // console.log(reentrant_regions);
+        coil_type = 'CY';
+        if(terminal === 'out')
+        {
+          coil_type = 'EC';
+        }
+        let tmp_anno = new Array(seq.length);
+        if(topo_regions !== 'Not detected.')
+        {
+          let prev_end = 0;
+          topo_regions.forEach(function(region){
+            tmp_anno = tmp_anno.fill('TM', region[0], region[1]+1);
+            if(prev_end > 0){prev_end -= 1;}
+            tmp_anno = tmp_anno.fill(coil_type, prev_end, region[0]);
+            if(coil_type === 'EC'){ coil_type = 'CY';}else{coil_type = 'EC';}
+            prev_end = region[1]+2;
+          });
+          tmp_anno = tmp_anno.fill(coil_type, prev_end-1, seq.length);
+
+        }
+        //signal_regions = [[70,83], [102,117]];
+        if(signal_regions !== 'Not detected.'){
+          signal_regions.forEach(function(region){
+            tmp_anno = tmp_anno.fill('S', region[0], region[1]+1);
+          });
+        }
+        //reentrant_regions = [[40,50], [200,218]];
+        if(reentrant_regions !== 'Not detected.'){
+          reentrant_regions.forEach(function(region){
+            tmp_anno = tmp_anno.fill('RH', region[0], region[1]+1);
+          });
+        }
+        tmp_anno.forEach(function(anno, i){
+          annotations[i].memsat = anno;
+        });
+        ractive.set('annotations', annotations);
+        console.log(annotations);
+        biod3.annotationGrid(annotations, {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
+      }
+
     },
     error: function (error) {alert(JSON.stringify(error));}
   });
+}
+
+function get_memsat_ranges(regex, data)
+{
+    let match = regex.exec(data);
+    if(match[1].includes(','))
+    {
+      let regions = match[1].split(',');
+      regions.forEach(function(region, i){
+        regions[i] = region.split('-');
+        regions[i][0] = parseInt(regions[i][0]);
+        regions[i][1] = parseInt(regions[i][1]);
+      });
+      return(regions);
+    }
+    return(match[1]);
 }
 
 //get text contents from a result URI
