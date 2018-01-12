@@ -24,6 +24,11 @@ class PsipredForm(forms.ModelForm):
                                         attrs={'value': '{{memsatsvm_job}}',
                                                'checked': '{{memsatsvm_checked}}'
                                                }))
+    pgenthreader_job = forms.BooleanField(label="pGenTHREADER", required=False,
+                                          widget=forms.CheckboxInput(
+                                          attrs={'value': '{{pgenthreader_job}}',
+                                                 'checked': '{{pgenthreader_checked}}'
+                                                 }))
 
     input_data = forms.CharField(initial="Input Sequence",
                                  widget=forms.Textarea(
@@ -35,5 +40,6 @@ class PsipredForm(forms.ModelForm):
 
     class Meta:
         model = Request
-        fields = ('psipred_job', 'disopred_job', 'memsatsvm_job', 'input_data',
-                  'job_name', 'email', )
+        fields = ('psipred_job', 'disopred_job', 'memsatsvm_job',
+                  'pgenthreader_job',
+                  'input_data', 'job_name', 'email', )

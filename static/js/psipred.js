@@ -94,7 +94,6 @@ var ractive = new Ractive({
           memsatsvm_schematic: '',
           memsatsvm_cartoon: '',
 
-
           // Sequence and job info
           sequence: '',
           sequence_length: 1,

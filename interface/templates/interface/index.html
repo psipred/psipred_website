@@ -37,7 +37,7 @@
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
       {% templatetag openvariable %}#if pgenthreader_button{% templatetag closevariable %}
-        <button type="button" class="btn btn-default">pGenTHREADER</button>
+        <button on-click='pgenthreader_active' type="button" class="btn btn-default">pGenTHREADER</button>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
       {% templatetag openvariable %}#if pdomthreader_button{% templatetag closevariable %}
@@ -99,13 +99,18 @@
             {{ field.errors }}
             {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
         {% endif %}
+        {% if "pGenTHREADER" in field.label %}
+            {{ field.errors }}
+            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
+        {% endif %}
+
 
     {% endfor %}
         </div>
     </div>
     <p class="form_error">{% ractivehtmltag "form_error" %}</p>
     {% for field in form %}
-        {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label %}
+        {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label%}
         {% else %}
         <div class="form-group">
           {% bootstrap_field field %}
@@ -130,6 +135,12 @@
       <div class='psipred_cartoon'></div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}<br />{% ractivehtmltag "psipred_time" %}</div>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      {% templatetag openvariable %}#if results_panel_visible === 2 {% templatetag closevariable %}
+      <div class="pgen_table"></div>
+      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_message" %}</div>
+      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_icon" %}<br />{% ractivehtmltag "disopred_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
       {% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
@@ -177,7 +188,10 @@
           <label for="id_memsat_job">MEMSAT-SVM:</label>
           <input id="id_memsat_job" name="memsat_job" value="memsat_job" type="checkbox" checked="{% ractivetag "memsat_checked" %}">
         </div>
-
+        <div class="checkbox">
+          <label for="id_pgenthreader_job">pGenTHREADER:</label>
+          <input id="id_pgenthreader_job" name="pgenthreader_job" value="pgenthreader_job" type="checkbox" checked="{% ractivetag "pgenthreader_checked" %}">
+        </div>
 
       </div>
       <input value="Resubmit" type="submit" class="btn btn-primary" />
