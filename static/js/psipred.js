@@ -722,7 +722,6 @@ function process_file(url_stub, path, ctl)
           annotations[i].memsat = anno;
         });
         ractive.set('annotations', annotations);
-        console.log(annotations);
         biod3.annotationGrid(annotations, {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
       }
 
