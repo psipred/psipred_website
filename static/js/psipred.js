@@ -219,7 +219,13 @@ ractive.on('poll_trigger', function(name, job_type){
             downloads_info.memsatsvm= {};
             downloads_info.memsatsvm.header = "<h5>MEMSATSVM DOWNLOADS</h5>";
           }
-
+          if(data.job_name.includes('pgenthreader'))
+          {
+            downloads_info.psipred = {};
+            downloads_info.psipred.header = "<h5>PSIPRED DOWNLOADS</h5>";
+            downloads_info.pgenthreader= {};
+            downloads_info.pgenthreader.header = "<h5>pGenTHREADER DOWNLOADS</h5>";
+          }
 
           let results = data.results;
           for(var i in results)
@@ -283,6 +289,12 @@ ractive.on('poll_trigger', function(name, job_type){
                 downloads_info.memsatsvm.data = '<a href="'+file_url+result_dict.data_path+'">Memsat Output</a><br />';
               }
             }
+            if(result_dict.name === 'pseudo_bas')
+            {
+              ractive.set("pgenthreader_waiting_message", '');
+              ractive.set("pgenthreader_waiting_icon", '');
+              ractive.set("pgenthreader_time", '');
+            }
           }
 
       });
@@ -307,6 +319,11 @@ ractive.on('poll_trigger', function(name, job_type){
         downloads_string = downloads_string.concat(downloads_info.memsatsvm.data);
         downloads_string = downloads_string.concat(downloads_info.memsatsvm.schematic);
         downloads_string = downloads_string.concat(downloads_info.memsatsvm.cartoon);
+        downloads_string = downloads_string.concat("<br />");
+      }
+      if('pgenthreader' in downloads_info)
+      {
+        downloads_string = downloads_string.concat(downloads_info.pgenthreader.header);
         downloads_string = downloads_string.concat("<br />");
       }
 
@@ -466,8 +483,9 @@ if(getUrlVars().uuid && uuid_match)
       ractive.set('memsatsvm_button', true );
       ractive.set('results_panel_visible', 6);
   }
-  if(previous_data.jobs.includes('pgrenthreader'))
+  if(previous_data.jobs.includes('pgenthreader'))
   {
+      ractive.set('psipred_button', true );
       ractive.set('pgenthreader_button', true );
       ractive.set('results_panel_visible', 2);
   }
@@ -563,7 +581,6 @@ function verify_and_send_form(seq, name, email, psipred_checked,
       ractive.fire( 'pgenthreader_active' );
       draw_empty_annotation_panel();
     }
-
 
     if(! response){window.location.href = window.location.href;}
   }
