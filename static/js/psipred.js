@@ -95,7 +95,7 @@ var ractive = new Ractive({
 
           memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT-SVM job to process</h2>',
           memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
-          memsatsvm_time: 'Unknown',
+          memsatsvm_time: 'Loading Data',
           memsatsvm_schematic: '',
           memsatsvm_cartoon: '',
 
@@ -294,6 +294,11 @@ ractive.on('poll_trigger', function(name, job_type){
               ractive.set("pgenthreader_waiting_message", '');
               ractive.set("pgenthreader_waiting_icon", '');
               ractive.set("pgenthreader_time", '');
+              downloads_info.pgenthreader.table = '<a href="'+file_url+result_dict.data_path+'">pGenTHREADER Table</a><br />';
+              }
+            if(result_dict.name === 'pseudo_bas_align')
+            {
+              downloads_info.pgenthreader.align = '<a href="'+file_url+result_dict.data_path+'">pGenTHREADER Alignments</a><br />';
             }
           }
 
@@ -324,6 +329,8 @@ ractive.on('poll_trigger', function(name, job_type){
       if('pgenthreader' in downloads_info)
       {
         downloads_string = downloads_string.concat(downloads_info.pgenthreader.header);
+        downloads_string = downloads_string.concat(downloads_info.pgenthreader.table);
+        downloads_string = downloads_string.concat(downloads_info.pgenthreader.align);
         downloads_string = downloads_string.concat("<br />");
       }
 
