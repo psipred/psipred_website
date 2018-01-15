@@ -92,6 +92,7 @@ NOW WE CAN UPDATE THE JAVASCRIPT
       memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT_SVM job to process</h2>',
       memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="http://bioinf.cs.ucl.ac.uk/psipred_beta/static/images/gears.svg"/>',
       memsatsvm_time: 'Unknown',
+
 9) Update how we handle the files that comeback at line 186 if(batch.state === 'Complete')
 10) Update downloads strings from line 243
       if('memsatsvm' in downloads_info)
@@ -99,6 +100,7 @@ NOW WE CAN UPDATE THE JAVASCRIPT
         downloads_string = downloads_string.concat(downloads_info.memsatsvm.header);
         downloads_string = downloads_string.concat("<br />");
       }
+
 11) Update header activation line 292 and redraw and divs
 ractive.on( 'memsatsvm_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );

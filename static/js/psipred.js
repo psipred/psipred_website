@@ -58,13 +58,17 @@ var ractive = new Ractive({
   data: {
           results_visible: 1,
           results_panel_visible: 1,
+          submission_widget_visible: 0,
+
           psipred_checked: false,
           psipred_button: false,
-          submission_widget_visible: 0,
           disopred_checked: false,
           disopred_button: false,
-          memsatsvm_checked: true,
+          memsatsvm_checked: false,
           memsatsvm_button: false,
+          pgenthreader_checked: true,
+          pgenthreader_button: false,
+
 
           // pgenthreader_checked: false,
           // pdomthreader_checked: false,
@@ -77,6 +81,7 @@ var ractive = new Ractive({
           psipred_job: 'psipred_job',
           disopred_job: 'disopred_job',
           memsatsvm_job: 'memsatsvm_job',
+          pgenthreader_job: 'pgenthreader_job',
 
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
           psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
@@ -93,6 +98,11 @@ var ractive = new Ractive({
           memsatsvm_time: 'Unknown',
           memsatsvm_schematic: '',
           memsatsvm_cartoon: '',
+
+          pgenthreader_waiting_message: '<h2>Please wait for your pGenTHREADER job to process</h2>',
+          pgenthreader_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
+          pgenthreader_time: 'Loading Data',
+          pgen_table: null,
 
           // Sequence and job info
           sequence: '',
@@ -359,16 +369,14 @@ ractive.on( 'memsatsvm_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 6 );
   ractive.set( 'submission_widget_visible', 1 );
-  // if(ractive.get('memsat_data'))
-  // {
-  //   biod3.genericxyLineChart(ractive.get('diso_precision'), 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
-  // }
 });
-//
-// ractive.on( 'memsatsvm_active', function ( event ) {
-//   ractive.set( 'results_panel_visible', null );
-//   ractive.set( 'results_panel_visible', 6 );
-// });
+
+ractive.on( 'pgenthreader_active', function ( event ) {
+  ractive.set( 'results_panel_visible', null );
+  ractive.set( 'results_panel_visible', 2 );
+  ractive.set( 'submission_widget_visible', 1 );
+});
+
 
 //grab the submit event from the main form and send the sequence to the backend
 ractive.on('submit', function(event) {
@@ -388,9 +396,10 @@ ractive.on('submit', function(event) {
   let disopred_checked = this.get('disopred_checked');
   let memsatsvm_job = this.get('memsatsvm_job');
   let memsatsvm_checked = this.get('memsatsvm_checked');
-
+  let pgenthreader_job = this.get('pgenthreader_job');
+  let pgenthreader_checked = this.get('pgenthreader_checked');
   verify_and_send_form(seq, name, email, psipred_checked, disopred_checked,
-                       memsatsvm_checked, this);
+                       memsatsvm_checked, pgenthreader_checked, this);
   event.original.preventDefault();
 });
 
@@ -414,13 +423,16 @@ ractive.on('resubmit', function(event) {
   let disopred_checked = this.get('disopred_checked');
   let memsatsvm_job = this.get('memsatsvm_job');
   let memsatsvm_checked = this.get('memsatsvm_checked');
+  let pgenthreader_job = this.get('pgenthreader_job');
+  let pgenthreader_checked = this.get('pgenthreader_checked');
+
   //clear what we have previously written
   clear_settings();
   //verify form contents and post
   //console.log(name);
   //console.log(email);
   verify_and_send_form(subsequence, name, email, psipred_checked, disopred_checked,
-                       memsatsvm_checked, this);
+                       memsatsvm_checked, pgenthreader_checked, this);
   //write new annotation diagram
   //submit subsection
   event.original.preventDefault();
@@ -454,6 +466,12 @@ if(getUrlVars().uuid && uuid_match)
       ractive.set('memsatsvm_button', true );
       ractive.set('results_panel_visible', 6);
   }
+  if(previous_data.jobs.includes('pgrenthreader'))
+  {
+      ractive.set('pgenthreader_button', true );
+      ractive.set('results_panel_visible', 2);
+  }
+
   ractive.set('sequence',previous_data.seq);
   ractive.set('email',previous_data.email);
   ractive.set('name',previous_data.name);
@@ -474,7 +492,8 @@ if(getUrlVars().uuid && uuid_match)
 //Takes the data needed to verify the input form data, either the main form
 //or the submisson widget verifies that data and then posts it to the backend.
 function verify_and_send_form(seq, name, email, psipred_checked,
-                              disopred_checked, memsatsvm_checked, ractive_instance)
+                              disopred_checked, memsatsvm_checked, pgenthreader_checked,
+                              ractive_instance)
 {
   /*verify that everything here is ok*/
   let error_message=null;
@@ -483,7 +502,8 @@ function verify_and_send_form(seq, name, email, psipred_checked,
   ractive.set( 'submission_widget_visible', 1 );
 
   error_message = verify_form(seq, name, email,
-                              [psipred_checked, disopred_checked, memsatsvm_checked]);
+                              [psipred_checked, disopred_checked,
+                               memsatsvm_checked, pgenthreader_checked]);
   if(error_message.length > 0)
   {
     ractive.set('form_error', error_message);
@@ -509,6 +529,11 @@ function verify_and_send_form(seq, name, email, psipred_checked,
       job_string = job_string.concat("memsatsvm,");
       ractive.set('memsatsvm_button', true);
     }
+    if(pgenthreader_checked === true)
+    {
+      job_string = job_string.concat("pgenthreader,");
+      ractive.set('pgenthreader_button', true);
+    }
 
     job_string = job_string.slice(0, -1);
     response = send_job(job_string, seq, name, email, ractive_instance);
@@ -532,6 +557,13 @@ function verify_and_send_form(seq, name, email, psipred_checked,
       ractive.fire( 'memsatsvm_active' );
       draw_empty_annotation_panel();
     }
+    else if(pgenthreader_checked === true && response)
+    {
+      ractive.set( 'results_visible', 2 );
+      ractive.fire( 'pgenthreader_active' );
+      draw_empty_annotation_panel();
+    }
+
 
     if(! response){window.location.href = window.location.href;}
   }
@@ -556,12 +588,14 @@ function clear_settings(){
   ractive.set('memsatsvm_time', 'Loading Data');
   ractive.set('memsatsvm_schematic', '');
   ractive.set('memsatsvm_cartoon', '');
-
+  ractive.set('pgenthreader_waiting_message', '<h2>Please wait for your pGenTHREADER job to process</h2>');
+  ractive.set('pgenthreader_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
+  ractive.set('pgenthreader_time', 'Loading Data');
+  ractive.set('pgen_table', '');
   //ractive.set('diso_precision');
 
   ractive.set('annotations',null);
   ractive.set('batch_uuid',null);
-
   biod3.clearSelection('div.sequence_plot');
   biod3.clearSelection('div.psipred_cartoon');
   biod3.clearSelection('div.comb_plot');
