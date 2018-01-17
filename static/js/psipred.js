@@ -289,11 +289,12 @@ ractive.on('poll_trigger', function(name, job_type){
                 downloads_info.memsatsvm.data = '<a href="'+file_url+result_dict.data_path+'">Memsat Output</a><br />';
               }
             }
-            if(result_dict.name === 'pseudo_bas')
+            if(result_dict.name === 'svm_prob')
             {
               ractive.set("pgenthreader_waiting_message", '');
               ractive.set("pgenthreader_waiting_icon", '');
               ractive.set("pgenthreader_time", '');
+              process_file(file_url, result_dict.data_path, 'presult');
               downloads_info.pgenthreader.table = '<a href="'+file_url+result_dict.data_path+'">pGenTHREADER Table</a><br />';
               }
             if(result_dict.name === 'pseudo_bas_align')
@@ -780,6 +781,43 @@ function process_file(url_stub, path, ctl)
         });
         ractive.set('annotations', annotations);
         biod3.annotationGrid(annotations, {parent: 'div.sequence_plot', margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
+      }
+      if(ctl === 'presult')
+      {
+        let pseudo_table = '<table>\n';
+        pseudo_table += '<tr><th>Conf.</th>';
+        pseudo_table += '<tr><th>Net Score</th>';
+        pseudo_table += '<tr><th>p-value</th>';
+        pseudo_table += '<tr><th>PairE</th>';
+        pseudo_table += '<tr><th>SolvE</th>';
+        pseudo_table += '<tr><th>Aln Score</th>';
+        pseudo_table += '<tr><th>Aln Length</th>';
+        pseudo_table += '<tr><th>Str Len</th>';
+        pseudo_table += '<tr><th>Seq Len</th>';
+        pseudo_table += '<tr><th>Fold</th>';
+
+        pseudo_table += '</tr>\n';
+
+        let lines = file.split('\n');
+        lines.forEach(function(line, i){
+          //console.log(line);
+          entries = line.split(/\s+/);
+          pseudo_table += "<tr>";
+          pseudo_table += "<td>"+entries[0]+"</td>";
+          pseudo_table += "<td>"+entries[1]+"</td>";
+          pseudo_table += "<td>"+entries[2]+"</td>";
+          pseudo_table += "<td>"+entries[3]+"</td>";
+          pseudo_table += "<td>"+entries[4]+"</td>";
+          pseudo_table += "<td>"+entries[5]+"</td>";
+          pseudo_table += "<td>"+entries[6]+"</td>";
+          pseudo_table += "<td>"+entries[7]+"</td>";
+          pseudo_table += "<td>"+entries[8]+"</td>";
+          pseudo_table += "<td>"+entries[9]+"</td>";
+          pseudo_table += "</tr>\n";
+        });
+        pseudo_table += "</table>\n";
+        console.log(pseudo_table);
+
       }
 
     },
