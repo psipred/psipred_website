@@ -104,6 +104,28 @@ input:invalid {
   font-weight: bold;
 }
 
+.guess
+{
+  background-color: #ff0000;
+}
+.low
+{
+  background-color: #f00000;
+}
+.medium
+{
+  background-color: #ffaa00;
+}
+.high
+{
+  background-color: #00f000;
+}
+.cert
+{
+  background-color: #00f000;
+}
+
+
 
 /* Bootstrap Changes */
   .navbar-default {

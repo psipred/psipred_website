@@ -103,6 +103,7 @@ var ractive = new Ractive({
           pgenthreader_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
           pgenthreader_time: 'Loading Data',
           pgen_table: null,
+          pgen_ann_set: {},
 
           // Sequence and job info
           sequence: '',
@@ -228,6 +229,22 @@ ractive.on('poll_trigger', function(name, job_type){
           }
 
           let results = data.results;
+          for(var i in results)
+          {
+            let result_dict = results[i];
+            if(result_dict.name === 'GenAlignmentAnnotation')
+            {
+                let ann_set = ractive.get("pgen_ann_set");
+                let tmp = result_dict.data_path;
+                let path = tmp.substr(0, tmp.lastIndexOf("."));
+                let id = path.substr(path.lastIndexOf(".")+1, path.length);
+                ann_set[id] = {};
+                ann_set[id].ann = path+".ann";
+                ann_set[id].aln = path+".aln";
+                ractive.set("pgen_ann_set", ann_set);
+            }
+          }
+
           for(var i in results)
           {
             let result_dict = results[i];
@@ -617,6 +634,8 @@ function clear_settings(){
   ractive.set('pgenthreader_waiting_icon', '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>');
   ractive.set('pgenthreader_time', 'Loading Data');
   ractive.set('pgen_table', '');
+  ractive.set('pgen_set', {});
+
   //ractive.set('diso_precision');
 
   ractive.set('annotations',null);
@@ -784,26 +803,33 @@ function process_file(url_stub, path, ctl)
       }
       if(ctl === 'presult')
       {
-        let pseudo_table = '<table>\n';
+        let pseudo_table = '<table class="table table-striped table-bordered">\n';
         pseudo_table += '<tr><th>Conf.</th>';
-        pseudo_table += '<tr><th>Net Score</th>';
-        pseudo_table += '<tr><th>p-value</th>';
-        pseudo_table += '<tr><th>PairE</th>';
-        pseudo_table += '<tr><th>SolvE</th>';
-        pseudo_table += '<tr><th>Aln Score</th>';
-        pseudo_table += '<tr><th>Aln Length</th>';
-        pseudo_table += '<tr><th>Str Len</th>';
-        pseudo_table += '<tr><th>Seq Len</th>';
-        pseudo_table += '<tr><th>Fold</th>';
+        pseudo_table += '<th>Net Score</th>';
+        pseudo_table += '<th>p-value</th>';
+        pseudo_table += '<th>PairE</th>';
+        pseudo_table += '<th>SolvE</th>';
+        pseudo_table += '<th>Aln Score</th>';
+        pseudo_table += '<th>Aln Length</th>';
+        pseudo_table += '<th>Str Len</th>';
+        pseudo_table += '<th>Seq Len</th>';
+        pseudo_table += '<th>Fold</th>';
+        pseudo_table += '<th>Alignment</th>';
+        pseudo_table += '<th>SEARCH SCOP</th>';
+        pseudo_table += '<th>SEARCH CATH</th>';
+        pseudo_table += '<th>PDBSUM</th>';
+        pseudo_table += '<th>RCSB PDB</th>';
+        // if MODELLER THINGY
 
-        pseudo_table += '</tr>\n';
 
+        pseudo_table += '</tr><tbody">\n';
         let lines = file.split('\n');
+        let ann_list = ractive.get('gen_ann_set');
         lines.forEach(function(line, i){
-          //console.log(line);
+          if(line.length === 0){return;}
           entries = line.split(/\s+/);
           pseudo_table += "<tr>";
-          pseudo_table += "<td>"+entries[0]+"</td>";
+          pseudo_table += "<td class='"+entries[0].toLowerCase()+"'>"+entries[0]+"</td>";
           pseudo_table += "<td>"+entries[1]+"</td>";
           pseudo_table += "<td>"+entries[2]+"</td>";
           pseudo_table += "<td>"+entries[3]+"</td>";
@@ -813,11 +839,23 @@ function process_file(url_stub, path, ctl)
           pseudo_table += "<td>"+entries[7]+"</td>";
           pseudo_table += "<td>"+entries[8]+"</td>";
           pseudo_table += "<td>"+entries[9]+"</td>";
+          let pdb = entries[9].substring(0, entries[9].length-2);
+          if(entries[1]+"_"+i in ann_list)
+          {
+            pseudo_table += "<td><input class='button' type='button' onClick='loadNewAlignment("+entries[1]+","+","+");' value='Display Alignment' /></td>";
+          }
+          else
+          {
+            pseudo_table += "<td></td>";
+          }
+          pseudo_table += "<td><a href='http://scop.mrc-lmb.cam.ac.uk/scop/pdb.cgi?pdb="+pdb+"'>SCOP SEARCH</a></td>";
+          pseudo_table += "<td><a href='http://www.cathdb.info/pdb/"+pdb+"'>CATH SEARCH</a></td>";
+          pseudo_table += "<td><a href='http://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?pdbcode="+pdb+"'>Open PDBSUM</a></td>";
+          pseudo_table += "<td><a href='https://www.rcsb.org/pdb/explore/explore.do?structureId="+pdb+"'>Open PDB</a></td>";
           pseudo_table += "</tr>\n";
         });
-        pseudo_table += "</table>\n";
-        console.log(pseudo_table);
-
+        pseudo_table += "</tbody></table>\n";
+        ractive.set("pgen_table", pseudo_table);
       }
 
     },
@@ -1047,3 +1085,51 @@ function getUrlVars() {
         return value;
     };
 }(document, document.documentElement));
+
+
+//Reload alignments for JalView for the genTHREADER table
+function loadNewAlignment(alnURL,annURL,title) {
+
+  // var oRequest;
+  // // Mozilla-based browsers
+  // if (window.XMLHttpRequest) {
+  //   oRequest = new XMLHttpRequest();
+  // } else if (window.ActiveXObject) {
+  //   oRequest = new ActiveXObject("Msxml2.XMLHTTP");
+  //   if (!oRequest) {
+  //     oRequest = new ActiveXObject("Microsoft.XMLHTTP");
+  //   }
+  // }
+  //
+  // oRequest.open("GET",alnURL,false);
+  // oRequest.setRequestHeader("User-Agent",navigator.userAgent);
+  // oRequest.send(null)
+  //
+  // alignment = "";
+  // if (oRequest.status==200)
+  // {
+  //   alignment = oRequest.responseText;
+  // }
+  // else
+  // {
+  //   alert("Error executing alignment Request call!");
+  // }
+  //
+  // oRequest.open("GET",annURL,false);
+  // oRequest.setRequestHeader("User-Agent",navigator.userAgent);
+  // oRequest.send(null)
+  //
+  // annotation = "";
+  // if (oRequest.status==200)
+  // {
+  //   annotation = oRequest.responseText;
+  // }
+  // else
+  // {
+  //   alert("Error executing annotation request call!");
+  // }
+
+  //document.JalviewLite.loadAlignment(alignment,title);
+  //setTimeout("document.JalviewLite.loadAnnotation(annotation)",300);
+  document.JalviewLite.loadAnnotationFrom(document.JalviewLite.loadAlignment(alignment, title), annotation);
+}
