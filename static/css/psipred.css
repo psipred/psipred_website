@@ -124,8 +124,26 @@ input:invalid {
 {
   background-color: #00f000;
 }
-
-
+.pdb_helix
+{
+  background-color: #b844b8;
+}
+.predicted_helix
+{
+  background-color: #e353e3;
+}
+.pdb_strand
+{
+  background-color: #e5b733;
+}
+.predicted_strand
+{
+  background-color: #e5dd55;
+}
+.ligand
+{
+  background-color: #ff7373;
+}
 
 /* Bootstrap Changes */
   .navbar-default {

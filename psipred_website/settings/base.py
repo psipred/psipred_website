@@ -63,6 +63,9 @@ INSTALLED_APPS = (
     'rest_framework',
     'bootstrap3',
     'interface',
+    'msa',
+    'model',
+#    'structure',
 )
 
 BOOTSTRAP3 = {

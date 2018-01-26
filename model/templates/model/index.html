@@ -1,0 +1,46 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% load ractive_tags %}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+    <meta name="description" content="Simple BioJS example" />
+      {% if staging %}{# Production should also use this unqualified links #}
+          <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+          <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+          <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+      {% else %}
+          <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+          <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+          <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+      {% endif %}
+</head>
+
+<body id="body">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-7 col-sm-offset-5">
+        <h1>{{ UUID }}</h1>
+        <div>
+          <object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"></object>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-7 col-sm-offset-5">
+        <div>
+          <p>MODEL GOES HERE</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

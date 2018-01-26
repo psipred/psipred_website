@@ -1,0 +1,87 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% load ractive_tags %}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
+    <meta name="description" content="Simple BioJS example" />
+
+    <!-- include MSA js + css -->
+    <script src="http://cdn.bio.sh.s3.eu-central-1.amazonaws.com/msa/latest/msa.min.gz.js"></script>
+      {% if staging %}{# Production should also use this unqualified links #}
+            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+        {% else %}
+            <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+            <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+            <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+        {% endif %}
+</head>
+
+<body id="body">
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-7 col-sm-offset-5">
+            <h4>Key</h4>
+            <table class='table-sm'>
+            <tr><td class='pdb_strand'>S</td><td>PDB Strand</td><td class='ligand'>L</td><td>Ligand binding</td></tr>
+            <tr><td class='pdb_helix'>H</td><td>PDB Helix</td><td class='ligand'>P</td><td>Peptide binding</td></tr>
+            <tr><td class='predicted_strand'>S</td><td>Predicted Strand</td><td class='ligand'>M</td><td>Small molecule binding</td></tr>
+            <tr><td class='predicted_helix'>H</td><td>Predicted Helix</td><td></td></tr>
+            </table>
+         </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="menuDiv"></div>
+            <div id="msaDiv">Loading ... </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        // this is a way how you use a bundled file parser
+        // set your custom properties
+        // @see: https://github.com/greenify/biojs-vis-msa/tree/master/src/g
+        let opts = {
+          el: document.getElementById("msaDiv"),
+        	vis: {
+            	conserv: false,
+            	overviewbox: false,
+            	seqlogo: false
+          },
+          conf: {
+            dropImport: true
+          },
+          zoomer: {
+            menuFontsize: "12px",
+            autoResize: true
+          },
+          menu: 'large',
+          bootstrapMenu: true,
+        };
+        // init msa
+        let m = new msa.msa(opts);
+        let url = '{{ aln }}';
+        console.log(url);
+        var xhr = msa.io.xhr;
+        var gff = msa.io.gff;
+        xhr("{{ ann }}", function(err, request, body) {
+          var features = gff.parseSeqs(body);
+          m.seqs.addFeatures(features);
+          msa.io.fasta.read(url, function(err, seqs){
+          m.seqs.reset(seqs);
+          });
+        });
+        m.render();
+    </script>
+<p>
+
+</p>
+</body>
+</html>

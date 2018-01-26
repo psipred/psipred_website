@@ -84,23 +84,23 @@ var ractive = new Ractive({
           pgenthreader_job: 'pgenthreader_job',
 
           psipred_waiting_message: '<h2>Please wait for your PSIPRED job to process</h2>',
-          psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
+          psipred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"></object>',
           psipred_time: 'Loading Data',
           psipred_horiz: null,
 
           disopred_waiting_message: '<h2>Please wait for your DISOPRED job to process</h2>',
-          disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
+          disopred_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"></object>',
           disopred_time: 'Loading Data',
           diso_precision: null,
 
           memsatsvm_waiting_message: '<h2>Please wait for your MEMSAT-SVM job to process</h2>',
-          memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
+          memsatsvm_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"></object>',
           memsatsvm_time: 'Loading Data',
           memsatsvm_schematic: '',
           memsatsvm_cartoon: '',
 
           pgenthreader_waiting_message: '<h2>Please wait for your pGenTHREADER job to process</h2>',
-          pgenthreader_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"/>',
+          pgenthreader_waiting_icon: '<object width="140" height="140" type="image/svg+xml" data="'+gears_svg+'"></object>',
           pgenthreader_time: 'Loading Data',
           pgen_table: null,
           pgen_ann_set: {},
@@ -204,7 +204,7 @@ ractive.on('poll_trigger', function(name, job_type){
       console.log("Render results");
       let submissions = batch.submissions;
       submissions.forEach(function(data){
-          console.log(data);
+          // console.log(data);
           if(data.job_name.includes('psipred'))
           {
             downloads_info.psipred = {};
@@ -803,7 +803,7 @@ function process_file(url_stub, path, ctl)
       }
       if(ctl === 'presult')
       {
-        let pseudo_table = '<table class="table table-striped table-bordered">\n';
+        let pseudo_table = '<table class="small-table table-striped table-bordered">\n';
         pseudo_table += '<tr><th>Conf.</th>';
         pseudo_table += '<th>Net Score</th>';
         pseudo_table += '<th>p-value</th>';
@@ -819,15 +819,20 @@ function process_file(url_stub, path, ctl)
         pseudo_table += '<th>SEARCH CATH</th>';
         pseudo_table += '<th>PDBSUM</th>';
         pseudo_table += '<th>RCSB PDB</th>';
+        pseudo_table += '<th>MODEL</th>';
+
         // if MODELLER THINGY
 
 
         pseudo_table += '</tr><tbody">\n';
         let lines = file.split('\n');
-        let ann_list = ractive.get('gen_ann_set');
+        let ann_list = ractive.get('pgen_ann_set');
+        // console.log(ann_list);
         lines.forEach(function(line, i){
           if(line.length === 0){return;}
           entries = line.split(/\s+/);
+          if(entries[9]+"_"+i in ann_list)
+          {
           pseudo_table += "<tr>";
           pseudo_table += "<td class='"+entries[0].toLowerCase()+"'>"+entries[0]+"</td>";
           pseudo_table += "<td>"+entries[1]+"</td>";
@@ -840,19 +845,14 @@ function process_file(url_stub, path, ctl)
           pseudo_table += "<td>"+entries[8]+"</td>";
           pseudo_table += "<td>"+entries[9]+"</td>";
           let pdb = entries[9].substring(0, entries[9].length-2);
-          if(entries[1]+"_"+i in ann_list)
-          {
-            pseudo_table += "<td><input class='button' type='button' onClick='loadNewAlignment("+entries[1]+","+","+");' value='Display Alignment' /></td>";
-          }
-          else
-          {
-            pseudo_table += "<td></td>";
-          }
-          pseudo_table += "<td><a href='http://scop.mrc-lmb.cam.ac.uk/scop/pdb.cgi?pdb="+pdb+"'>SCOP SEARCH</a></td>";
-          pseudo_table += "<td><a href='http://www.cathdb.info/pdb/"+pdb+"'>CATH SEARCH</a></td>";
-          pseudo_table += "<td><a href='http://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?pdbcode="+pdb+"'>Open PDBSUM</a></td>";
-          pseudo_table += "<td><a href='https://www.rcsb.org/pdb/explore/explore.do?structureId="+pdb+"'>Open PDB</a></td>";
+          pseudo_table += "<td><input class='button' type='button' onClick='loadNewAlignment(\""+(ann_list[entries[9]+"_"+i].aln)+"\",\""+(ann_list[entries[9]+"_"+i].ann)+"\",\""+(entries[9]+"_"+i)+"\");' value='Display Alignment' /></td>";
+          pseudo_table += "<td><a target='_blank' href='http://scop.mrc-lmb.cam.ac.uk/scop/pdb.cgi?pdb="+pdb+"'>SCOP SEARCH</a></td>";
+          pseudo_table += "<td><a target='_blank' href='http://www.cathdb.info/pdb/"+pdb+"'>CATH SEARCH</a></td>";
+          pseudo_table += "<td><a target='_blank' href='http://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?pdbcode="+pdb+"'>Open PDBSUM</a></td>";
+          pseudo_table += "<td><a target='_blank' href='https://www.rcsb.org/pdb/explore/explore.do?structureId="+pdb+"'>Open PDB</a></td>";
+          pseudo_table += "<td><input class='button' type='button' onClick='buildModel(\""+(ann_list[entries[9]+"_"+i].aln)+"\");' value='Build Model' /></td>";
           pseudo_table += "</tr>\n";
+          }
         });
         pseudo_table += "</tbody></table>\n";
         ractive.set("pgen_table", pseudo_table);
@@ -1088,48 +1088,14 @@ function getUrlVars() {
 
 
 //Reload alignments for JalView for the genTHREADER table
-function loadNewAlignment(alnURL,annURL,title) {
+function loadNewAlignment(alnURI,annURI,title) {
+  let url = submit_url+ractive.get('batch_uuid');
+  window.open("../msa/?ann="+file_url+annURI+"&aln="+file_url+alnURI, "", "width=800,height=400");
+}
 
-  // var oRequest;
-  // // Mozilla-based browsers
-  // if (window.XMLHttpRequest) {
-  //   oRequest = new XMLHttpRequest();
-  // } else if (window.ActiveXObject) {
-  //   oRequest = new ActiveXObject("Msxml2.XMLHTTP");
-  //   if (!oRequest) {
-  //     oRequest = new ActiveXObject("Microsoft.XMLHTTP");
-  //   }
-  // }
-  //
-  // oRequest.open("GET",alnURL,false);
-  // oRequest.setRequestHeader("User-Agent",navigator.userAgent);
-  // oRequest.send(null)
-  //
-  // alignment = "";
-  // if (oRequest.status==200)
-  // {
-  //   alignment = oRequest.responseText;
-  // }
-  // else
-  // {
-  //   alert("Error executing alignment Request call!");
-  // }
-  //
-  // oRequest.open("GET",annURL,false);
-  // oRequest.setRequestHeader("User-Agent",navigator.userAgent);
-  // oRequest.send(null)
-  //
-  // annotation = "";
-  // if (oRequest.status==200)
-  // {
-  //   annotation = oRequest.responseText;
-  // }
-  // else
-  // {
-  //   alert("Error executing annotation request call!");
-  // }
-
-  //document.JalviewLite.loadAlignment(alignment,title);
-  //setTimeout("document.JalviewLite.loadAnnotation(annotation)",300);
-  document.JalviewLite.loadAnnotationFrom(document.JalviewLite.loadAlignment(alignment, title), annotation);
+//Reload alignments for JalView for the genTHREADER table
+function buildModel(alnURI) {
+  let url = submit_url+ractive.get('batch_uuid');
+  console.log("hey");
+  window.open("../model/?aln="+file_url+alnURI, "", "width=800,height=800");
 }
