@@ -7,9 +7,12 @@ from django.conf import settings
 
 
 def index(request):
-
+    aln_url = request.GET['aln']
+    r = request.post(aln_url, data={}, files={})
+    print(r)
+    # use aln to get the alignments data to submit as the input
     url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
-    data = {'job': 'simple_modeller',
+    data = {'job': 'pdb_modeller',
             'submission_name': 'mod_job',
             'email': '', }
     r = requests.post(url, data=data, files=payload)
