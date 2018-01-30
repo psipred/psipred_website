@@ -145,6 +145,11 @@ input:invalid {
   background-color: #ff7373;
 }
 
+.resubmit_colour
+{
+  background-color: #eeeeee;
+}
+
 /* Bootstrap Changes */
   .navbar-default {
     background-color: #173958;
