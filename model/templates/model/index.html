@@ -19,6 +19,13 @@
           <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
           <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
       {% endif %}
+      <style>
+        .mol-container {
+          width: 600px;
+          height: 600px;
+          position: relative;
+        }
+      </style>
 </head>
 
 <body id="body">
@@ -26,21 +33,47 @@
 
     <div class="row">
       <div class="col-sm-7 col-sm-offset-5">
-        <h1>{{ UUID }}</h1>
-        <div>
-          <object width="140" height="140" type="image/svg+xml" data="../static/images/gears.svg"></object>
-        </div>
+          <div id="container-01" class="mol-container"></div>
       </div>
     </div>
 
+    <div id="model_site" class="container">
+    <script id='model_template' type='text/ractive'>
     <div class="row">
       <div class="col-sm-7 col-sm-offset-5">
         <div>
-          <p>MODEL GOES HERE</p>
+          {% ractivehtmltag "building_message" %}
         </div>
       </div>
     </div>
+    </script>
+    </div>
 
-  </div>
+  </div> <!-- CONTAINER END -->
+
+  {# Load javascript #}
+  {% if staging %}{# Production should also use these unqualified links #}
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.min.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/popper.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-events-tap.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-transitions-slide.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jszip.min.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/3Dmol-min.js' %}"></script>
+      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/model.js' %}"></script>
+
+  {% else %}
+      <script src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/popper.js' %}"></script>
+      <script src="{% static 'js/bootstrap.js' %}"></script>
+      <script src="{% static 'js/ractive.min.js' %}"></script>
+      <script src="{% static 'js/ractive-events-tap.js' %}"></script>
+      <script src="{% static 'js/ractive-transitions-slide.js' %}"></script>
+      <script src="{% static 'js/jszip.min.js' %}"></script>
+      <script src="{% static 'js/3Dmol-min.js' %}"></script>
+      <script src="{% static 'js/model.js' %}"></script>
+
+  {% endif %}
 </body>
 </html>

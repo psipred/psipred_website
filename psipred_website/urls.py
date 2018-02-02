@@ -18,8 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^interface/.*', include('interface.urls'), name='interface'),
-    url(r'^msa/.*', include('msa.urls'), name='msa'),
-    url(r'^model/.*', include('model.urls'), name='model'),
+    url(r'^msa/', include('msa.urls'), name='msa'),
+    url(r'^model/', include('model.urls'), name='model'),
     #url(r'^structure/.*', include('struture.urls'), name='structure'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
 ]

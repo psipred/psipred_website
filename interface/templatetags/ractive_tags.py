@@ -3,6 +3,7 @@ from django.template.defaultfilters import stringfilter
 
 register = template.Library()
 
+
 @register.simple_tag
 @stringfilter
 def ractivetag(ractive_string):

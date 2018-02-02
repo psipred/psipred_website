@@ -1097,5 +1097,5 @@ function loadNewAlignment(alnURI,annURI,title) {
 function buildModel(alnURI) {
   let url = submit_url+ractive.get('batch_uuid');
   console.log("hey");
-  window.open("../model/?aln="+file_url+alnURI, "", "width=800,height=800");
+window.open("../model/post/?aln="+file_url+alnURI, "", "width=670,height=700");
 }
