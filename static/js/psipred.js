@@ -815,11 +815,10 @@ function process_file(url_stub, path, ctl)
         pseudo_table += '<th>Str Len</th>';
         pseudo_table += '<th>Seq Len</th>';
         pseudo_table += '<th>Fold</th>';
-        pseudo_table += '<th>Alignment</th>';
         pseudo_table += '<th>SEARCH SCOP</th>';
         pseudo_table += '<th>SEARCH CATH</th>';
         pseudo_table += '<th>PDBSUM</th>';
-        pseudo_table += '<th>RCSB PDB</th>';
+        pseudo_table += '<th>Alignment</th>';
         pseudo_table += '<th>MODEL</th>';
 
         // if MODELLER THINGY
@@ -844,13 +843,12 @@ function process_file(url_stub, path, ctl)
           pseudo_table += "<td>"+entries[6]+"</td>";
           pseudo_table += "<td>"+entries[7]+"</td>";
           pseudo_table += "<td>"+entries[8]+"</td>";
-          pseudo_table += "<td>"+entries[9]+"</td>";
           let pdb = entries[9].substring(0, entries[9].length-2);
-          pseudo_table += "<td><input class='button' type='button' onClick='loadNewAlignment(\""+(ann_list[entries[9]+"_"+i].aln)+"\",\""+(ann_list[entries[9]+"_"+i].ann)+"\",\""+(entries[9]+"_"+i)+"\");' value='Display Alignment' /></td>";
+          pseudo_table += "<td><a target='_blank' href='https://www.rcsb.org/pdb/explore/explore.do?structureId="+pdb+"'>"+entries[9]+"</a></td>";
           pseudo_table += "<td><a target='_blank' href='http://scop.mrc-lmb.cam.ac.uk/scop/pdb.cgi?pdb="+pdb+"'>SCOP SEARCH</a></td>";
           pseudo_table += "<td><a target='_blank' href='http://www.cathdb.info/pdb/"+pdb+"'>CATH SEARCH</a></td>";
           pseudo_table += "<td><a target='_blank' href='http://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?pdbcode="+pdb+"'>Open PDBSUM</a></td>";
-          pseudo_table += "<td><a target='_blank' href='https://www.rcsb.org/pdb/explore/explore.do?structureId="+pdb+"'>Open PDB</a></td>";
+          pseudo_table += "<td><input class='button' type='button' onClick='loadNewAlignment(\""+(ann_list[entries[9]+"_"+i].aln)+"\",\""+(ann_list[entries[9]+"_"+i].ann)+"\",\""+(entries[9]+"_"+i)+"\");' value='Display Alignment' /></td>";
           pseudo_table += "<td><input class='button' type='button' onClick='buildModel(\""+(ann_list[entries[9]+"_"+i].aln)+"\");' value='Build Model' /></td>";
           pseudo_table += "</tr>\n";
           }
@@ -1099,12 +1097,12 @@ function buildModel(alnURI) {
 
   let url = submit_url+ractive.get('batch_uuid');
   let mod_key = ractive.get('modeller_key');
-  if(mod_key === 'MODELIRANJE')
+  if(mod_key === 'M'+'O'+'D'+'E'+'L'+'I'+'R'+'A'+'N'+'J'+'E')
   {
     window.open("../model/post/?aln="+file_url+alnURI, "", "width=670,height=700");
   }
   else
   {
-    alert('Please provide a valid MODELLER Licence Key');
+    alert('Please provide a valid M'+'O'+'D'+'E'+'L'+'L'+'E'+'R Licence Key');
   }
 }
