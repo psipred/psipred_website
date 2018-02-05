@@ -59,6 +59,7 @@ var ractive = new Ractive({
           results_visible: 1,
           results_panel_visible: 1,
           submission_widget_visible: 0,
+          modeller_key: null,
 
           psipred_checked: false,
           psipred_button: false,
@@ -1095,7 +1096,15 @@ function loadNewAlignment(alnURI,annURI,title) {
 
 //Reload alignments for JalView for the genTHREADER table
 function buildModel(alnURI) {
+
   let url = submit_url+ractive.get('batch_uuid');
-  console.log("hey");
-window.open("../model/post/?aln="+file_url+alnURI, "", "width=670,height=700");
+  let mod_key = ractive.get('modeller_key');
+  if(mod_key === 'MODELIRANJE')
+  {
+    window.open("../model/post/?aln="+file_url+alnURI, "", "width=670,height=700");
+  }
+  else
+  {
+    alert('Please provide a valid MODELLER Licence Key');
+  }
 }
