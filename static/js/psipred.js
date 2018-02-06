@@ -61,13 +61,13 @@ var ractive = new Ractive({
           submission_widget_visible: 0,
           modeller_key: null,
 
-          psipred_checked: false,
+          psipred_checked: true,
           psipred_button: false,
           disopred_checked: false,
           disopred_button: false,
           memsatsvm_checked: false,
           memsatsvm_button: false,
-          pgenthreader_checked: true,
+          pgenthreader_checked: false,
           pgenthreader_button: false,
 
 
@@ -391,7 +391,6 @@ ractive.on( 'downloads_active', function ( event ) {
 ractive.on( 'psipred_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 1 );
-  ractive.set( 'submission_widget_visible', 1 );
   if(ractive.get('psipred_horiz'))
   {
     biod3.psipred(ractive.get('psipred_horiz'), 'psipredChart', {parent: 'div.psipred_cartoon', margin_scaler: 2});
@@ -401,7 +400,6 @@ ractive.on( 'psipred_active', function ( event ) {
 ractive.on( 'disopred_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 4 );
-  ractive.set( 'submission_widget_visible', 1 );
   if(ractive.get('diso_precision'))
   {
     biod3.genericxyLineChart(ractive.get('diso_precision'), 'pos', ['precision'], ['Black',], 'DisoNNChart', {parent: 'div.comb_plot', chartType: 'line', y_cutoff: 0.5, margin_scaler: 2, debug: false, container_width: 900, width: 900, height: 300, container_height: 300});
@@ -411,15 +409,23 @@ ractive.on( 'disopred_active', function ( event ) {
 ractive.on( 'memsatsvm_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 6 );
-  ractive.set( 'submission_widget_visible', 1 );
 });
 
 ractive.on( 'pgenthreader_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
-  ractive.set( 'results_panel_visible', 2 );
+  ractive.set( 'results_panel_visible', 2 )
   ractive.set( 'submission_widget_visible', 1 );
 });
 
+ractive.on( 'submission_active', function ( event ) {
+  let state = ractive.get('submission_widget_visible')
+  if(state === 1){
+    ractive.set( 'submission_widget_visible', 0 );
+  }
+  else{
+    ractive.set( 'submission_widget_visible', 1 );
+  }
+});
 
 //grab the submit event from the main form and send the sequence to the backend
 ractive.on('submit', function(event) {

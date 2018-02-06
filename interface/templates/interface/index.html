@@ -37,9 +37,11 @@
 
 <div class="row">
   <div class="col-sm-1"></div>
-  <div class="col-sm-8 resubmit_colour">
+  <div class="col-sm-10 resubmit_colour">
         {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
-        <h5>Resubmit Sub-segment</h5>
+        <h5>Resubmit Sub-segment</h5><button on-click="submission_active" type="button" class="btn btn-default">Show/Hide</button>
+        {% templatetag openvariable %}/if{% templatetag closevariable %}
+        {% templatetag openvariable %}#if submission_widget_visible === 1 {% templatetag closevariable %}
         <form method="Post" class="form" intro="slide" outro="slide" on-submit="resubmit">
         {% csrf_token %}
           <input id="start_coord" class="sequence_coord" value="{% ractivetag "subsequence_start" %}"> - <input id="stop_coord" class="sequence_coord" value="{% ractivetag "subsequence_stop" %}">
