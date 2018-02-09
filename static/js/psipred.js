@@ -307,7 +307,7 @@ ractive.on('poll_trigger', function(name, job_type){
                 downloads_info.memsatsvm.data = '<a href="'+file_url+result_dict.data_path+'">Memsat Output</a><br />';
               }
             }
-            if(result_dict.name === 'svm_prob')
+            if(result_dict.name === 'sort_presult')
             {
               ractive.set("pgenthreader_waiting_message", '');
               ractive.set("pgenthreader_waiting_icon", '');
@@ -358,15 +358,10 @@ ractive.on('poll_trigger', function(name, job_type){
     }
     if(batch.state === 'Error' || batch.state === 'Crash')
     {
-      alert("POLLING ERROR");
-      // TODO: we should open an error panel and print out all the errors that came back
-      // submissions.forEach(function(data){
-      //   if(data.state === 'Error' || data.state === 'Crash'){}
-      // });
-      // ractive.set("form_error", data.last_message);
-      // ractive.set("psipred_waiting_icon", '');
-      // ractive.set("psipred_waiting_message", "<div style='color:red'>This job terminated with the following error<br />"+ractive.get("form_error")+"<br />Please contact <a href='mailto:psipred@cs.ucl.ac.uk'>psipred@cs.ucl.ac.uk</a> quoting the Analysis ID and error message.</div>");
-      clearInterval(interval);
+      let submission_message = batch.submissions[0].last_message;
+      alert("POLLING ERROR: Job Failed\n"+
+            "Please Contact psipred@cs.ucl.ac.uk quoting this error message and your job ID\n"+submission_message);
+        clearInterval(interval);
     }
   }, 5000);
 
@@ -414,7 +409,6 @@ ractive.on( 'memsatsvm_active', function ( event ) {
 ractive.on( 'pgenthreader_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
   ractive.set( 'results_panel_visible', 2 )
-  ractive.set( 'submission_widget_visible', 1 );
 });
 
 ractive.on( 'submission_active', function ( event ) {
@@ -549,7 +543,6 @@ function verify_and_send_form(seq, name, email, psipred_checked,
   let error_message=null;
   let job_string = '';
   //error_message = verify_form(seq, name, email, [psipred_checked, disopred_checked, memsatsvm_checked]);
-  ractive.set( 'submission_widget_visible', 1 );
 
   error_message = verify_form(seq, name, email,
                               [psipred_checked, disopred_checked,
@@ -810,6 +803,10 @@ function process_file(url_stub, path, ctl)
       }
       if(ctl === 'presult')
       {
+
+        let lines = file.split('\n');
+        let ann_list = ractive.get('pgen_ann_set');
+        if(Object.keys(ann_list).length > 0){
         let pseudo_table = '<table class="small-table table-striped table-bordered">\n';
         pseudo_table += '<tr><th>Conf.</th>';
         pseudo_table += '<th>Net Score</th>';
@@ -828,12 +825,7 @@ function process_file(url_stub, path, ctl)
         pseudo_table += '<th>MODEL</th>';
 
         // if MODELLER THINGY
-
-
         pseudo_table += '</tr><tbody">\n';
-        let lines = file.split('\n');
-        let ann_list = ractive.get('pgen_ann_set');
-        // console.log(ann_list);
         lines.forEach(function(line, i){
           if(line.length === 0){return;}
           entries = line.split(/\s+/);
@@ -861,6 +853,10 @@ function process_file(url_stub, path, ctl)
         });
         pseudo_table += "</tbody></table>\n";
         ractive.set("pgen_table", pseudo_table);
+        }
+        else {
+            ractive.set("pgen_table", "<h3>No good hits found. GUESS and LOW confidence hits can be found in the results file</h3>");
+        }
       }
 
     },

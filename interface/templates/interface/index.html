@@ -35,12 +35,12 @@
   </div>
 </div> <!-- end seqience plot -->
 
-<div class="row">
+<div class="row"> <!-- Submission widget -->
   <div class="col-sm-1"></div>
+  {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
   <div class="col-sm-10 resubmit_colour">
-        {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
         <h5>Resubmit Sub-segment</h5><button on-click="submission_active" type="button" class="float-right btn btn-default">Show/Hide</button>
-        {% templatetag openvariable %}/if{% templatetag closevariable %}
+
         {% templatetag openvariable %}#if submission_widget_visible === 1 {% templatetag closevariable %}
         <form method="Post" class="form" intro="slide" outro="slide" on-submit="resubmit">
         {% csrf_token %}
@@ -63,8 +63,8 @@
         </form>
         {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div>
-</div>
-
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
+</div>  <!-- end submission widget-->
 
 <div class="row"><!-- The results page selection buttons-->
 <div class="col-sm-12">
