@@ -408,11 +408,11 @@ ractive.on( 'memsatsvm_active', function ( event ) {
 
 ractive.on( 'pgenthreader_active', function ( event ) {
   ractive.set( 'results_panel_visible', null );
-  ractive.set( 'results_panel_visible', 2 )
+  ractive.set( 'results_panel_visible', 2 );
 });
 
 ractive.on( 'submission_active', function ( event ) {
-  let state = ractive.get('submission_widget_visible')
+  let state = ractive.get('submission_widget_visible');
   if(state === 1){
     ractive.set( 'submission_widget_visible', 0 );
   }
@@ -557,26 +557,33 @@ function verify_and_send_form(seq, name, email, psipred_checked,
     let response = true;
     ractive.set( 'results_visible', null );
     //Post the jobs and intialise the annotations for each job
-    if(psipred_checked === true)
+    //We also don't redundantly send extra psipred etc.. jobs
+    //byt doing these test in a specific order
+    if(pgenthreader_checked === true)
     {
-      job_string = job_string.concat("psipred,");
+      job_string = job_string.concat("pgenthreader,");
+      ractive.set('pgenthreader_button', true);
       ractive.set('psipred_button', true);
+      psipred_checked = false;
     }
     if(disopred_checked === true)
     {
       job_string = job_string.concat("disopred,");
       ractive.set('disopred_button', true);
+      ractive.set('psipred_button', true);
+      psipred_checked = false;
+    }
+    if(psipred_checked === true)
+    {
+      job_string = job_string.concat("psipred,");
+      ractive.set('psipred_button', true);
     }
     if(memsatsvm_checked === true)
     {
       job_string = job_string.concat("memsatsvm,");
       ractive.set('memsatsvm_button', true);
     }
-    if(pgenthreader_checked === true)
-    {
-      job_string = job_string.concat("pgenthreader,");
-      ractive.set('pgenthreader_button', true);
-    }
+
 
     job_string = job_string.slice(0, -1);
     response = send_job(job_string, seq, name, email, ractive_instance);
