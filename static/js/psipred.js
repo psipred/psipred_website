@@ -1091,7 +1091,7 @@ function getUrlVars() {
 //Reload alignments for JalView for the genTHREADER table
 function loadNewAlignment(alnURI,annURI,title) {
   let url = submit_url+ractive.get('batch_uuid');
-  window.open("../msa/?ann="+file_url+annURI+"&aln="+file_url+alnURI, "", "width=800,height=400");
+  window.open("../interface/msa/?ann="+file_url+annURI+"&aln="+file_url+alnURI, "", "width=800,height=400");
 }
 
 //Reload alignments for JalView for the genTHREADER table
@@ -1101,7 +1101,7 @@ function buildModel(alnURI) {
   let mod_key = ractive.get('modeller_key');
   if(mod_key === 'M'+'O'+'D'+'E'+'L'+'I'+'R'+'A'+'N'+'J'+'E')
   {
-    window.open("../model/post/?aln="+file_url+alnURI, "", "width=670,height=700");
+    window.open("../interface/model/post/?aln="+file_url+alnURI, "", "width=670,height=700");
   }
   else
   {

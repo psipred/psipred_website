@@ -31,4 +31,4 @@ def post(request):
     # print(obj)
     # submit URL to aa server
     # send new ID to page and have page poll for the result
-    return redirect("http://127.0.0.1:4000/model/jmol/?uuid="+obj['UUID'])
+    return redirect("http://127.0.0.1:4000/interface/model/jmol/?uuid="+obj['UUID'])
