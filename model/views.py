@@ -24,6 +24,7 @@ def post(request):
     submission_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/submission/api/submission.json'
     redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/'
     if settings.DEBUG:
+        print("HI THERE")
         submission_url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
         redirect_url = 'http://127.0.0.1:4000/interface/'
 
