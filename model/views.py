@@ -21,7 +21,7 @@ def post(request):
     r = req.get(aln_url, data={}, files={})
     alignment = r.text
 
-    submission_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/submission/api/submission.json'
+    submission_url = 'http://bioinfstage3.cs.ucl.ac.uk/psipred_beta/submission/api/submission.json'
     redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/'
     if settings.DEBUG:
         submission_url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
