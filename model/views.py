@@ -32,7 +32,7 @@ def post(request):
     csrftoken = ''
     if 'csrftoken' in client.cookies:
         csrftoken = client.cookies['csrftoken']
-    print(submission_url)
+    print("SUBMISSION URL: "+submission_url)
     print("CSRFTOKEN: "+csrftoken)
     data = {'job': 'pdb_modeller',
             'submission_name': 'mod_job',
