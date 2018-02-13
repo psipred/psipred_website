@@ -24,15 +24,20 @@ def post(request):
     submission_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/submission/api/submission.json'
     redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/'
     if settings.DEBUG:
-        print("HI THERE")
         submission_url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
         redirect_url = 'http://127.0.0.1:4000/interface/'
 
+    client = req.session()
+    client.get(submission_url)
+    if 'csrftoken' in client.cookies:
+        csrftoken = client.cookies['csrftoken']
     data = {'job': 'pdb_modeller',
             'submission_name': 'mod_job',
-            'email': 'dummy@dummy.com', }
+            'email': 'dummy@dummy.com',
+            'csrfmiddlewaretoken': csrftoken}
     payload = {'input_data': ('input.txt', alignment)}
-    r = req.post(submission_url, data=data, files=payload)
+    r = req.post(submission_url, data=data, files=payload,
+                 headers={'Referer'=submission_url})
     print(r.text)
     # obj = json.loads(r.text)
     # print(obj)
