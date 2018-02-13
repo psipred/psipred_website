@@ -41,6 +41,7 @@ def post(request):
     payload = {'input_data': ('input.txt', alignment)}
     r = client.post(submission_url, data=data, files=payload,
                     headers={'Referer': submission_url})
+    print(r.text)
     obj = json.loads(r.text)
     # print(obj)
     # submit URL to aa server
