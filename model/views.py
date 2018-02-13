@@ -29,17 +29,19 @@ def post(request):
 
     client = req.session()
     client.get(submission_url)
+    csrftoken = ''
     if 'csrftoken' in client.cookies:
         csrftoken = client.cookies['csrftoken']
+
+    print("CSRFTOKEN: "+csrftoken)
     data = {'job': 'pdb_modeller',
             'submission_name': 'mod_job',
             'email': 'dummy@dummy.com',
             'csrfmiddlewaretoken': csrftoken}
     payload = {'input_data': ('input.txt', alignment)}
-    r = req.post(submission_url, data=data, files=payload,
-                 headers={'Referer'=submission_url})
-    print(r.text)
-    # obj = json.loads(r.text)
+    r = client.post(submission_url, data=data, files=payload,
+                    headers={'Referer': submission_url})
+    obj = json.loads(r.text)
     # print(obj)
     # submit URL to aa server
     # send new ID to page and have page poll for the result
