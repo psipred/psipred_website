@@ -1108,7 +1108,7 @@ function buildModel(alnURI) {
   let mod_key = ractive.get('modeller_key');
   if(mod_key === 'M'+'O'+'D'+'E'+'L'+'I'+'R'+'A'+'N'+'J'+'E')
   {
-    window.open(".."+app_path+"/model/post/?aln="+file_url+alnURI, "", "width=670,height=700");
+    window.open(".."+app_path+"/model/post?aln="+file_url+alnURI, "", "width=670,height=700");
   }
   else
   {

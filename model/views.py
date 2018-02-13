@@ -21,14 +21,19 @@ def post(request):
     r = req.get(aln_url, data={}, files={})
     alignment = r.text
 
-    url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
+    submission_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/submission/api/submission.json'
+    redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/'
+    if settings.DEBUG:
+        submission_url = 'http://127.0.0.1:8000/analytics_automated/submission.json'
+        redirect_url = 'http://127.0.0.1:4000/interface/'
+
     data = {'job': 'pdb_modeller',
             'submission_name': 'mod_job',
             'email': 'dummy@dummy.com', }
     payload = {'input_data': ('input.txt', alignment)}
-    r = req.post(url, data=data, files=payload)
+    r = req.post(submission_url, data=data, files=payload)
     obj = json.loads(r.text)
     # print(obj)
     # submit URL to aa server
     # send new ID to page and have page poll for the result
-    return redirect("http://127.0.0.1:4000/interface/model/jmol/?uuid="+obj['UUID'])
+    return redirect(redirect_url+"model/jmol/?uuid="+obj['UUID'])
