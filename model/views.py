@@ -33,7 +33,8 @@ def post(request):
             'email': 'dummy@dummy.com', }
     payload = {'input_data': ('input.txt', alignment)}
     r = req.post(submission_url, data=data, files=payload)
-    obj = json.loads(r.text)
+    print(r.text)
+    # obj = json.loads(r.text)
     # print(obj)
     # submit URL to aa server
     # send new ID to page and have page poll for the result
