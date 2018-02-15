@@ -1,5 +1,4 @@
-#
-Adding new services
+# Adding new services
 1. Add the new job types and its tasks to the backend
 
 2. Update models.py request() model to add new BooleanField for the job
