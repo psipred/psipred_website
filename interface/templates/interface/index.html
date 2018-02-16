@@ -39,29 +39,7 @@
   <div class="col-sm-1"></div>
   {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
   <div class="col-sm-10 resubmit_colour">
-        <h5>Resubmit Sub-segment</h5><button on-click="submission_active" type="button" class="float-right btn btn-default">Show/Hide</button>
-
-        {% templatetag openvariable %}#if submission_widget_visible === 1 {% templatetag closevariable %}
-        <form method="Post" class="form" intro="slide" outro="slide" on-submit="resubmit">
-        {% csrf_token %}
-          <input id="start_coord" class="sequence_coord" value="{% ractivetag "subsequence_start" %}"> - <input id="stop_coord" class="sequence_coord" value="{% ractivetag "subsequence_stop" %}">
-          <div class="form-group">
-            <div class="checkbox">
-              <label for="id_psipred_job">PSIPRED 4.0:</label>
-              <input id="id_psipred_job" name="psipred_job" value="psipred_job" type="checkbox" checked="{% ractivetag "psipred_checked" %}">
-              <label for="id_disopred_job">DISOPRED 3.1:</label>
-              <input id="id_disopred_job" name="disopred_job" value="disopred_job" type="checkbox" checked="{% ractivetag "psipred_checked" %}">
-              <label for="id_memsat_job">MEMSAT-SVM:</label>
-              <input id="id_memsat_job" name="memsat_job" value="memsat_job" type="checkbox" checked="{% ractivetag "memsat_checked" %}">
-              <label for="id_pgenthreader_job">pGenTHREADER:</label>
-              <input id="id_pgenthreader_job" name="pgenthreader_job" value="pgenthreader_job" type="checkbox" checked="{% ractivetag "pgenthreader_checked" %}">
-            </div>
-          </div>
-          <div class="text-right">
-            <input value="Resubmit" type="submit" class="btn btn-primary" />
-          </div>
-        </form>
-        {% templatetag openvariable %}/if{% templatetag closevariable %}
+      {% include "./resubmission.html" %}
   </div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
 </div>  <!-- end submission widget-->
@@ -69,48 +47,7 @@
 <div class="row"><!-- The results page selection buttons-->
 <div class="col-sm-12">
   <div class="btn btn-group" id="selector" role="group">
-    {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
-      {% templatetag openvariable %}#if psipred_button{% templatetag closevariable %}
-        <button on-click='psipred_active' type="button" class="btn btn-default">PSIPRED</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if pgenthreader_button{% templatetag closevariable %}
-        <button on-click='pgenthreader_active' type="button" class="btn btn-default">pGenTHREADER</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if pdomthreader_button{% templatetag closevariable %}
-        <button type="button" class="btn btn-default">pDomTHREADER</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if disopred_button{% templatetag closevariable %}
-        <button on-click='disopred_active' type="button" class="btn btn-default">DISOPRED</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if dompred_button{% templatetag closevariable %}
-        <button type="button" class="btn btn-default">DomPred</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if memsatsvm_button{% templatetag closevariable %}
-        <button on-click='memsatsvm_active' type="button" class="btn btn-default">MEMSAT-SVM</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if mempack_button{% templatetag closevariable %}
-        <button type="button" class="btn btn-default">MEMPACK</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if ffpred_button{% templatetag closevariable %}
-        <button type="button" class="btn btn-default">FFPRED</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if bioserf_button{% templatetag closevariable %}
-        <button type="button" class="btn btn-default">BioSerf</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if domserf_button{% templatetag closevariable %}
-        <button type="button" class="btn btn-default">DomSerf</button>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-        <button on-click='downloads_active' type="button" class="btn btn-info">Downloads</button>
-    {% templatetag openvariable %}/if{% templatetag closevariable %}
+    {% include "./results_toggle.html" %}
   </div>
 </div>
 </div><!--End  selection buttons-->
@@ -119,89 +56,10 @@
   <div class="col-sm-12">
     {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
     {# Display a form #}
-    <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
-    {% csrf_token %}
-
-    <div class="form-group">
-        <div class="checkbox">
-    {% for field in form %}
-        {% if "PSIPRED" in field.label %}
-            {{ field.errors }}
-            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
-        {% endif %}
-        {% if "DISOPRED" in field.label %}
-            {{ field.errors }}
-            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
-        {% endif %}
-        {% if "MEMSAT-SVM" in field.label %}
-            {{ field.errors }}
-            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
-        {% endif %}
-        {% if "pGenTHREADER" in field.label %}
-            {{ field.errors }}
-            {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
-        {% endif %}
-
-
-    {% endfor %}
-        </div>
-    </div>
-    <p class="form_error">{% ractivehtmltag "form_error" %}</p>
-    {% for field in form %}
-        {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label%}
-        {% else %}
-        <div class="form-group">
-          {% bootstrap_field field %}
-        </div>
-        {% endif %}
-    {% endfor %}
-    <br />
-
-    {% buttons %}
-         <input class="btn btn-danger" type="reset" value="Reset" />
-         <input value="Submit" type="submit" class="btn btn-primary" />
-    {% endbuttons %}
-    </form>
-
+    {% include "./mainform.html" %}
     <!-- Annotation panel -->
     {% templatetag openvariable %}elseif results_visible === 2 {% templatetag closevariable %}
-    <div class="results" intro="slide" outro="slide" width="100%">
-      <div class="results_panel" width="100%" style="text-align: center">
-      {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
-      <div class='psipred_cartoon'></div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}<br />{% ractivehtmltag "psipred_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if results_panel_visible === 2 {% templatetag closevariable %}
-      <div class='text-right'>Modeller Licence Key: <input class="text" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
-      <div class="pgen_table">{% ractivehtmltag "pgen_table" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_icon" %}<br />{% ractivehtmltag "pgenthreader_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
-      <div class="comb_plot"></div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_icon" %}<br />{% ractivehtmltag "disopred_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
-      <div class="memsat_schematic">{% ractivehtmltag "memsatsvm_schematic" %}</div>
-      <div class="memsat_cartoon">{% ractivehtmltag "memsatsvm_cartoon" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_icon" %}<br />{% ractivehtmltag "memsatsvm_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      {% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
-      <h5>ZIP FILE</h5>
-      <a href="" on-click="@this.fire("get_zip"), false">Get Zip file</a><br /><br />
-      {% ractivehtmltag "download_links" %}
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-      </div><!-- closes results_panel class-->
-
-    </div><!-- closes results class -->
+      {% include "./results_panel.html" %}
     {% templatetag openvariable %}/if{% templatetag closevariable %}
 
   </div><!-- closes the col-sm-10 panel -->

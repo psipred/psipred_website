@@ -1,0 +1,71 @@
+{% load ractive_tags %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
+  {% templatetag openvariable %}#if psipred_button{% templatetag closevariable %}
+    <button on-click='psipred_active' type="button" class="btn btn-default">PSIPRED</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if pgenthreader_button{% templatetag closevariable %}
+    <button on-click='pgenthreader_active' type="button" class="btn btn-default">pGenTHREADER</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if pdomthreader_button{% templatetag closevariable %}
+    <button on-click='pdomthreader_active' type="button" class="btn btn-default">pDomTHREADER</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if disopred_button{% templatetag closevariable %}
+    <button on-click='disopred_active' type="button" class="btn btn-default">DISOPRED</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if dompred_button{% templatetag closevariable %}
+    <button on-click='dompred_active' type="button" class="btn btn-default">DomPred</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if memsatsvm_button{% templatetag closevariable %}
+    <button on-click='memsatsvm_active' type="button" class="btn btn-default">MEMSAT-SVM</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if mempack_button{% templatetag closevariable %}
+    <button on-click='mempack_active' type="button" class="btn btn-default">MEMPACK</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if ffpred_button{% templatetag closevariable %}
+    <button on-click='ffpred_active' type="button" class="btn btn-default">FFPred</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if bioserf_button{% templatetag closevariable %}
+    <button on-click='bioserf_active' type="button" class="btn btn-default">BioSerf</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if domserf_button{% templatetag closevariable %}
+    <button on-click='domserf_active' type="button" class="btn btn-default">DomSerf</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if metapsicov_button{% templatetag closevariable %}
+    <button on-click='metapsicov_active' type="button" class="btn btn-default">MetaPSICOV</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if genthreader_button{% templatetag closevariable %}
+    <button on-click='genthreader_active' type="button" class="btn btn-default">GenTHREADER</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if metsite_button{% templatetag closevariable %}
+    <button on-click='metsite_active' type="button" class="btn btn-default">MetSite</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if hspred_button{% templatetag closevariable %}
+    <button on-click='hspred_active' type="button" class="btn btn-default">HSPred</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if memembed_button{% templatetag closevariable %}
+    <button on-click='memembed_active' type="button" class="btn btn-default">MEMEMBED</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+  {% templatetag openvariable %}#if gentdb_button{% templatetag closevariable %}
+    <button on-click='gentdb_active' type="button" class="btn btn-default">TDB File</button>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+    <button on-click='downloads_active' type="button" class="btn btn-info">Downloads</button>
+{% templatetag openvariable %}/if{% templatetag closevariable %}

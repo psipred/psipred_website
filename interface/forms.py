@@ -71,7 +71,7 @@ class PsipredForm(forms.ModelForm):
                                                 }))
 
     metsite_job = forms.BooleanField(label="Metsite", required=False,
-                                    widget=forms.CheckboxInput(
+                                     widget=forms.CheckboxInput(
                                       attrs={'value': '{{metsite_job}}',
                                              'checked': '{{metsite_checked}}'
                                              }))
@@ -81,17 +81,15 @@ class PsipredForm(forms.ModelForm):
                                              'checked': '{{hspred_checked}}'
                                              }))
     memembed_job = forms.BooleanField(label="MEMEMBED", required=False,
-                                    widget=forms.CheckboxInput(
-                                      attrs={'value': '{{memembed_job}}',
-                                             'checked': '{{memembed_checked}}'
-                                             }))
+                                      widget=forms.CheckboxInput(
+                                       attrs={'value': '{{memembed_job}}',
+                                              'checked': '{{memembed_checked}}'
+                                              }))
     gentdb_job = forms.BooleanField(label="Generate TDB", required=False,
                                     widget=forms.CheckboxInput(
                                       attrs={'value': '{{gentdb_job}}',
                                              'checked': '{{gentdb_checked}}'
                                              }))
-
-
 
     input_data = forms.CharField(initial="Input Sequence",
                                  widget=forms.Textarea(

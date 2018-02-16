@@ -18,27 +18,10 @@
 $ python manage.py makemigrations --settings=psipred_website.settings.dev
 $ python manage.py migrate --settings=psipred_website.settings.dev
 
-5. Update formgroup in template from line 87 templates/index.html
-    {% if "MEMSAT-SVM" in field.label %}
-        {{ field.errors }}
-        {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
-    {% endif %}
+5. Update mainform.html, updating both the checkboxes and the form_error section
 
-6. Ensure you have a button in the vertical button group, from line 32
-    {% templatetag openvariable %}#if memsatsvm_button{% templatetag closevariable %}
-      <button on-click='memsatsvm_active' type="button" class="btn btn-default">MEMSAT-SVM</button>
-    {% templatetag openvariable %}/if{% templatetag closevariable %}
+6. Ensure you have a button in the results toggling button group results_toggle.html
 
-7. Add resubmission checkbox, from line 165
-      <div class="checkbox">
-        <label for="id_memsat_job">MEMSAT-SVM:</label>
-        <input id="id_memsat_job" name="memsat_job" value="memsat_job" type="checkbox" checked="{% ractivetag "memsat_checked" %}">
-      </div>
+7. Add resubmission checkbox for new method in resubmission.html
 
-8. Note the annotation panels line 123   <!-- Annotation panel --> add a new type for the new service
-   Also requires a div for any plots
-    {% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
-    <div class="mm_plot"></div>
-    <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_message" %}</div>
-    <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_icon" %}<br />{% ractivehtmltag "memsatsvm_time" %}</div>
-    {% templatetag openvariable %}/if{% templatetag closevariable %}
+8. Add new results panel bits in results_panel.html
