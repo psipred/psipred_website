@@ -104,5 +104,6 @@ class PsipredForm(forms.ModelForm):
         fields = ('psipred_job', 'disopred_job', 'memsatsvm_job',
                   'pgenthreader_job', 'metapsicov_job', 'mempack_job',
                   'genthreader_job', 'dompred_job', 'pdomthreader_job',
-                  'bioserf_job', 'domserf_job', 'ffpred_job',
+                  'bioserf_job', 'domserf_job', 'ffpred_job', 'metsite_job',
+                  'hspred_job', 'memembed_job', 'gentdb_job',
                   'input_data', 'job_name', 'email', )

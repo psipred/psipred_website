@@ -4,6 +4,7 @@
 
 <form method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
 {% csrf_token %}
+{% templatetag openvariable %}#if sequence_form_visible === 1 {% templatetag closevariable %}
 <div class="form-group">
     <div class="checkbox">
 {% for field in form %}
@@ -55,6 +56,24 @@
         {{ field.errors }}
         {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}<br /><br />
     {% endif %}
+{% endfor %}
+    </div>
+</div>
+<p class="form_error">{% ractivehtmltag "form_error" %}</p>
+{% for field in form %}
+    {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label or "MetaPSICOV" in field.label or "Generate TDB" in field.label or "MEMEMBED" in field.label or "HSPred" in field.label or "Metsite" in field.label or "MetaPSICOV" in field.label or "FFPred 3" in field.label or "Domserf 2.1" in field.label or "Bioserf 2.0" in field.label or "pDomTHREADER" in field.label or "DomPred" in field.label or "GenTHREADER" == field.label or "MEMPACK" in field.label or "Metsite" in field.label or "HSPred" in field.label or "MEMEMBED" in field.label or "Generate TDB" in field.label %}
+    {% else %}
+    <div class="form-group">
+      {% bootstrap_field field %}
+    </div>
+    {% endif %}
+{% endfor %}
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+{% templatetag openvariable %}#if structure_form_visible === 1 {% templatetag closevariable %}
+<div class="form-group">
+    <div class="checkbox">
+{% for field in form %}
     {% if "Metsite" in field.label %}
         {{ field.errors }}
         {{ field.label_tag }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ field }}
@@ -75,14 +94,19 @@
     </div>
 </div>
 <p class="form_error">{% ractivehtmltag "form_error" %}</p>
+Select PDB file<br />
+<input type=file  name="pdbFile"/><br /><br />
 {% for field in form %}
-    {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label or "MetaPSICOV" in field.label or "Generate TDB" in field.label or "MEMEMBED" in field.label or "HSPred" in field.label or "Metsite" in field.label or "MetaPSICOV" in field.label or "FFPred 3" in field.label or "Domserf 2.1" in field.label or "Bioserf 2.0" in field.label or "pDomTHREADER" in field.label or "DomPred" in field.label or "GenTHREADER" == field.label or "MEMPACK" in field.label%}
+    {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label or "MetaPSICOV" in field.label or "Generate TDB" in field.label or "MEMEMBED" in field.label or "HSPred" in field.label or "Metsite" in field.label or "MetaPSICOV" in field.label or "FFPred 3" in field.label or "Domserf 2.1" in field.label or "Bioserf 2.0" in field.label or "pDomTHREADER" in field.label or "DomPred" in field.label or "GenTHREADER" == field.label or "MEMPACK" in field.label or "Metsite" in field.label or "HSPred" in field.label or "MEMEMBED" in field.label or "Generate TDB" in field.label or 'Input data' in field.label %}
     {% else %}
     <div class="form-group">
       {% bootstrap_field field %}
     </div>
     {% endif %}
 {% endfor %}
+
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
 {% buttons %}
      <input class="btn btn-danger" type="reset" value="Reset" />
      <input value="Submit" type="submit" class="btn btn-primary" />

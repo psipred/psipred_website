@@ -33,7 +33,7 @@
       <div class="sequence_plot" id="sequence_plot"></div><br />
     {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div>
-</div> <!-- end seqience plot -->
+</div> <!-- end sequence plot -->
 
 <div class="row"> <!-- Submission widget -->
   <div class="col-sm-1"></div>
@@ -56,6 +56,11 @@
   <div class="col-sm-12">
     {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
     {# Display a form #}
+    <h4>Select Input Data type:</h4>
+    <button on-click='sequence_active' type="button" class="btn btn-default">Sequence</button>
+    <button on-click='structure_active' type="button" class="btn btn-default">Structure</button>
+    <br /><br />
+    <h4>Select Methods(s):</h4>
     {% include "./mainform.html" %}
     <!-- Annotation panel -->
     {% templatetag openvariable %}elseif results_visible === 2 {% templatetag closevariable %}
