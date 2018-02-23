@@ -36,6 +36,7 @@
       <!-- MEMPACK RESULTS: 5 -->
       {% templatetag openvariable %}#if results_panel_visible === 5 {% templatetag closevariable %}
       <!-- <div class='psipred_cartoon'></div> -->
+      <div class="mempack_cartoon">{% ractivehtmltag "mempack_cartoon" %}</div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_icon" %}<br />{% ractivehtmltag "mempack_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
@@ -116,6 +117,13 @@
       <!-- <div class='_cartoon'></div> -->
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_icon" %}<br />{% ractivehtmltag "gentdb_time" %}</div>
+      {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+      <!-- METAPSICOV RESULTS: 17 -->
+      {% templatetag openvariable %}#if results_panel_visible === 18 {% templatetag closevariable %}
+      <!-- <div class='_cartoon'></div> -->
+      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_message" %}</div>
+      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_icon" %}<br />{% ractivehtmltag "metapiscov_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 
