@@ -5,74 +5,74 @@
     <div class="results" intro="slide" outro="slide" width="100%">
       <div class="results_panel" width="100%" style="text-align: center">
       <!-- PSIPRED RESULTS: 1 -->
-      {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
+      {% templatetag openvariable %}#if results_panel_visible === 2 {% templatetag closevariable %}
       <div class='psipred_cartoon'></div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}<br />{% ractivehtmltag "psipred_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- PGENTHREADER TABLE: 2 -->
-      {% templatetag openvariable %}#if results_panel_visible === 2 {% templatetag closevariable %}
+      <!-- PGENTHREADER TABLE: 3 -->
+      {% templatetag openvariable %}#if results_panel_visible === 3 {% templatetag closevariable %}
       <div class='text-right'>Modeller Licence Key: <input class="text" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
       <div class="pgen_table">{% ractivehtmltag "pgen_table" %}</div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_icon" %}<br />{% ractivehtmltag "pgenthreader_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- METAPSICOV RESULTS: 3 -->
-      {% templatetag openvariable %}#if results_panel_visible === 3 {% templatetag closevariable %}
+      <!-- METAPSICOV RESULTS: 4 -->
+      {% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
       <!--<div class='psipred_cartoon'></div>-->
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_icon" %}<br />{% ractivehtmltag "metapsicov_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- DISOPRED RESULTS: 4 -->
-      {% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
+      <!-- DISOPRED RESULTS: 5 -->
+      {% templatetag openvariable %}#if results_panel_visible === 5 {% templatetag closevariable %}
       <div class="comb_plot"></div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_icon" %}<br />{% ractivehtmltag "disopred_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- MEMPACK RESULTS: 5 -->
-      {% templatetag openvariable %}#if results_panel_visible === 5 {% templatetag closevariable %}
+      <!-- MEMPACK RESULTS: 6 -->
+      {% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
       <!-- <div class='psipred_cartoon'></div> -->
       <div class="mempack_cartoon">{% ractivehtmltag "mempack_cartoon" %}</div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_icon" %}<br />{% ractivehtmltag "mempack_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- MEMSATSVM RESULTS: 6 -->
-      {% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
+      <!-- MEMSATSVM RESULTS: 7 -->
+      {% templatetag openvariable %}#if results_panel_visible === 7 {% templatetag closevariable %}
       <div class="memsat_schematic">{% ractivehtmltag "memsatsvm_schematic" %}</div>
       <div class="memsat_cartoon">{% ractivehtmltag "memsatsvm_cartoon" %}</div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_icon" %}<br />{% ractivehtmltag "memsatsvm_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- GENTHREADER RESULTS: 7 -->
-      {% templatetag openvariable %}#if results_panel_visible === 7 {% templatetag closevariable %}
+      <!-- GENTHREADER RESULTS: 8 -->
+      {% templatetag openvariable %}#if results_panel_visible === 8 {% templatetag closevariable %}
       <!-- <div class='_cartoon'></div> -->
       <div class="gen_table">{% ractivehtmltag "gen_table" %}</div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_icon" %}<br />{% ractivehtmltag "genthreader_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- DOMPRED RESULTS: 8 -->
-      {% templatetag openvariable %}#if results_panel_visible === 8 {% templatetag closevariable %}
+      <!-- DOMPRED RESULTS: 9 -->
+      {% templatetag openvariable %}#if results_panel_visible === 9 {% templatetag closevariable %}
       <!-- <div class='_cartoon'></div> -->
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "dompred_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "dompred_waiting_icon" %}<br />{% ractivehtmltag "dompred_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- PDOMPRTHEADER RESULTS: 9 -->
-      {% templatetag openvariable %}#if results_panel_visible === 9 {% templatetag closevariable %}
+      <!-- PDOMPRTHEADER RESULTS: 10 -->
+      {% templatetag openvariable %}#if results_panel_visible === 10 {% templatetag closevariable %}
       <!-- <div class='_cartoon'></div> -->
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_icon" %}<br />{% ractivehtmltag "pdomthreader_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- BIOSERF RESULTS: 10 -->
-      {% templatetag openvariable %}#if results_panel_visible === 10 {% templatetag closevariable %}
+      <!-- BIOSERF RESULTS: 11 -->
+      {% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
       <!-- <div class='_cartoon'></div> -->
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "bioserf_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "bioserf_waiting_icon" %}<br />{% ractivehtmltag "bioserf_time" %}</div>
@@ -120,15 +120,7 @@
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_icon" %}<br />{% ractivehtmltag "gentdb_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- METAPSICOV RESULTS: 17 -->
-      {% templatetag openvariable %}#if results_panel_visible === 18 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_icon" %}<br />{% ractivehtmltag "metapiscov_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-
-      {% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
+      {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
       <h5>ZIP FILE</h5>
       <a href="" on-click="@this.fire("get_zip"), false">Get Zip file</a><br /><br />
       {% ractivehtmltag "download_links" %}
