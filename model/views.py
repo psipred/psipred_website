@@ -16,6 +16,7 @@ def jmol(request):
 
 def post(request):
     aln_url = request.GET['aln']
+    job_type = request.GET['type']
     # print(aln_url)
     # use aln to get the alignments data to submit as the inpu
     r = req.get(aln_url, data={}, files={})
@@ -34,7 +35,7 @@ def post(request):
         csrftoken = client.cookies['csrftoken']
     print("SUBMISSION URL: "+submission_url)
     print("CSRFTOKEN: "+csrftoken)
-    data = {'job': 'pdb_modeller',
+    data = {'job': job_type,
             'submission_name': 'mod_job',
             'email': 'dummy@dummy.com',
             'csrfmiddlewaretoken': csrftoken}

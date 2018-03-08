@@ -51,7 +51,7 @@
 
       <!-- GENTHREADER RESULTS: 8 -->
       {% templatetag openvariable %}#if results_panel_visible === 8 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
+      <div class='text-right'>Modeller Licence Key: <input class="text" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
       <div class="gen_table">{% ractivehtmltag "gen_table" %}</div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_icon" %}<br />{% ractivehtmltag "genthreader_time" %}</div>
@@ -68,6 +68,8 @@
       <!-- PDOMPRTHEADER RESULTS: 10 -->
       {% templatetag openvariable %}#if results_panel_visible === 10 {% templatetag closevariable %}
       <!-- <div class='_cartoon'></div> -->
+      <div class='text-right'>Modeller Licence Key: <input class="text" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
+      <div class="dgen_table">{% ractivehtmltag "dgen_table" %}</div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_icon" %}<br />{% ractivehtmltag "pdomthreader_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
