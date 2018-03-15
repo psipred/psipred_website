@@ -3,6 +3,12 @@ body
   width: 100%;
 }
 
+.mol-container {
+  width: 60%;
+  height: 400px;
+  position: relative;
+}
+
 #retrievalLink
 {
   min-height: 34px;
