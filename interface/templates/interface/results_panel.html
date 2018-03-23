@@ -85,7 +85,8 @@
       <!-- DOMSERF RESULTS: 12 -->
       {% templatetag openvariable %}#if results_panel_visible === 12 {% templatetag closevariable %}
       <!-- <div class='_cartoon'></div> -->
-      <div class='mol-containerl' id='domserf_model'></div>
+      <div class='domserf_buttons'>{% ractivehtmltag "domserf_buttons" %}</div>
+      <div class='mol-container' id='domserf_model'></div>
       <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "domserf_waiting_message" %}</div>
       <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "domserf_waiting_icon" %}<br />{% ractivehtmltag "domserf_time" %}</div>
       {% templatetag openvariable %}/if{% templatetag closevariable %}
