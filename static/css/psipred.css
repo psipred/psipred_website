@@ -157,6 +157,62 @@ input:invalid {
   background-color: #f8f8f8;
 }
 
+.notsafe
+{
+  background: #ffdddd;
+}
+.signifkey
+{
+ font-size: 0.8em;
+ border: 1px solid #dddddd;
+}
+.signif10p
+{
+ border:     1px solid #cccccc;
+ background: rgb(255,220,220);
+}
+.signif10n
+{
+ border:     1px solid #cccccc;
+ background: rgb(220,220,255);
+}
+.signif5p
+{
+  border:     1px solid #cccccc;
+  background: rgb(255,150,150);
+}
+
+.signif2p
+{
+ border:     1px solid #cccccc;
+ background:  rgb(255,100,100);
+}
+
+.signif1p
+{
+ border:     1px solid #cccccc;
+ background: red;
+}
+
+.signif5n
+{
+  border:     1px solid #cccccc;
+  background: rgb(150,150,255);
+}
+
+.signif2n
+{
+ border:     1px solid #cccccc;
+ background: rgb(80,80,255);
+}
+
+.signif1n
+{
+ background: blue;
+ border:     1px solid #cccccc;
+ color:      #eeeeee;
+}
+
 /* Bootstrap Changes */
   .navbar-default {
     background-color: #173958;
