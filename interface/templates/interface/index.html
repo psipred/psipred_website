@@ -27,7 +27,7 @@
 </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-<div class="row"> <!-- seqiuence plot -->
+<div class="row"> <!-- sequence plot -->
   <div class="col-sm-12">
     {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
       <div class="sequence_plot" id="sequence_plot"></div><br />
@@ -53,8 +53,8 @@
 </div><!--End  selection buttons-->
 
 <div class='row'>
-  <div class="col-sm-12">
-    {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
+  {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
+  <div class="col-sm-10">
     {# Display a form #}
     <h4>Select Input Data type:</h4>
     <button on-click='sequence_active' type="button" class="btn btn-default">Sequence</button>
@@ -62,13 +62,21 @@
     <br /><br />
     <h4>Select Methods(s):</h4>
     {% include "./mainform.html" %}
+  </div>
+  <div class="col-sm-2">
+    <h4>Options</h4>
+    {% include "./advanced_panel.html" %}
+  </div>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
+</div>  <!--closes the row -->
+
+<div class='row'>
+  <div class="col-sm-12">
     <!-- Annotation panel -->
-    {% templatetag openvariable %}elseif results_visible === 2 {% templatetag closevariable %}
+    {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
       {% include "./results_panel.html" %}
     {% templatetag openvariable %}/if{% templatetag closevariable %}
-
-  </div><!-- closes the col-sm-10 panel -->
-
-</div>  <!--closes the row -->
-    </script>
+  </div>
+</div>
+</script>
 {% endblock content %}

@@ -1,0 +1,32 @@
+{% load ractive_tags %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+
+{% templatetag openvariable %}#if bioserf_advanced === 1 {% templatetag closevariable %}
+  <h4>Bioserf</h4>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+{% templatetag openvariable %}#if domserf_advanced === 1 {% templatetag closevariable %}
+  <h4>Domserf</h4>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+{% templatetag openvariable %}#if dompred_advanced === 1 {% templatetag closevariable %}
+  <h4>Dompred</h4>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+{% templatetag openvariable %}#if ffpred_advanced === 1 {% templatetag closevariable %}
+  <h4>FFpred</h4>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+{% templatetag openvariable %}#if metsite_advanced === 1 {% templatetag closevariable %}
+  <h4>Metsite</h4>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+{% templatetag openvariable %}#if hspred_advanced === 1 {% templatetag closevariable %}
+  <h4>HSPred</h4>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+{% templatetag openvariable %}#if memembed_advanced === 1 {% templatetag closevariable %}
+  <h4>Memembed</h4>
+{% templatetag openvariable %}/if{% templatetag closevariable %}

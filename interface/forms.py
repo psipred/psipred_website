@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
+from django.utils.safestring import mark_safe
 
 from bootstrap3.tests import TestForm
 
@@ -42,7 +43,8 @@ class PsipredForm(forms.ModelForm):
     dompred_job = forms.BooleanField(label="DomPred", required=False,
                                      widget=forms.CheckboxInput(
                                       attrs={'value': '{{dompred_job}}',
-                                             'checked': '{{dompred_checked}}'
+                                             'checked': '{{dompred_checked}}',
+                                             'on-click': mark_safe('@this.fire("show_dompred")'),
                                              }))
     pdomthreader_job = forms.BooleanField(label="pDomTHREADER", required=False,
                                           widget=forms.CheckboxInput(
@@ -52,17 +54,20 @@ class PsipredForm(forms.ModelForm):
     bioserf_job = forms.BooleanField(label="Bioserf 2.0", required=False,
                                      widget=forms.CheckboxInput(
                                       attrs={'value': '{{bioserf_job}}',
-                                             'checked': '{{bioserf_checked}}'
+                                             'checked': '{{bioserf_checked}}',
+                                             'on-click': mark_safe('@this.fire("show_bioserf")'),
                                              }))
     domserf_job = forms.BooleanField(label="Domserf 2.1", required=False,
                                      widget=forms.CheckboxInput(
                                       attrs={'value': '{{domserf_job}}',
-                                             'checked': '{{domserf_checked}}'
+                                             'checked': '{{domserf_checked}}',
+                                             'on-click': mark_safe('@this.fire("show_domserf")'),
                                              }))
     ffpred_job = forms.BooleanField(label="FFPred 3", required=False,
                                     widget=forms.CheckboxInput(
                                       attrs={'value': '{{ffpred_job}}',
-                                             'checked': '{{ffpred_checked}}'
+                                             'checked': '{{ffpred_checked}}',
+                                             'on-click': mark_safe('@this.fire("show_ffpred")'),
                                              }))
     metapsicov_job = forms.BooleanField(label="MetaPSICOV 2.0", required=False,
                                         widget=forms.CheckboxInput(
@@ -73,17 +78,20 @@ class PsipredForm(forms.ModelForm):
     metsite_job = forms.BooleanField(label="Metsite", required=False,
                                      widget=forms.CheckboxInput(
                                       attrs={'value': '{{metsite_job}}',
-                                             'checked': '{{metsite_checked}}'
+                                             'checked': '{{metsite_checked}}',
+                                             'on-click': mark_safe('@this.fire("show_metsite")'),
                                              }))
     hspred_job = forms.BooleanField(label="HSPred", required=False,
                                     widget=forms.CheckboxInput(
                                       attrs={'value': '{{hspred_job}}',
-                                             'checked': '{{hspred_checked}}'
+                                             'checked': '{{hspred_checked}}',
+                                             'on-click': mark_safe('@this.fire("show_hspred")'),
                                              }))
     memembed_job = forms.BooleanField(label="MEMEMBED", required=False,
                                       widget=forms.CheckboxInput(
                                        attrs={'value': '{{memembed_job}}',
-                                              'checked': '{{memembed_checked}}'
+                                              'checked': '{{memembed_checked}}',
+                                              'on-click': mark_safe('@this.fire("show_memembed")'),
                                               }))
     gentdb_job = forms.BooleanField(label="Generate TDB", required=False,
                                     widget=forms.CheckboxInput(
