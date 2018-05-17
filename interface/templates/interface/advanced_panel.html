@@ -4,29 +4,76 @@
 
 
 {% templatetag openvariable %}#if bioserf_advanced === 1 {% templatetag closevariable %}
-  <h4>Bioserf</h4>
+  <h5>Bioserf</h5>
+  MODELLER Key:
+  <input type="text" id="bioserf_modeller_key" name="bioserf_modeller_key">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if domserf_advanced === 1 {% templatetag closevariable %}
-  <h4>Domserf</h4>
+  <h5>Domserf</h5>
+  MODELLER Key:
+  <input type='text' id="domserf_modeller_key" name="domserf_modeller_key">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if dompred_advanced === 1 {% templatetag closevariable %}
-  <h4>Dompred</h4>
+  <h5>Dompred</h5>
+  PSI-BLAST e-value cutoff:
+  <input type='text' id="dompred_e_value_cutoff" name="dompred_e_value_cutoff" value="0.01"><br /><br />
+  PSI-BLAST Iterations:
+  <input type='text' id="dompred_psiblast_iterations" name="dompred_psiblast_iterations" value="5">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if ffpred_advanced === 1 {% templatetag closevariable %}
-  <h4>FFpred</h4>
+  <h5>FFpred</h5>
+  <input type="radio" name="ffpred_selection" id="ffpred_human" value="human" checked> <label for="ffpred_human">Human Prediction</label><br />
+  <input type="radio" name="ffpred_selection" id="ffpred_fly" value="fly"> <label for="ffpred_fly">Fly Prediction</label>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if metsite_advanced === 1 {% templatetag closevariable %}
-  <h4>Metsite</h4>
+  <h5>Metsite</h5>
+  Select Metal:<br />
+  <select id="metsite_metal_type" name="metsite_metal_type" size="6">
+    <option value="CA" selected="selected">Calcium</option>
+    <option value="ZN">Zinc</option>
+    <option value="MG">Magnesium</option>
+    <option value="FE">Iron</option>
+    <option value="CU">Copper</option>
+    <option value="MN">Manganese</option>
+  </select><br /><br />
+  Chain ID:
+  <input type='text' id="dompred_psiblast_iterations" name="dompred_psiblast_iterations" value="5"><br /><br />
+  False Positive Rate:
+  <select id="metsite_fpr" name="metsite_fpr" size="1">
+    <option value="0">1%</option>
+    <option value="1" selected="selected">5%</option>
+    <option value="2">10%</option>
+    <option value="3">20%</option>
+  </select>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if hspred_advanced === 1 {% templatetag closevariable %}
-  <h4>HSPred</h4>
+  <h5>HSPred</h5>
+  Protein 1:
+  <input type='text' id="hspred_protein_1" name="hspred_protein_1" value="A"><br /><br />
+  Protein 2:
+  <input type='text' id="hspred_protein_2" name="hspred_protein_2" value="B">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if memembed_advanced === 1 {% templatetag closevariable %}
-  <h4>Memembed</h4>
+  <h5>Memembed</h5>
+  Search Type:
+  <select id="memembed_search_type" name="memembed_search_type" size="1">
+    <option value="0" selected="selected">Genetic Algorithm</option>
+    <option value="1">Grid Search</option>
+    <option value="2">Direct</option>
+    <option value="3">GA x 5</option>
+  </select><br /><br />
+  Target is Beta Barrel:<br />
+  <input type="radio" name="memembed_barrel" id="memembed_barrel_yes" value="yes"> <label for="memembed_barrel_yes">Yes</label><br />
+  <input type="radio" name="memembed_barrel" id="memembed_barrel_no" value="no" checked> <label for="memembed_barrel_no">No</label><br /><br />
+  N-Terminal Location:<br />
+  <input type="radio" name="memembed_terminal" id="memembed_terminal_in" value="in"> <label for="memembed_terminal_in">Cytoplasmic</label><br />
+  <input type="radio" name="memembed_terminal" id="memembed_terminal_out" value="out" checked> <label for="memembed_terminal_out">Extra Cellular</label><br /><br />
+  Helix boundaries:
+  <input type='text' id="memembed_boundaries" name="memembed_boundaries">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
