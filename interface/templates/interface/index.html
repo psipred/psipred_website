@@ -37,7 +37,7 @@
 
 <div class="row"> <!-- Submission widget -->
   <div class="col-sm-1"></div>
-  {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
+  {% templatetag openvariable %}#if resubmission_visible === 1 {% templatetag closevariable %}
   <div class="col-sm-10 resubmit_colour">
       {% include "./resubmission.html" %}
   </div>
