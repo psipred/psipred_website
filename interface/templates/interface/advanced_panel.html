@@ -61,15 +61,15 @@
 {% templatetag openvariable %}#if memembed_advanced === 1 {% templatetag closevariable %}
   <h5>Memembed</h5>
   Search Type:
-  <select id="memembed_search_type" name="memembed_search_type" size="1">
+  <select id="memembed_algorithm" name="memembed_algorithm" size="1">
     <option value="0" selected="selected">Genetic Algorithm</option>
     <option value="1">Grid Search</option>
     <option value="2">Direct</option>
     <option value="3">GA x 5</option>
   </select><br /><br />
   Target is Beta Barrel:<br />
-  <input type="radio" name="memembed_barrel" id="memembed_barrel_yes" value="yes"> <label for="memembed_barrel_yes">Yes</label><br />
-  <input type="radio" name="memembed_barrel" id="memembed_barrel_no" value="no" checked> <label for="memembed_barrel_no">No</label><br /><br />
+  <input type="radio" name="memembed_barrel" id="memembed_barrel_yes" value="true"> <label for="memembed_barrel_yes">Yes</label><br />
+  <input type="radio" name="memembed_barrel" id="memembed_barrel_no" value="false" checked> <label for="memembed_barrel_no">No</label><br /><br />
   N-Terminal Location:<br />
   <input type="radio" name="memembed_terminal" id="memembed_terminal_in" value="in"> <label for="memembed_terminal_in">Cytoplasmic</label><br />
   <input type="radio" name="memembed_terminal" id="memembed_terminal_out" value="out" checked> <label for="memembed_terminal_out">Extra Cellular</label><br /><br />
