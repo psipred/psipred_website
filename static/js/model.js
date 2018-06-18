@@ -107,7 +107,7 @@ ractive.on('poll_trigger', function(name, job_type){
     }
     if(batch.state === 'Error' || batch.state === 'Crash')
     {
-      alert("POLLING ERROR");
+      alert("MODEL BUILDING FAILED");
       // TODO: we should open an error panel and print out all the errors that came back
       // submissions.forEach(function(data){
       //   if(data.state === 'Error' || data.state === 'Crash'){}
