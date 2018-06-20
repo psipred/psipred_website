@@ -45,30 +45,60 @@
 </div>  <!-- end submission widget-->
 
 <div class="row"><!-- The results page selection buttons-->
+
 <div class="col-sm-12">
   <div class="btn btn-group" id="selector" role="group">
     {% include "./results_toggle.html" %}
   </div>
 </div>
-</div><!--End  selection buttons-->
+</div>
 
 <div class='row'>
   {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
+
   <div class="col-sm-10">
-    {# Display a form #}
-    <h4>Select Input Data type:</h4>
-    <button on-click='sequence_active' type="button" class="btn btn-default">Sequence</button>
-    <button on-click='structure_active' type="button" class="btn btn-default">Structure</button>
-    <br /><br />
-    <h4>Select Methods(s):</h4>
-    {% include "./mainform.html" %}
+    <div class='row'>
+      <div class="col-sm-12 form-header">
+        <h5 class="float-header">Select input data type:</h5><br /><br />
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class="col-sm-12">
+        {# Display a form #}
+        <br />
+        <button on-click='sequence_active' type="button" class="btn btn-default">Sequence Data</button>
+        <button on-click='structure_active' type="button" class="btn btn-default">PDB Structure</button>
+        <br /><br />
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class="col-sm-12 form-header">
+        <h5 class="float-header">Choose prediction methods:</h5><br /><br />
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class="col-sm-12">
+        <br />
+        {% include "./mainform.html" %}
+      </div>
+    </div>
   </div>
+
   <div class="col-sm-2">
-    <h4>Options</h4>
-    {% include "./advanced_panel.html" %}
+    <div class="col-sm-12 form-header">
+      <h5 class="float-header">Options</h5><br /><br />
+    </div>
+    <div class="col-sm-12">
+      {% include "./advanced_panel.html" %}
+    </div>
   </div>
+
   {% templatetag openvariable %}/if{% templatetag closevariable %}
 </div>  <!--closes the row -->
+
 <div class='row'>
   <div class="col-sm-12">
     <!-- Annotation panel -->

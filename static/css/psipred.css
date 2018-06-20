@@ -3,6 +3,32 @@ body
   width: 100%;
 }
 
+.full-width-table
+{
+  width: 100%;
+}
+td{
+    white-space: nowrap;
+}
+
+.spacer
+{
+  height: 20px;
+}
+
+.form-header
+{
+  background-color: #173958;
+  color: #ffffff;
+  display: table;
+}
+
+.float-header
+{
+  display: table-cell;
+  vertical-align: middle;
+}
+
 .mol-container {
   width: 60%;
   height: 400px;
