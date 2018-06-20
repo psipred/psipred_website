@@ -22,23 +22,33 @@
       <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
       <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
     {% endif %}
-    </button>
+    </button><br /><br />
     </div>
 </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
+
 <div class="row"> <!-- sequence plot -->
   <div class="col-sm-12">
     {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
+      <div class='row'>
+        <div class="col-sm-12 form-header">
+          <h5 class="float-header">Sequence plot</h5><br /><br />
+        </div>
+      </div>
       <div class="sequence_plot" id="sequence_plot"></div><br />
     {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div>
 </div> <!-- end sequence plot -->
 
 <div class="row"> <!-- Submission widget -->
-  <div class="col-sm-1"></div>
   {% templatetag openvariable %}#if resubmission_visible === 1 {% templatetag closevariable %}
-  <div class="col-sm-10 resubmit_colour">
+  <div class="col-sm-12 resubmit_colour">
+      <div class='row'>
+        <div class="col-sm-12 form-header">
+          <h5 class="float-header">Resubmission</h5><br /><br />
+        </div>
+      </div>
       {% include "./resubmission.html" %}
   </div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
@@ -47,6 +57,11 @@
 <div class="row"><!-- The results page selection buttons-->
 
 <div class="col-sm-12">
+  <div class='row'>
+    <div class="col-sm-12 form-header">
+      <h5 class="float-header">Results panel</h5><br /><br />
+    </div>
+  </div>
   <div class="btn btn-group" id="selector" role="group">
     {% include "./results_toggle.html" %}
   </div>
@@ -59,7 +74,7 @@
   <div class="col-sm-10">
     <div class='row'>
       <div class="col-sm-12 form-header">
-        <h5 class="float-header">Select input data type:</h5><br /><br />
+        <h5 class="float-header">Select input data type</h5><br /><br />
       </div>
     </div>
 
@@ -75,7 +90,7 @@
 
     <div class='row'>
       <div class="col-sm-12 form-header">
-        <h5 class="float-header">Choose prediction methods:</h5><br /><br />
+        <h5 class="float-header">Choose prediction methods</h5><br /><br />
       </div>
     </div>
 
