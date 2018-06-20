@@ -114,7 +114,8 @@ class PsipredForm(forms.ModelForm):
                                              'checked': '{{gentdb_checked}}'
                                              }))
 
-    input_data = forms.CharField(initial="Input Sequence",
+    input_data = forms.CharField(label="Input data",
+                                initial="Input Sequence",
                                  widget=forms.Textarea(
                                   attrs={'value': '{{sequence}}'}))
     job_name = forms.CharField(widget=forms.TextInput(

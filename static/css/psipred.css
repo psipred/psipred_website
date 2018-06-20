@@ -11,6 +11,10 @@ td{
     white-space: nowrap;
 }
 
+.form-link
+{
+    color: #972646;
+}
 .spacer
 {
   height: 20px;
