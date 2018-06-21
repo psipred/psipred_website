@@ -34,7 +34,7 @@ td{
 }
 
 .mol-container {
-  width: 60%;
+  width: 400px;
   height: 0px;
   position: relative;
 }
@@ -51,6 +51,17 @@ td{
 {
   color: #ff0000;
 }
+
+
+#hspred_initial_model
+{
+  display: inline-block;
+}
+#hspred_second_model
+{
+  display: inline-block;
+}
+
 
 #retrievalLink
 {
