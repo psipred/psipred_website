@@ -132,10 +132,8 @@ input:invalid {
 
 .results_panel
 {
-  border-style: solid;
   border-width: 0.1em;
   border-color: #b8b8b8;
-  border-radius: 4px;
   padding: 0.5em;
 }
 
