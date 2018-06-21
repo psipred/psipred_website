@@ -8,7 +8,7 @@
 {% csrf_token %}
   <br />
   <h6>Select subsequence region</h6>
-  <input id="start_coord" class="sequence_coord" value="{% ractivetag "subsequence_start" %}"> - <input id="stop_coord" class="sequence_coord" value="{% ractivetag "subsequence_stop" %}">
+  Start Coordinate <input type="text" id="start_coord" class="sequence_coord" value="{% ractivetag "subsequence_start" %}" size="4"> - Stop Coordinate <input id="stop_coord" class="sequence_coord" value="{% ractivetag "subsequence_stop" %}">
   <div class="form-group">
     <div class="checkbox">
       <br />

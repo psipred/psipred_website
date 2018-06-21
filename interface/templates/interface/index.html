@@ -57,6 +57,7 @@
 <div class="row"><!-- The results page selection buttons-->
 
 <div class="col-sm-12">
+  {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
   <div class='row'>
     <div class="col-sm-12 form-header">
       <h5 class="float-header">Results panel</h5><br /><br />
@@ -65,6 +66,7 @@
   <div class="btn btn-group" id="selector" role="group">
     {% include "./results_toggle.html" %}
   </div>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
 </div>
 </div>
 
