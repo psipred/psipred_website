@@ -52,6 +52,17 @@ td{
   color: #ff0000;
 }
 
+.center
+{
+  align: center;
+  text-align: center;
+}
+
+.ffpred-table
+{
+margin-left: auto;
+margin-right: auto;
+}
 
 #hspred_initial_model
 {
