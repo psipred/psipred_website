@@ -173,6 +173,11 @@ input:invalid {
   padding: 0.5em;
 }
 
+.psipred_cartoon
+{
+  height: 100%;
+}
+
 .red_text
 {
   color: #bf4440;
