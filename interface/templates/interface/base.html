@@ -1,89 +1,30 @@
+{% extends 'adminlte/base.html' %}
+
 {% load bootstrap3 %}
 {% load staticfiles %}
 {% load ractive_tags %}
 
-<!DOCTYPE html>
+{% block title %}PSIPRED Workbench{% endblock %}
+{% block stylesheets %}
+    {{ block.super }}
+    {% if staging %}{# Production should also use this unqualified links #}
+        <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+        <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+    {% else %}
+        <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+    {% endif %}
+{% endblock %}
 
-<!--
-colours
-Dark Blue: #173958
-Contrast Blue: #2e679c
-Salmon: #e67986
-Purple: #7d50bf
-mustard: #bfaf40
-teal:  #40a1bf
-burnt orange : #bf5e40
-Green : #40bf51
-Red : #bf4440
--->
-<html>
+{% block content %}
+    Just some example content
+{% endblock %}
 
-    <head>
-        <meta charset="utf-8">
-        <title>PSIPRED Server: Beta</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        {# Load the tag library #}
-
-        {# Load CSS #}
-        {% if staging %}{# Production should also use this unqualified links #}
-            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
-            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
-            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
-        {% else %}
-            <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
-            <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
-            <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
-        {% endif %}
-    </head>
-
-    <body id="body">
-      <nav id="psipredNavbar" class="navbar navbar-default navbar-inverse navbar-static-top" role="navigation">
-        <div class="container">
-
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#" onClick="window.location.reload();return false;" >PSIPRED SERVER: <div class="red_text">Beta</div></a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-              <ul class="nav navbar-nav">
-                  <li class="active"><a href="#" onClick="window.location.reload();return false;" target="_blank">Home</a></li>
-                  <li><a href="http://bioinf.cs.ucl.ac.uk/psipred/" target="_blank">Main PSIPRED</a></li>
-              </ul>
-          </div>
-
-          </div>
-      </nav>
-
-      {# Display django.contrib.messages as Bootstrap alerts #}
-      {% bootstrap_messages %}
-      {% if staging or debug %}
-      <div id="header_info" class="container">
-        <div class="row">
-                <div class="col-sm-9 col-sm-offset-1">
-
-                <div style="color:red"><p>This is the new PSIPRED beta server. This service shows
-                work in progress for our new service. Please feel free to
-                test the new service. We welcome any feedback and feature requests
-                to <a href="mailto:psipred@cs.ucl.ac.uk">psipred@cs.ucl.ac.uk</a>.</p>
-                <p>Results should be accurate but we do not guarantee the stability of the beta service</p>
-                <p>You may wish to use our old service at:<br />
-                <a href="http://bioinf.cs.ucl.ac.uk/psipred/">http://bioinf.cs.ucl.ac.uk/psipred/</a></p><hr /></div>
-
-                </div>
-            <div class="col-sm-2"><!--Column right--></div>
-        </div>
-      </div>
-      {% endif %}
-      <div id="psipred_site" class="container">
-          {% block content %}{% endblock content%}
-      </div>
+{% block javascript %}
+    {{ block.super }}
     {# Load javascript #}
     {% if staging %}{# Production should also use these unqualified links #}
-        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/popper.js' %}"></script>
-        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-events-tap.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-transitions-slide.js' %}"></script>
@@ -96,9 +37,7 @@ Red : #bf4440
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/konami_code.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/3Dmol-min.js' %}"></script>
     {% else %}
-        <script src="{% static 'js/jquery.min.js' %}"></script>
         <script src="{% static 'js/popper.js' %}"></script>
-        <script src="{% static 'js/bootstrap.js' %}"></script>
         <script src="{% static 'js/ractive.min.js' %}"></script>
         <script src="{% static 'js/ractive-events-tap.js' %}"></script>
         <script src="{% static 'js/ractive-transitions-slide.js' %}"></script>
@@ -109,9 +48,6 @@ Red : #bf4440
         <script src="{% static 'js/psipred.js' %}"></script>
         <script src="{% static 'js/msa.min.js' %}"></script>
         <script src="{% static 'js/konami_code.js' %}"></script>
-        <script src="{% static 'js/3Dmol-min.js' %}"></script>
+        <!--<script src="{% static 'js/3Dmol-min.js' %}"></script>-->
     {% endif %}
-
-  </body>
-
-</html>
+{% endblock %}

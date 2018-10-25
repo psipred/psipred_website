@@ -1,0 +1,54 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+
+{% block user_panel %}{% endblock %}
+{% block nav_links %}
+    <li class="treeview ">
+        <a href="#"><i class="fa fa-th"></i> <span>Server Links</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+    <li>
+        <a href="./">
+            <i class="fa fa-dashboard"></i> <span>PSIPRED Server</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/index.php?id=779">
+            <i class="fa fa-list-ul"></i> <span>PSIPRED Overview</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/index.php?id=780">
+            <i class="fa fa-file-text-o"></i> <span>Server Citation</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/index.php?id=5399">
+            <i class="fa fa-question-circle-o"></i> <span>Help & Tutorials</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/index.php?id=778">
+            <i class="fa fa-twitter"></i> <span>News</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://cms.cs.ucl.ac.uk/typo3/fileadmin/bioinf/PSIPRED/psipred_history.html">
+            <i class="fa fa-history"></i> <span>History</span>
+        </a>
+    </li>
+    <li>
+        <a href="https://github.com/psipred">
+            <i class="fa fa-github"></i> <span>PSIPRED Github</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/software_downloads/">
+            <i class="fa fa-download"></i> <span>Software Downloads</span>
+        </a>
+    </li>
+        </ul>
+     </li>
+{% endblock nav_links %}

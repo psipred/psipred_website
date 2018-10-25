@@ -65,7 +65,7 @@ INSTALLED_APPS = (
     'interface',
     'msa',
     'model',
-#    'structure',
+    'django_adminlte',
 )
 
 BOOTSTRAP3 = {
