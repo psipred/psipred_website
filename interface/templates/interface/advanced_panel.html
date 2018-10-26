@@ -3,34 +3,34 @@
 {% load bootstrap3 %}
 
 {% templatetag openvariable %}#if bioserf_advanced === 1 {% templatetag closevariable %}
-  <h5>Bioserf</h5>
-  MODELLER Key:
+  <h4>Bioserf</h4>
+  <strong>MODELLER Key:</strong>
   <input type="text" id="bioserf_modeller_key" name="bioserf_modeller_key">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if domserf_advanced === 1 {% templatetag closevariable %}
-  <h5>Domserf</h5>
-  MODELLER Key:
+  <h4>Domserf</h4>
+  <strong>MODELLER Key:</strong>
   <input type='text' id="domserf_modeller_key" name="domserf_modeller_key">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if dompred_advanced === 1 {% templatetag closevariable %}
-  <h5>Dompred</h5>
-  PSI-BLAST e-value cutoff:
+  <h4>Dompred</h4>
+  <strong>PSI-BLAST e-value cutoff:</strong>
   <input type='text' id="dompred_e_value_cutoff" name="dompred_e_value_cutoff" value="0.01"><br /><br />
-  PSI-BLAST Iterations:
+  <strong>PSI-BLAST Iterations:</strong>
   <input type='text' id="dompred_psiblast_iterations" name="dompred_psiblast_iterations" value="5">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if ffpred_advanced === 1 {% templatetag closevariable %}
-  <h5>FFpred</h5>
+  <h4>FFpred</h4>
   <input type="radio" name="ffpred_selection" id="ffpred_human" value="human" checked> <label for="ffpred_human">Human Prediction</label><br />
   <input type="radio" name="ffpred_selection" id="ffpred_fly" value="fly"> <label for="ffpred_fly">Fly Prediction</label>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if metsite_advanced === 1 {% templatetag closevariable %}
-  <h5>Metsite</h5>
-  Select Metal:<br />
+  <h4>Metsite</h4>
+  <strong>Select Metal:</strong><br />
   <select id="metsite_metal_type" name="metsite_metal_type" size="6">
     <option value="CA" selected="selected">Calcium</option>
     <option value="ZN">Zinc</option>
@@ -39,9 +39,9 @@
     <option value="CU">Copper</option>
     <option value="MN">Manganese</option>
   </select><br /><br />
-  Chain ID:
+  <strong>Chain ID:</strong>
   <input type='text' id="metsite_chain_id" name="metsite_chain_id" value="A"><br /><br />
-  False Positive Rate:
+  <strong>False Positive Rate:</strong>
   <select id="metsite_fpr" name="metsite_fpr" size="1">
     <option value="0">1%</option>
     <option value="1" selected="selected">5%</option>
@@ -51,26 +51,26 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if hspred_advanced === 1 {% templatetag closevariable %}
-  <h5>HSPred</h5>
-  Protein 1:
+  <h4>HSPred</h4>
+  <strong>Protein 1:</strong>
   <input type='text' id="hspred_protein_1" name="hspred_protein_1" value="A"><br /><br />
-  Protein 2:
+  <strong>Protein 2:</strong>
   <input type='text' id="hspred_protein_2" name="hspred_protein_2" value="B">
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 {% templatetag openvariable %}#if memembed_advanced === 1 {% templatetag closevariable %}
-  <h5>Memembed</h5>
-  Search Type:
+  <h4>Memembed</h4>
+  <strong>Search Type:</strong>
   <select id="memembed_algorithm" name="memembed_algorithm" size="1">
     <option value="0" selected="selected">Genetic Algorithm</option>
     <option value="1">Grid Search</option>
     <option value="2">Direct</option>
     <option value="3">GA x 5</option>
   </select><br /><br />
-  Target is Beta Barrel:<br />
+  <strong>Target is Beta Barrel:</strong><br />
   <input type="radio" name="memembed_barrel" id="memembed_barrel_yes" value="true"> <label for="memembed_barrel_yes">Yes</label><br />
   <input type="radio" name="memembed_barrel" id="memembed_barrel_no" value="false" checked> <label for="memembed_barrel_no">No</label><br /><br />
-  N-Terminal Location:<br />
+  <strong>N-Terminal Location:</strong><br />
   <input type="radio" name="memembed_terminal" id="memembed_terminal_in" value="in"> <label for="memembed_terminal_in">Cytoplasmic</label><br />
   <input type="radio" name="memembed_terminal" id="memembed_terminal_out" value="out" checked> <label for="memembed_terminal_out">Extra Cellular</label><br /><br />
   <!--Helix boundaries:

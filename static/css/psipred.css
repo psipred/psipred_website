@@ -23,7 +23,9 @@ left: 1px;
   width: 100%;
 }
 td{
-    white-space: nowrap;
+    width: 50%;
+    align:top;
+    word-wrap: break-word;
 }
 
 .form-link
@@ -40,6 +42,12 @@ td{
   background-color: #173958;
   color: #ffffff;
   display: table;
+}
+
+.form-header-row
+{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .float-header

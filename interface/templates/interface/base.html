@@ -16,9 +16,14 @@
     {% endif %}
 {% endblock %}
 
-{% block content %}
-    Just some example content
+{% block body_class %}
+    skin-blue-light
 {% endblock %}
+
+{% block content_header %} {# remove header region, could add beta site info #}
+{% endblock %}
+
+{% block content %}{% endblock content%}
 
 {% block javascript %}
     {{ block.super }}

@@ -6,20 +6,19 @@
 {% csrf_token %}
 {% templatetag openvariable %}#if sequence_form_visible === 1 {% templatetag closevariable %}
 <div class="form-group">
-    <div class="checkbox">
     <table class="full-width-table">
 {% for field in form %}
     {% if "PSIPRED 4.0" in field.label %}
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "DISOPRED3" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
     {% endif %}
@@ -27,13 +26,13 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "pGenTHREADER" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
         <tr class="spacer"></tr>
@@ -42,13 +41,13 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "MEMPACK" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
     {% endif %}
@@ -56,13 +55,13 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "DomPred" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
     {% endif %}
@@ -70,13 +69,13 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "Bioserf 2.0" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
     {% endif %}
@@ -84,20 +83,19 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "FFPred 3" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
     {% endif %}
 {% endfor %}
     <tr><td colspan=2><a class="form-link" href="http://bioinf.cs.ucl.ac.uk/index.php?id=5399">Help...</a><br /></td></tr>
     </table>
-    </div>
 </div>
 <div class='row'>
   <div class="col-sm-12 form-header">
@@ -124,20 +122,19 @@
 
 {% templatetag openvariable %}#if structure_form_visible === 1 {% templatetag closevariable %}
 <div class="form-group">
-    <div class="checkbox">
     <table class="full-width-table">
 {% for field in form %}
     {% if "Metsite" in field.label %}
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "HSPred" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
     {% endif %}
@@ -145,20 +142,19 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
     {% if "Generate TDB" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
     {% endif %}
 {% endfor %}
     <tr><td colspan=2><a class="form-link" href="http://bioinf.cs.ucl.ac.uk/index.php?id=5399">Help...</a><br /></td></tr>
     </table>
-    </div>
 </div>
 <div class='row'>
   <div class="col-sm-12 form-header">
