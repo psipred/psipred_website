@@ -114,10 +114,11 @@ class PsipredForm(forms.ModelForm):
                                              'checked': '{{gentdb_checked}}'
                                              }))
 
-    input_data = forms.CharField(label="Input data",
-                                initial="Input Sequence",
+    input_data = forms.CharField(label="Protein Sequence",
+                                 initial="Input Sequence",
                                  widget=forms.Textarea(
-                                  attrs={'value': '{{sequence}}'}))
+                                  attrs={'value': '{{sequence}}',
+                                         'rows': '3'}))
     job_name = forms.CharField(widget=forms.TextInput(
                                 attrs={'value': '{{name}}'}))
     email = forms.EmailField(widget=forms.EmailInput(

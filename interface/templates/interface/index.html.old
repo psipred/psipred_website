@@ -27,7 +27,6 @@
 </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-
 <div class="row"> <!-- sequence plot -->
   <div class="col-sm-12">
     {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
