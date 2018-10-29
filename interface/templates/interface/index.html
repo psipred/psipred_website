@@ -105,6 +105,21 @@
     <div class="col-md-4">
     <div class="box box-primary" id="resubmission_widget">
         <div class="box-header with-border">
+            <h5 class="box-title">Downloads</h5>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            Downloads go here
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <div class="box box-primary" id="resubmission_widget">
+        <div class="box-header with-border">
             <h5 class="box-title">Resubmission Widget</h5>
 
             <div class="box-tools pull-right">
@@ -124,6 +139,7 @@
 
   <div class="row"> <!-- Results Panel area -->
     {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
+    <div class="col-md-12">
     <div class="box box-primary" id="psipred_cartoon">
         <div class="box-header with-border">
             <h5 class="box-title">PSIPRED Cartoon</h5>
@@ -138,6 +154,7 @@
             Puts Horiz cartoon here
         </div>
         <!-- /.box-body -->
+    </div>
     </div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div> <!-- end results panel area -->
