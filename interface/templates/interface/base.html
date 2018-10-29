@@ -6,7 +6,6 @@
 
 {% block title %}PSIPRED Workbench{% endblock %}
 {% block stylesheets %}
-    {{ block.super }}
     {% if staging %}{# Production should also use this unqualified links #}
         <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
         <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
@@ -14,6 +13,7 @@
         <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
     {% endif %}
+    {{ block.super }}
 {% endblock %}
 
 {% block body_class %}
