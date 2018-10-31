@@ -9,9 +9,11 @@
     {% if staging %}{# Production should also use this unqualified links #}
         <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
         <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+        <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/dataTables.bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     {% else %}
         <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'css/dataTables.bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     {% endif %}
     {{ block.super }}
 {% endblock %}
@@ -40,6 +42,10 @@
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/konami_code.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/3Dmol-min.js' %}"></script>
         {{ block.super }} <!-- this loading ordering required to load jquery in time for the site js -->
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.dataTables.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.slimscroll.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/fastclick.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/psipred.js' %}"></script>
     {% else %}
         <script src="{% static 'js/popper.js' %}"></script>
@@ -54,6 +60,10 @@
         <script src="{% static 'js/konami_code.js' %}"></script>
         <script src="{% static 'js/3Dmol-min.js' %}"></script>
         {{ block.super }} <!-- this loading ordering required to load jquery in time for the site js -->
+        <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
+        <script src="{% static 'js/fastclick.js' %}"></script>
         <script src="{% static 'js/psipred.js' %}"></script>
     {% endif %}
 {% endblock %}
