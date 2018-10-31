@@ -2,13 +2,71 @@
 
 {% block user_panel %}{% endblock %}
 {% block nav_links %}
-    <li class="treeview ">
+  <ul class="sidebar-menu">
+    <li class="treeview">
+        <a href="#"><i class="fa fa-th"></i> <span>Site Links</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+    <ul class="treeview-menu">
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/introduction/">
+            <i class="fa fa-info"></i><span>Introduction</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/people/">
+            <i class="fa fa-users"></i> <span>People</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/projects/">
+            <i class="fa fa-folder-open"></i> <span>Projects</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/publications/">
+            <i class="fa fa-book"></i> <span>Publications</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/web_servers/">
+            <i class="fa fa-server"></i> <span>Servers</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/software_downloads/">
+            <i class="fa fa-download"></i> <span>Downloads</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/vacancies/">
+            <i class="fa fa-envelope-square"></i> <span>Vacancies</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinf.cs.ucl.ac.uk/contact/">
+            <i class="fa fa-keyboard-o"></i> <span>Contact</span>
+        </a>
+    </li>
+    <li>
+        <a href="http://bioinfadmin.cs.ucl.ac.uk:8080/JSPWiki/Login.jsp">
+            <i class="fa fa-sitemap"></i> <span>Intranet</span>
+        </a>
+    </li>
+    </ul>
+     </li>
+    </ul>
+
+  <ul class="sidebar-menu">
+    <li class="treeview">
         <a href="#"><i class="fa fa-th"></i> <span>Server Links</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
         </a>
-        <ul class="treeview-menu">
+    <ul class="treeview-menu" style="display: block">
     <li>
         <a href="./">
             <i class="fa fa-dashboard"></i> <span>PSIPRED Server</span>
@@ -49,6 +107,7 @@
             <i class="fa fa-download"></i> <span>Software Downloads</span>
         </a>
     </li>
-        </ul>
+    </ul>
      </li>
+    </ul>
 {% endblock nav_links %}

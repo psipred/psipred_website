@@ -1,7 +1,7 @@
 {% load ractive_tags %}
 {% load staticfiles %}
 {% load bootstrap3 %}
-
+<br />
 <form name="main_form" id="main_form" method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
 {% csrf_token %}
 {% templatetag openvariable %}#if sequence_form_visible === 1 {% templatetag closevariable %}
@@ -97,12 +97,14 @@
     <tr><td colspan=2><a class="form-link" href="http://bioinf.cs.ucl.ac.uk/index.php?id=5399">Help...</a><br /></td></tr>
     </table>
 </div>
-<div class='row'>
-  <div class="col-sm-12 form-header">
-    <h5 class="float-header">Submission details:</h5><br /><br />
+<div class="col-sm-12 form-header">
+  <div class='row form-header-row'>
+    <h5 class="float-header">Submission details</h5>
   </div>
 </div>
 
+<br />
+<br />
 <p class="form_error">{% ractivehtmltag "form_error" %}</p>
 {% for field in form %}
     {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label or "MetaPSICOV" in field.label or "Generate TDB" in field.label or "MEMEMBED" in field.label or "HSPred" in field.label or "Metsite" in field.label or "MetaPSICOV" in field.label or "FFPred 3" in field.label or "Domserf 2.1" in field.label or "Bioserf 2.0" in field.label or "pDomTHREADER" in field.label or "DomPred" in field.label or "GenTHREADER (Rapid Fold Recognition)" == field.label or "MEMPACK" in field.label or "Metsite" in field.label or "HSPred" in field.label or "MEMEMBED" in field.label or "Generate TDB" in field.label %}
@@ -156,14 +158,15 @@
     <tr><td colspan=2><a class="form-link" href="http://bioinf.cs.ucl.ac.uk/index.php?id=5399">Help...</a><br /></td></tr>
     </table>
 </div>
-<div class='row'>
-  <div class="col-sm-12 form-header">
-    <h5 class="float-header">Submission details:</h5><br /><br />
+<div class="col-sm-12 form-header">
+  <div class='row form-header-row'>
+    <h5 class="float-header">Submission details</h5>
   </div>
 </div>
 <p class="form_error">{% ractivehtmltag "form_error" %}</p>
-Select PDB file<br />
 
+<br /><br /><br />
+Select PDB file<br />
 <input type=file  name="pdbFile" id="pdbFile" /><br /><br />
 <a class="form-link" href="http://bioinf.cs.ucl.ac.uk/index.php?id=5399">Help...</a><br />
 If you wish to Metsite or HSPred follow this link to retrieve <a class="form-link" href="http://www.rcsb.org/pdb/download/downloadFile.do?fileFormat=pdb&compression=NO&structureId=1IAR">a test pdb file.</a><br /><br />

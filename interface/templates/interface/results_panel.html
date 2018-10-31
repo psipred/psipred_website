@@ -2,160 +2,426 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 
-    <div class="results" intro="slide" outro="slide" width="100%">
-      <div class="results_panel" width="100%">
-      <!-- PSIPRED RESULTS: 1 -->
-      {% templatetag openvariable %}#if results_panel_visible === 2 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='psipred_cartoon'></div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}<br />{% ractivehtmltag "psipred_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- PGENTHREADER TABLE: 3 -->
-      {% templatetag openvariable %}#if results_panel_visible === 3 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='text-right modeller-key'>Modeller Licence Key: <input class="text" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
-      <div class="pgen_table">{% ractivehtmltag "pgen_table" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_icon" %}<br />{% ractivehtmltag "pgenthreader_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+  {% templatetag openvariable %}#if results_panel_visible === 2 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="psipred_cartoon">
+      <div class="box-header with-border">
+          <h5 class="box-title">PSIPRED Cartoon</h5>
 
-      <!-- METAPSICOV RESULTS: 4 -->
-      {% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='metapsicov_ma'>{% ractivehtmltag "metapsicov_map" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_icon" %}<br />{% ractivehtmltag "metapsicov_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+          <div class='error'>{% ractivehtmltag "error_message" %}</div>
+          <div class='psipred_cartoon'></div>
+          <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
+          <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}<br />{% ractivehtmltag "psipred_time" %}<br /></div>
 
-      <!-- DISOPRED RESULTS: 5 -->
-      {% templatetag openvariable %}#if results_panel_visible === 5 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class="comb_plot"></div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_icon" %}<br />{% ractivehtmltag "disopred_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+      </div>
+      <div class="overlay processing">
+      </div>
 
-      <!-- MEMPACK RESULTS: 6 -->
-      {% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
-      <!-- <div class='psipred_cartoon'></div> -->
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class="mempack_cartoon">{% ractivehtmltag "mempack_cartoon" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_icon" %}<br />{% ractivehtmltag "mempack_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+      <!-- /.box-body -->
+  </div>
+  {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- MEMSATSVM RESULTS: 7 -->
-      {% templatetag openvariable %}#if results_panel_visible === 7 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class="memsat_schematic">{% ractivehtmltag "memsatsvm_schematic" %}</div>
-      <div class="memsat_cartoon">{% ractivehtmltag "memsatsvm_cartoon" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_icon" %}<br />{% ractivehtmltag "memsatsvm_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+<!-- PGENTHREADER TABLE: 3 -->
+{% templatetag openvariable %}#if results_panel_visible === 3 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="pgenthreader_table">
+      <div class="box-header with-border">
+          <h5 class="box-title">pGenTHREADER Table</h5>
 
-      <!-- GENTHREADER RESULTS: 8 -->
-      {% templatetag openvariable %}#if results_panel_visible === 8 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='text-right modeller-key'>Modeller Licence Key: <input class="text modeller-key" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
-      <div class="gen_table">{% ractivehtmltag "gen_table" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_icon" %}<br />{% ractivehtmltag "genthreader_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+          <div class='error'>{% ractivehtmltag "error_message" %}</div>
+          <div class='text-right modeller-key'>Modeller Licence Key: <input class="text" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
+          <div class="pgen_table">{% ractivehtmltag "pgen_table" %}</div>
+          <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_message" %}</div>
+          <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pgenthreader_waiting_icon" %}<br />{% ractivehtmltag "pgenthreader_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
 
-      <!-- DOMPRED RESULTS: 9 -->
-      {% templatetag openvariable %}#if results_panel_visible === 9 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='parseds_png'>{% ractivehtmltag "parseds_png" %}</div>
-      <div class='parseds_info'>{% ractivehtmltag "parseds_info" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "dompred_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "dompred_waiting_icon" %}<br />{% ractivehtmltag "dompred_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- PDOMPRTHEADER RESULTS: 10 -->
-      {% templatetag openvariable %}#if results_panel_visible === 10 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='text-right modeller-key'>Modeller Licence Key: <input class="text modeller-key" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
-      <div class="dgen_table">{% ractivehtmltag "dgen_table" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_icon" %}<br />{% ractivehtmltag "pdomthreader_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+<!-- METAPSICOV RESULTS: 4 -->
+{% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="metapsicov_contact_map">
+      <div class="box-header with-border">
+          <h5 class="box-title">MetaPSICOV Contact Map</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='metapsicov_ma'>{% ractivehtmltag "metapsicov_map" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_icon" %}<br />{% ractivehtmltag "metapsicov_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+
+<!-- DISOPRED RESULTS: 5 -->
+{% templatetag openvariable %}#if results_panel_visible === 5 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="disopred_plot">
+      <div class="box-header with-border">
+          <h5 class="box-title">DISOPRED Plot</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+          <div class='error'>{% ractivehtmltag "error_message" %}</div>
+          <div class="comb_plot"></div>
+          <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_message" %}</div>
+          <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "disopred_waiting_icon" %}<br />{% ractivehtmltag "disopred_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+
+<!-- MEMPACK RESULTS: 6 -->
+{% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="mempack_plot">
+      <div class="box-header with-border">
+          <h5 class="box-title">MEMPACK Plot</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class="mempack_cartoon">{% ractivehtmltag "mempack_cartoon" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "mempack_waiting_icon" %}<br />{% ractivehtmltag "mempack_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+
+<!-- MEMSATSVM RESULTS: 7 -->
+{% templatetag openvariable %}#if results_panel_visible === 7 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="memsat_schematics">
+      <div class="box-header with-border">
+          <h5 class="box-title">MEMSAT-SVM Schematics</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class="memsat_schematic">{% ractivehtmltag "memsatsvm_schematic" %}</div>
+        <div class="memsat_cartoon">{% ractivehtmltag "memsatsvm_cartoon" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memsatsvm_waiting_icon" %}<br />{% ractivehtmltag "memsatsvm_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+
+<!-- GENTHREADER RESULTS: 8 -->
+{% templatetag openvariable %}#if results_panel_visible === 8 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="genthreader_table">
+      <div class="box-header with-border">
+          <h5 class="box-title">GenTHREADER Table</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='text-right modeller-key'>Modeller Licence Key: <input class="text modeller-key" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
+        <div class="gen_table">{% ractivehtmltag "gen_table" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "genthreader_waiting_icon" %}<br />{% ractivehtmltag "genthreader_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+
+<!-- DOMPRED RESULTS: 9 -->
+{% templatetag openvariable %}#if results_panel_visible === 9 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="dompred_results">
+      <div class="box-header with-border">
+          <h5 class="box-title">DomPred Results</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='parseds_png'>{% ractivehtmltag "parseds_png" %}</div>
+        <div class='parseds_info'>{% ractivehtmltag "parseds_info" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "dompred_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "dompred_waiting_icon" %}<br />{% ractivehtmltag "dompred_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+<!-- PDOMTHREADER RESULTS: 10 -->
+{% templatetag openvariable %}#if results_panel_visible === 10 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="pdomthreader_results">
+      <div class="box-header with-border">
+          <h5 class="box-title">pDomTHREADER Results</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='text-right modeller-key'>Modeller Licence Key: <input class="text modeller-key" value="{% ractivetag "modeller_key" %}"><br /><br /></div>
+        <div class="dgen_table">{% ractivehtmltag "dgen_table" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "pdomthreader_waiting_icon" %}<br />{% ractivehtmltag "pdomthreader_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+<!-- <div class='_cartoon'></div> -->
+{% templatetag openvariable %}/if{% templatetag closevariable %}
 
       <!-- BIOSERF RESULTS: 11 -->
-      {% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='mol-container' id='bioserf_model'></div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "bioserf_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "bioserf_waiting_icon" %}<br />{% ractivehtmltag "bioserf_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+{% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="bioserf_models">
+      <div class="box-header with-border">
+          <h5 class="box-title">Bioserf Models</h5>
 
-      <!-- DOMSERF RESULTS: 12 -->
-      {% templatetag openvariable %}#if results_panel_visible === 12 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='domserf_buttons'>{% ractivehtmltag "domserf_buttons" %}</div>
-      <div class='mol-container' id='domserf_model'></div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "domserf_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "domserf_waiting_icon" %}<br />{% ractivehtmltag "domserf_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <!-- <div class='_cartoon'></div> -->
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='mol-container' id='bioserf_model'></div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "bioserf_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "bioserf_waiting_icon" %}<br />{% ractivehtmltag "bioserf_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
 
-      <!-- FFPRED RESULTS: 13 -->
-      {% templatetag openvariable %}#if results_panel_visible === 13 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class="function_tables">{% ractivehtmltag "function_tables" %}</div>
-      <div class="sch_schematic center">{% ractivehtmltag "sch_schematic" %}</div>
-      <div class="ffpred_cartoon center">{% ractivehtmltag "ffpred_cartoon" %}</div>
-      <div class="aa_composition center">{% ractivehtmltag "aa_composition" %}</div>
-      <div class="global_features center">{% ractivehtmltag "global_features" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "ffpred_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "ffpred_waiting_icon" %}<br />{% ractivehtmltag "ffpred_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- METSITE RESULTS: 14 -->
-      {% templatetag openvariable %}#if results_panel_visible === 14 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='mol-container' id='metsite_model'></div>
-      <div class='metsite_table' >{% ractivehtmltag "metsite_table" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metsite_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metsite_waiting_icon" %}<br />{% ractivehtmltag "metsite_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+<!-- DOMSERF RESULTS: 12 -->
+{% templatetag openvariable %}#if results_panel_visible === 12 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="domserf_models">
+      <div class="box-header with-border">
+          <h5 class="box-title">Domserf Models</h5>
 
-      <!-- HSPRED RESULTS: 15 -->
-      {% templatetag openvariable %}#if results_panel_visible === 15 {% templatetag closevariable %}
-      <!-- <div class='_cartoon'></div> -->
-      <div class='mol-container' id='hspred_initial_model'></div><div class='mol-container' id='hspred_second_model'></div>
-      <div style="clear: both;"></div>
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='hspred_table' >{% ractivehtmltag "hspred_table" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "hspred_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "hspred_waiting_icon" %}<br />{% ractivehtmltag "hspred_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <!-- <div class='_cartoon'></div> -->
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='domserf_buttons'>{% ractivehtmltag "domserf_buttons" %}</div>
+        <div class='mol-container' id='domserf_model'></div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "domserf_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "domserf_waiting_icon" %}<br />{% ractivehtmltag "domserf_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
 
-      <!-- MEMEMBED RESULTS: 16 -->
-      {% templatetag openvariable %}#if results_panel_visible === 16 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='mol-container' id='memembed_model'></div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memembed_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memembed_waiting_icon" %}<br />{% ractivehtmltag "memembed_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
 
-      <!-- GENTDB RESULTS: 17 -->
-      {% templatetag openvariable %}#if results_panel_visible === 17 {% templatetag closevariable %}
-      <div class='error'>{% ractivehtmltag "error_message" %}</div>
-      <div class='tdb_file'>{% ractivehtmltag "tdb_file" %}</div>
-      <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_message" %}</div>
-      <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_icon" %}<br />{% ractivehtmltag "gentdb_time" %}</div>
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
+<!-- FFPRED RESULTS: 13 -->
+{% templatetag openvariable %}#if results_panel_visible === 13 {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="ffpred_predictions">
+      <div class="box-header with-border">
+          <h5 class="box-title">FFPred Predictions</h5>
 
-      {% templatetag openvariable %}#if results_panel_visible === 1 {% templatetag closevariable %}
-      <h5>ZIP FILE</h5>
-      <a href="" on-click="@this.fire("get_zip"), false">Get Zip file</a><br /><br />
-      {% ractivehtmltag "download_links" %}
-      {% templatetag openvariable %}/if{% templatetag closevariable %}
-      </div><!-- closes results_panel class-->
-    </div><!-- closes results class -->
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class="function_tables">{% ractivehtmltag "function_tables" %}</div>
+        <div class="sch_schematic center">{% ractivehtmltag "sch_schematic" %}</div>
+        <div class="ffpred_cartoon center">{% ractivehtmltag "ffpred_cartoon" %}</div>
+        <div class="aa_composition center">{% ractivehtmltag "aa_composition" %}</div>
+        <div class="global_features center">{% ractivehtmltag "global_features" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "ffpred_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "ffpred_waiting_icon" %}<br />{% ractivehtmltag "ffpred_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+
+<!-- METSITE RESULTS: 14 -->
+{% templatetag openvariable %}#if results_panel_visible === 14 {% templatetag closevariable %}
+  <div class="box box-primary" id="metsite_predictions">
+      <div class="box-header with-border">
+          <h5 class="box-title">Metsite Predictions</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='mol-container' id='metsite_model'></div>
+        <div class='metsite_table' >{% ractivehtmltag "metsite_table" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metsite_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metsite_waiting_icon" %}<br />{% ractivehtmltag "metsite_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+<!-- HSPRED RESULTS: 15 -->
+{% templatetag openvariable %}#if results_panel_visible === 15 {% templatetag closevariable %}
+  <div class="box box-primaryx" id="hspred_predictions">
+      <div class="box-header with-border">
+          <h5 class="box-title">HSPred Predictions</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <!-- <div class='_cartoon'></div> -->
+        <div class='mol-container' id='hspred_initial_model'></div><div class='mol-container' id='hspred_second_model'></div>
+        <div style="clear: both;"></div>
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='hspred_table' >{% ractivehtmltag "hspred_table" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "hspred_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "hspred_waiting_icon" %}<br />{% ractivehtmltag "hspred_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+<!-- MEMEMBED RESULTS: 16 -->
+{% templatetag openvariable %}#if results_panel_visible === 16 {% templatetag closevariable %}
+  <div class="box box-primary" id="memembed_predictions">
+      <div class="box-header with-border">
+          <h5 class="box-title">MEMEMBED Prediction</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='mol-container' id='memembed_model'></div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "memembed_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "memembed_waiting_icon" %}<br />{% ractivehtmltag "memembed_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+<!-- GENTDB RESULTS: 17 -->
+{% templatetag openvariable %}#if results_panel_visible === 17 {% templatetag closevariable %}
+  <div class="box box-primary" id="gentdb_result">
+      <div class="box-header with-border">
+          <h5 class="box-title">TDB File</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='tdb_file'>{% ractivehtmltag "tdb_file" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_icon" %}<br />{% ractivehtmltag "gentdb_time" %}</div>
+      </div>
+      <div class="overlay processing">
+      </div>
+
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
