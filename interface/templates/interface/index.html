@@ -86,20 +86,19 @@
     <div class="info-box bg-default job_info">
         <span class="info-box-icon job_info"><i class="fa fa-line-chart job_info_icon"></i></span>
               <div class="info-box-content">
-                  <span class="job_info_text job_info_text_left">Submission Name : {% ractivetag "name" %}</span><!--
-                    --><span class="job_info_text box-tools pull-right">Copy Page Link:
+                  <div class="job_info_text job_info_text_left"><p class="name_text">Name : {% ractivetag "name" %}</p></div><!--
+               --><div class="job_info_text box-tools pull-right job_info_text_right">Copy Link:
                     {% if staging %}
-                      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_beta/&psipred_uuid={% ractivetag "psipred_uuid" %}">
-                      <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+                      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_beta/&psipred_uuid={% ractivetag "psipred_uuid" %}"><!--
+                      --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
                       <img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/clippy.svg' %}" alt="Copy to clipboard" width="16">
                     {% else %}
-                      <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">
-                      <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+                      <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}"><!--
+                      --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
                       <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
                     {% endif %}
                     </button>
-                    </span>
-
+                  </div>
              </div><!-- /.info-box-content -->
     </div>
     {% templatetag openvariable %}/if{% templatetag closevariable %}
