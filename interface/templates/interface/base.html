@@ -29,6 +29,7 @@
 
 {% block javascript %}
     {# Load javascript #}
+    {{ block.super }}
     {% if staging %}{# Production should also use these unqualified links #}
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/popper.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
@@ -40,13 +41,12 @@
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/FileSaver.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/msa.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/konami_code.js' %}"></script>
-        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/3Dmol-min.js' %}"></script>
-        {{ block.super }} <!-- this loading ordering required to load jquery in time for the site js -->
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.dataTables.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/dataTables.bootstrap.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.slimscroll.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/fastclick.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/psipred.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/3Dmol-nojquery.js' %}"></script>
     {% else %}
         <script src="{% static 'js/popper.js' %}"></script>
         <script src="{% static 'js/ractive.min.js' %}"></script>
@@ -58,12 +58,11 @@
         <script src="{% static 'js/FileSaver.min.js' %}"></script>
         <script src="{% static 'js/msa.min.js' %}"></script>
         <script src="{% static 'js/konami_code.js' %}"></script>
-        <script src="{% static 'js/3Dmol-min.js' %}"></script>
-        {{ block.super }} <!-- this loading ordering required to load jquery in time for the site js -->
         <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
         <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
         <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
         <script src="{% static 'js/fastclick.js' %}"></script>
         <script src="{% static 'js/psipred.js' %}"></script>
+        <script src="{% static 'js/3Dmol-nojquery.js' %}"></script>
     {% endif %}
 {% endblock %}
