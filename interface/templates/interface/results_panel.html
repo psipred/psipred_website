@@ -3,7 +3,7 @@
 {% load bootstrap3 %}
 
 
-  {% templatetag openvariable %}#if results_panel_visible === 2 {% templatetag closevariable %}
+  {% templatetag openvariable %}#if results_panel_visible === 2 || results_panel_visible === 3 || results_panel_visible === 9 || results_panel_visible === 10 || results_panel_visible === 11 || results_panel_visible === 12 {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="psipred_cartoon">
       <div class="box-header with-border">
           <h5 class="box-title">PSIPRED Cartoon</h5>
@@ -25,7 +25,7 @@
   {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- PGENTHREADER TABLE: 3 -->
-{% templatetag openvariable %}#if results_panel_visible === 3 {% templatetag closevariable %}
+{% templatetag openvariable %}#if results_panel_visible === 3 || results_panel_visible === 11 {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="pgenthreader_table">
       <div class="box-header with-border">
           <h5 class="box-title">pGenTHREADER Table</h5>
@@ -117,7 +117,7 @@
 
 
 <!-- MEMSATSVM RESULTS: 7 -->
-{% templatetag openvariable %}#if results_panel_visible === 7 {% templatetag closevariable %}
+{% templatetag openvariable %}#if results_panel_visible === 7 || results_panel_visible === 6 {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="memsat_schematics">
       <div class="box-header with-border">
           <h5 class="box-title">MEMSAT-SVM Schematics</h5>
@@ -235,7 +235,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- DOMSERF RESULTS: 12 -->
-{% templatetag openvariable %}#if results_panel_visible === 12 {% templatetag closevariable %}
+{% templatetag openvariable %}#if results_panel_visible === 12 || results_panel_visible === 10 {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="domserf_models">
       <div class="box-header with-border">
           <h5 class="box-title">Domserf Models</h5>
