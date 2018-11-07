@@ -127,8 +127,7 @@ td{
 
 .ffpred-table
 {
-margin-left: auto;
-margin-right: auto;
+  table-layout: fixed;
 }
 
 #hspred_initial_model

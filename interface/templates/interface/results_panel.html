@@ -3,7 +3,7 @@
 {% load bootstrap3 %}
 
 
-  {% templatetag openvariable %}#if results_panel_visible === 2 || results_panel_visible === 3 || results_panel_visible === 9 || results_panel_visible === 10 || results_panel_visible === 11 || results_panel_visible === 12 {% templatetag closevariable %}
+  {% templatetag openvariable %}#if results_panel_visible === 2 || results_panel_visible === 3 || results_panel_visible === 9 || results_panel_visible === 10 || results_panel_visible === 11 || results_panel_visible === 12 || results_panel_visible === 13 {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="psipred_cartoon">
       <div class="box-header with-border">
           <h5 class="box-title">PSIPRED Cartoon</h5>
@@ -188,7 +188,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- PDOMTHREADER RESULTS: 10 -->
-{% templatetag openvariable %}#if results_panel_visible === 10 {% templatetag closevariable %}
+{% templatetag openvariable %}#if results_panel_visible === 10 || results_panel_visible === 12 {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="pdomthreader_results">
       <div class="box-header with-border">
           <h5 class="box-title">pDomTHREADER Results</h5>
@@ -235,7 +235,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- DOMSERF RESULTS: 12 -->
-{% templatetag openvariable %}#if results_panel_visible === 12 || results_panel_visible === 10 {% templatetag closevariable %}
+{% templatetag openvariable %}#if results_panel_visible === 12 {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="domserf_models">
       <div class="box-header with-border">
           <h5 class="box-title">Domserf Models</h5>
@@ -275,7 +275,7 @@
         <div class="function_tables">{% ractivehtmltag "function_tables" %}</div>
         <div class="sch_schematic center">{% ractivehtmltag "sch_schematic" %}</div>
         <div class="ffpred_cartoon center">{% ractivehtmltag "ffpred_cartoon" %}</div>
-        <div class="aa_composition center">{% ractivehtmltag "aa_composition" %}</div>
+        <div class="aa_composition">{% ractivehtmltag "aa_composition" %}</div>
         <div class="global_features center">{% ractivehtmltag "global_features" %}</div>
         <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "ffpred_waiting_message" %}</div>
         <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "ffpred_waiting_icon" %}<br />{% ractivehtmltag "ffpred_time" %}</div>
