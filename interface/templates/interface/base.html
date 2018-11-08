@@ -7,15 +7,18 @@
 {% block title %}PSIPRED Workbench{% endblock %}
 {% block stylesheets %}
     {% if staging %}{# Production should also use this unqualified links #}
+        <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/AdminLTE.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
         <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
         <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
         <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/dataTables.bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     {% else %}
+        <link href="{% static 'css/AdminLTE.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'css/dataTables.bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     {% endif %}
-    {{ block.super }}
 {% endblock %}
 
 {% block body_class %}
@@ -29,8 +32,11 @@
 
 {% block javascript %}
     {# Load javascript #}
-    {{ block.super }}
     {% if staging %}{# Production should also use these unqualified links #}
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery-ui.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/app.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/popper.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-events-tap.js' %}"></script>
@@ -48,6 +54,10 @@
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/psipred.js' %}"></script>
         <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/3Dmol-nojquery.js' %}"></script>
     {% else %}
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/app.min.js' %}"></script>
         <script src="{% static 'js/popper.js' %}"></script>
         <script src="{% static 'js/ractive.min.js' %}"></script>
         <script src="{% static 'js/ractive-events-tap.js' %}"></script>
