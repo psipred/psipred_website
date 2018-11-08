@@ -350,6 +350,7 @@ input:invalid {
 {
  border:     1px solid #cccccc;
  background: rgb(80,80,255);
+ color: #eeeeee;
 }
 
 .signif1n
