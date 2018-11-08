@@ -1,0 +1,7 @@
+{% extends 'adminlte/lib/_main_footer.html' %}
+
+{% block footer_left %}&nbsp;{% endblock %}
+
+{% block footer_right %}
+    <strong>Copyright &copy; {% now "Y" %}{% if not site %}.{% endif %}<br /></strong>
+    {% endblock %}

@@ -2,81 +2,79 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 <br />
-<button on-click="submission_active" type="button" class="float-right btn btn-default">Show/Hide</button>
-{% templatetag openvariable %}#if submission_widget_visible === 1 {% templatetag closevariable %}
 <form method="Post" class="form" intro="slide" outro="slide" on-submit="resubmit">
 {% csrf_token %}
   <br />
   <h6>Select subsequence region</h6>
-  Start Coordinate <input type="text" id="start_coord" class="sequence_coord" value="{% ractivetag "subsequence_start" %}" size="4"> - Stop Coordinate <input id="stop_coord" class="sequence_coord" value="{% ractivetag "subsequence_stop" %}">
+  Start Coordinate <input type="text" id="start_coord" class="sequence_coord" value="{% ractivetag "subsequence_start" %}" size="10"> - Stop Coordinate <input id="stop_coord" class="sequence_coord" value="{% ractivetag "subsequence_stop" %}" size=10>
   <div class="form-group">
-    <div class="checkbox">
+    <div>
       <br />
       <h6>Choose prediction methods</h6>
       <table class="full-width-table">
       <tr>
       <td>
         <input id="id_psipred_job" name="psipred_job" value="psipred_job" type="checkbox" checked="{% ractivetag "psipred_checked" %}">
-        <label for="id_psipred_job">PSIPRED 4.0 (Predict Secondary Structure)</label>
+        <label for="id_psipred_job">PSIPRED 4.0</label>
       </td>
       <td>
         <input id="id_disopred_job" name="disopred_job" value="disopred_job" type="checkbox" checked="{% ractivetag "disopred_checked" %}">
-        <label for="id_disopred_job">DISOPRED3 (Disored Prediction)</label>
+        <label for="id_disopred_job">DISOPRED3</label>
       </td>
       </tr>
 
       <tr>
       <td>
       <input id="id_memsat_job" name="memsat_job" value="memsat_job" type="checkbox" checked="{% ractivetag "memsat_checked" %}">
-      <label for="id_memsat_job">MEMSAT-SVM (Membrane Helix Prediction)</label>
+      <label for="id_memsat_job">MEMSAT-SVM</label>
       </td>
       <td>
       <input id="id_pgenthreader_job" name="pgenthreader_job" value="pgenthreader_job" type="checkbox" checked="{% ractivetag "pgenthreader_checked" %}">
-      <label for="id_pgenthreader_job">pGenTHREADER (Profile Based Fold Recognition)</label>
+      <label for="id_pgenthreader_job">pGenTHREADER</label>
       </td>
       </tr>
 
       <tr>
       <td>
         <input id="id_metapsicov_job" name="metapsicov_job" value="metapsicov_job" type="checkbox" checked="{% ractivetag "metapsicov_checked" %}">
-        <label for="id_metapsicov_job">MetaPSICOV 2.0 (Structural Contact Prediction)</label>
+        <label for="id_metapsicov_job">MetaPSICOV 2.0</label>
       </td>
       <td>
         <input id="id_mempack_job" name="mempack_job" value="mempack_job" type="checkbox" checked="{% ractivetag "mempack_checked" %}">
-        <label for="id_mempack_job">MEMPACK (TM Topology and Helix Packing)</label>
+        <label for="id_mempack_job">MEMPACK</label>
       </td>
       </tr>
 
       <tr>
       <td>
       <input id="id_genthreader_job" name="genthreader_job" value="genthreader_job" type="checkbox" checked="{% ractivetag "genthreader_checked" %}">
-      <label for="id_genthreader_job">GenTHREADER (Rapid Fold Recognition):</label>
+      <label for="id_genthreader_job">GenTHREADER</label>
       </td>
       <td>
       <input id="id_dompred_job" name="dompred_job" value="dompred_job" type="checkbox" checked="{% ractivetag "dompred_checked" %}">
-      <label for="id_dompred_job">DomPred (Protein Domain Prediction)</label>
+      <label for="id_dompred_job">DomPred</label>
       </td>
       </tr>
 
       <tr>
       <td>
       <input id="id_pdomthreader_job" name="pdomthreader_job" value="pdomthreader_job" type="checkbox" checked="{% ractivetag "pdomthreader_checked" %}">
-      <label for="id_pdomthreader_job">pDomTHREADER (Protein Domain Fold Recognition)</label>
+      <label for="id_pdomthreader_job">pDomTHREADER</label>
       </td>
       <td>
       <input id="id_bioserf_job" name="bioserf_job" value="bioserf_job" type="checkbox" checked="{% ractivetag "bioserf_checked" %}">
-      <label for="id_bioserf_job">Bioserf 2.0 (Automated Homology Modelling)</label>
+      <label for="id_bioserf_job">Bioserf 2.0</label>
       </td>
       </tr>
 
       <tr>
       <td>
       <input id="id_domserf_job" name="domserf_job" value="domserf_job" type="checkbox" checked="{% ractivetag "domserf_checked" %}">
-      <label for="id_domserf_job">Domserf 2.1 (Automated Domain Homology Modelling)</label>
+      <label for="id_domserf_job">Domserf 2.1</label>
       </td>
       <td>
       <input id="id_ffpred_job" name="ffpred_job" value="ffpred_job" type="checkbox" checked="{% ractivetag "ffpred_checked" %}">
-      <label for="id_ffpred_job">FFPred 3 (Eurkaryotic Function Prediction)</label>
+      <label for="id_ffpred_job">FFPred 3</label>
       </td>
       </tr>
 
@@ -88,4 +86,3 @@
   </div>
   <br />
 </form>
-{% templatetag openvariable %}/if{% templatetag closevariable %}

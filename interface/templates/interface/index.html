@@ -4,125 +4,175 @@
 {% load staticfiles %}
 
 {% block content %}
+    <!-- Default box -->
+<div id="psipred_site">
 <script id='form_template' type='text/ractive'>
-{% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
-<div class="row">
-  <div class="col-sm-8">
-    <div class="title"><h2>Submission Name : {% ractivetag "name" %}</h2></div>
-  </div>
-  <div class="col-sm-4">
-    <!-- Target -->
-    Result Link:<br />
-    {% if staging %}
-      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_beta/&psipred_uuid={% ractivetag "psipred_uuid" %}">
-      <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
-      <img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/clippy.svg' %}" alt="Copy to clipboard" width="16">
-    {% else %}
-      <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}">
-      <button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
-      <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
-    {% endif %}
-    </button><br /><br />
+
+    <div class="row">
+    {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
+
+    <div class="col-md-8">
+    <div class="box box-primary" id="main_form">
+
+        <div class="box-header with-border">
+            <h5 class="box-title">Data Input</h5>
+        </div>
+
+        <div class="box-body">
+
+          <div class="form-group">
+            <div class="col-md-12 form-header">
+              <div class='row form-header-row'>
+                <h5 class="float-header">Select input data type</h5>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class='row form-header-row'>
+                {# Display a form #}
+                <br />
+                <button on-click='sequence_active' type="button" class="btn btn-default">Sequence Data</button>
+                <button on-click='structure_active' type="button" class="btn btn-default">PDB Structure</button>
+                <br /><br />
+              </div>
+            </div>
+          </div>
+
+        <div class="form-group">
+          <div class="col-md-12 form-header">
+            <div class='row form-header-row'>
+                 <h5 class="float-header">Choose prediction methods</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">
+             <div class='row form-header-row'>
+                {% include "./mainform.html" %}
+              </div>
+            </div>
+        </div>
+
+
+        </div>
+        <!-- /.box-body -->
     </div>
-</div>
-{% templatetag openvariable %}/if{% templatetag closevariable %}
+    <!-- /.box -->
+   </div>
 
-
-<div class="row"> <!-- sequence plot -->
-  <div class="col-sm-12">
-    {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
-      <!-- <div class='row'>
-        <div class="col-sm-12 form-header">
-          <h5 class="float-header">Sequence plot</h5><br /><br />
-        </div>
-      </div> -->
-      <div class="sequence_plot" id="sequence_plot"></div><br />
-    {% templatetag openvariable %}/if{% templatetag closevariable %}
-  </div>
-</div> <!-- end sequence plot -->
-
-<div class="row"> <!-- Submission widget -->
-  {% templatetag openvariable %}#if resubmission_visible === 1 {% templatetag closevariable %}
-  <div class="col-sm-12 resubmit_colour">
-      <div class='row'>
-        <div class="col-sm-12 form-header">
-          <h5 class="float-header">Resubmission</h5><br /><br />
-        </div>
+  <div class="col-md-4">
+  <div class="box box-primary" id="main_form">
+      <div class="box-header with-border">
+          <h5 class="box-title">Advanced Options</h5>
       </div>
-      {% include "./resubmission.html" %}
+      <div class="box-body">
+          <div class="col-md-12">
+          <div class="row form-header-row">
+            {% include "./advanced_panel.html" %}
+          </div>
+          </div>
+      </div>
+      <!-- /.box-body -->
   </div>
-    {% templatetag openvariable %}/if{% templatetag closevariable %}
-</div>  <!-- end submission widget-->
-
-<div class="row"><!-- The results page selection buttons-->
-
-<div class="col-sm-12">
-  {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
-  <div class='row'>
-    <div class="col-sm-12 form-header">
-      <h5 class="float-header">Results panel</h5><br /><br />
-    </div>
-  </div>
-  <div class="btn btn-group" id="selector" role="group">
-    {% include "./results_toggle.html" %}
+  <!-- /.box -->
   </div>
   {% templatetag openvariable %}/if{% templatetag closevariable %}
-</div>
-</div>
+  </div> <!-- /.row for forms -->
 
-<div class='row'>
-  {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
-
-  <div class="col-sm-10">
-    <div class='row'>
-      <div class="col-sm-12 form-header">
-        <h5 class="float-header">Select input data type</h5><br /><br />
-      </div>
+  <div class="row"> <!-- seq plot, resubmission and downloads -->
+    <div class="col-md-8">
+    {% templatetag openvariable %}#if results_visible > 1 {% templatetag closevariable %}
+    <div class="info-box bg-default job_info">
+        <span class="info-box-icon job_info"><i class="fa fa-line-chart job_info_icon"></i></span>
+              <div class="info-box-content">
+                  <div class="job_info_text job_info_text_left"><p class="name_text">Name : {% ractivetag "name" %}</p></div><!--
+               --><div class="job_info_text box-tools pull-right job_info_text_right">Copy Link:
+                    {% if staging %}
+                      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_beta/&psipred_uuid={% ractivetag "psipred_uuid" %}"><!--
+                      --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+                      <img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/clippy.svg' %}" alt="Copy to clipboard" width="16">
+                    {% else %}
+                      <input id="retrievalLink" width="160" value="http://127.0.0.1:4000/interface/&psipred_uuid={% ractivetag "psipred_uuid" %}"><!--
+                      --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+                      <img src="../static/images/clippy.svg" alt="Copy to clipboard" width="16">
+                    {% endif %}
+                    </button>
+                  </div>
+             </div><!-- /.info-box-content -->
     </div>
-
-    <div class='row'>
-      <div class="col-sm-12">
-        {# Display a form #}
-        <br />
-        <button on-click='sequence_active' type="button" class="btn btn-default">Sequence Data</button>
-        <button on-click='structure_active' type="button" class="btn btn-default">PDB Structure</button>
-        <br /><br />
-      </div>
-    </div>
-
-    <div class='row'>
-      <div class="col-sm-12 form-header">
-        <h5 class="float-header">Choose prediction methods</h5><br /><br />
-      </div>
-    </div>
-
-    <div class='row'>
-      <div class="col-sm-12">
-        <br />
-        {% include "./mainform.html" %}
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-2">
-    <div class="col-sm-12 form-header">
-      <h5 class="float-header">Options</h5><br /><br />
-    </div>
-    <div class="col-sm-12">
-      {% include "./advanced_panel.html" %}
-    </div>
-  </div>
-
-  {% templatetag openvariable %}/if{% templatetag closevariable %}
-</div>  <!--closes the row -->
-
-<div class='row'>
-  <div class="col-sm-12">
-    <!-- Annotation panel -->
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
     {% templatetag openvariable %}#if results_visible === 2 {% templatetag closevariable %}
-      {% include "./results_panel.html" %}
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h5 class="box-title">Sequence Plot</h5>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="sequence_plot" id="sequence_plot"></div><br />
+        </div>
+        <div class="overlay processing">
+              <i class="fa fa-refresh fa-spin"></i>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
+
+    {% templatetag openvariable %}#if results_visible > 1 {% templatetag closevariable %}
+    {% include "./results_panel.html" %}
     {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div>
-</div>
+    <!-- /.box -->
+
+ <!-- Submission widget -->
+    <div class="col-md-4">
+      {% templatetag openvariable %}#if results_visible > 1 {% templatetag closevariable %}
+    <div class="box box-warning" id="resubmission_widget">
+        <div class="box-header with-border">
+            <h5 class="box-title">Downloads</h5>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            <h5>ZIP FILE</h5>
+            <a href="" on-click="@this.fire("get_zip"), false">Get Zip file</a><br /><br />
+            {% ractivehtmltag "download_links" %}
+        </div>
+        <div class="overlay processing">
+              <i class="fa fa-refresh fa-spin"></i>
+        </div>
+
+        <!-- /.box-body -->
+    </div>
+    {% templatetag openvariable %}/if{% templatetag closevariable %}
+    {% templatetag openvariable %}#if resubmission_visible === 1 {% templatetag closevariable %}
+    <div class="box box-success collapsed-box" id="resubmission_widget">
+        <div class="box-header with-border">
+            <h5 class="box-title">Segment Resubmission</h5>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            {% include "./resubmission.html" %}
+        </div>
+        <!-- /.box-body -->
+    </div>
+        {% templatetag openvariable %}/if{% templatetag closevariable %}
+  </div>
+</div> <!--Form row-->
+
 </script>
-{% endblock content %}
+</div>
+{% endblock %}
