@@ -131,6 +131,35 @@
  <!-- Submission widget -->
     <div class="col-md-4">
       {% templatetag openvariable %}#if results_visible > 1 {% templatetag closevariable %}
+        {% templatetag openvariable %}#if time_visible == 1 {% templatetag closevariable %}
+
+      <div class="info-box">
+      <!-- Apply any bg-* class to to the icon to color it -->
+          <span class="info-box-icon bg-blue"><i class="fa fa-clock-o"></i></span>
+            <div class="info-box-content">
+            <span class="info-box-text">Average Processing Time</span><br />
+            <span class="info-box-number">{% ractivehtmltag "loading_message" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "metapsicov_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "disopred_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "mempack_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "memsatsvm_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "genthreader_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "dompred_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "pdomthreader_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "bioserf_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "domserf_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "ffpred_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "metsite_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "hspred_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "memembed_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "gentdb_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "pgenthreader_time" %}</span>
+            <span class="info-box-number">{% ractivehtmltag "psipred_time" %}</span>
+          </div>
+        <!-- /.info-box-content -->
+        </div>
+      <!-- /.info-box -->
+        {% templatetag openvariable %}/if{% templatetag closevariable %}
     <div class="box box-warning" id="resubmission_widget">
         <div class="box-header with-border">
             <h5 class="box-title">Downloads</h5>
@@ -166,6 +195,9 @@
         </div>
         <div class="box-body">
             {% include "./resubmission.html" %}
+        </div>
+        <div class="overlay processing">
+                <i class="fa fa-refresh fa-spin"></i>
         </div>
         <!-- /.box-body -->
     </div>
