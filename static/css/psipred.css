@@ -19,6 +19,9 @@ body
 {
   overflow: auto;
 }
+.info-box-number{
+  overflow: auto;
+}
 
 .job_info{
   height: 45px !important;
