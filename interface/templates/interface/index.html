@@ -11,7 +11,7 @@
     <div class="row">
     {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
 
-    <div class="col-md-8">
+    <div class="col-md-9">
     <div class="box box-primary" id="main_form">
 
         <div class="box-header with-border">
@@ -61,7 +61,7 @@
     <!-- /.box -->
    </div>
 
-  <div class="col-md-4">
+  <div class="col-md-3">
   <div class="box box-primary" id="main_form">
       <div class="box-header with-border">
           <h5 class="box-title">Advanced Options</h5>
@@ -81,7 +81,7 @@
   </div> <!-- /.row for forms -->
 
   <div class="row"> <!-- seq plot, resubmission and downloads -->
-    <div class="col-md-8">
+    <div class="col-md-9">
     {% templatetag openvariable %}#if results_visible > 1 {% templatetag closevariable %}
     <div class="info-box bg-default job_info">
         <span class="info-box-icon job_info"><i class="fa fa-line-chart job_info_icon"></i></span>
@@ -129,7 +129,7 @@
     <!-- /.box -->
 
  <!-- Submission widget -->
-    <div class="col-md-4">
+    <div class="col-md-3">
       {% templatetag openvariable %}#if results_visible > 1 {% templatetag closevariable %}
         {% templatetag openvariable %}#if time_visible == 1 {% templatetag closevariable %}
 
