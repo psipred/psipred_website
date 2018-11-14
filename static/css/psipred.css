@@ -8,6 +8,13 @@ body
   font-size: 16px;
 }
 
+.helixy{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    visibility: hidden;
+}
+
 .psipred_title{
   color: white;
 }

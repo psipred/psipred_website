@@ -38,5 +38,5 @@ document.addEventListener('keydown', function(e) {
 });
 
 function activateCheats() {
-  alert("Secret options activated");
+  document.getElementsByClassName('helixy')[0].style.visibility = 'visible';
 }
