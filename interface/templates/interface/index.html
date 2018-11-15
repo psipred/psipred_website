@@ -204,7 +204,11 @@
         {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div>
 </div> <!--Form row-->
-<div class="helixy"><img src="../static/images/helixy_png_blank.png"></div>
+{% if staging %}
+  <div class="helixy"><img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/helixy_png_blank.png' %}"></div>
+{% else %}
+  <div class="helixy"><img src="../static/images/helixy_png_blank.png"></div>
+{% endif %}
 </script>
 
 </div>
