@@ -31,8 +31,16 @@
               <div class='row form-header-row'>
                 {# Display a form #}
                 <br />
-                <button on-click='sequence_active' type="button" class="btn btn-default">Sequence Data</button>
-                <button on-click='structure_active' type="button" class="btn btn-default">PDB Structure</button>
+                <div class="funkyradio">
+                  <div class="funkyradio-primary">
+                    <input on-click='sequence_active' type="radio" name="radio" id="radio1" checked/>
+                    <label for="radio1">Sequence Data&nbsp;&nbsp;</label>
+                  </div>&nbsp;&nbsp;
+                  <div class="funkyradio-danger">
+                    <input on-click='structure_active' type="radio" name="radio" id="radio2"/>
+                    <label for="radio2">PDB Structure Data&nbsp;&nbsp;</label>
+                  </div>
+                </div>
                 <br /><br />
               </div>
             </div>
