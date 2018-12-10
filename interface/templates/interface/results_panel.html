@@ -3,7 +3,7 @@
 {% load bootstrap3 %}
 
 
-  {% templatetag openvariable %}#if results_panel_visible === 2 || results_panel_visible === 3 || results_panel_visible === 9 || results_panel_visible === 10 || results_panel_visible === 11 || results_panel_visible === 12 || results_panel_visible === 13 {% templatetag closevariable %}
+  {% templatetag openvariable %}#if psipred_results_visible || pgenthreader_results_visible || dompred_results_visible || pdomthreader_results_visible || bioserf_results_visible || domserf_results_visible || ffpred_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="psipred_cartoon">
       <div class="box-header with-border">
           <h5 class="box-title">PSIPRED Cartoon</h5>
@@ -25,7 +25,7 @@
   {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- PGENTHREADER TABLE: 3 -->
-{% templatetag openvariable %}#if results_panel_visible === 3 || results_panel_visible === 11 {% templatetag closevariable %}
+{% templatetag openvariable %}#if pgenthreader_results_visible || bioserf_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="pgenthreader_table">
       <div class="box-header with-border">
           <h5 class="box-title">pGenTHREADER Table</h5>
@@ -47,7 +47,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- METAPSICOV RESULTS: 4 -->
-{% templatetag openvariable %}#if results_panel_visible === 4 {% templatetag closevariable %}
+{% templatetag openvariable %}#if metapsicov_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="metapsicov_contact_map">
       <div class="box-header with-border">
           <h5 class="box-title">MetaPSICOV Contact Map</h5>
@@ -69,7 +69,7 @@
 
 
 <!-- DISOPRED RESULTS: 5 -->
-{% templatetag openvariable %}#if results_panel_visible === 5 {% templatetag closevariable %}
+{% templatetag openvariable %}#if disopred_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="disopred_plot">
       <div class="box-header with-border">
           <h5 class="box-title">DISOPRED Plot</h5>
@@ -92,7 +92,7 @@
 
 
 <!-- MEMPACK RESULTS: 6 -->
-{% templatetag openvariable %}#if results_panel_visible === 6 {% templatetag closevariable %}
+{% templatetag openvariable %}#if mempack_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="mempack_plot">
       <div class="box-header with-border">
           <h5 class="box-title">MEMPACK Plot</h5>
@@ -115,7 +115,7 @@
 
 
 <!-- MEMSATSVM RESULTS: 7 -->
-{% templatetag openvariable %}#if results_panel_visible === 7 || results_panel_visible === 6 {% templatetag closevariable %}
+{% templatetag openvariable %}#if memsatsvm_results_visible || mempack_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="memsat_schematics">
       <div class="box-header with-border">
           <h5 class="box-title">MEMSAT-SVM Schematics</h5>
@@ -139,7 +139,7 @@
 
 
 <!-- GENTHREADER RESULTS: 8 -->
-{% templatetag openvariable %}#if results_panel_visible === 8 {% templatetag closevariable %}
+{% templatetag openvariable %}#if genthreader_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="genthreader_table">
       <div class="box-header with-border">
           <h5 class="box-title">GenTHREADER Table</h5>
@@ -163,7 +163,7 @@
 
 
 <!-- DOMPRED RESULTS: 9 -->
-{% templatetag openvariable %}#if results_panel_visible === 9 {% templatetag closevariable %}
+{% templatetag openvariable %}#if dompred_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="dompred_results">
       <div class="box-header with-border">
           <h5 class="box-title">DomPred Results</h5>
@@ -186,7 +186,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- PDOMTHREADER RESULTS: 10 -->
-{% templatetag openvariable %}#if results_panel_visible === 10 || results_panel_visible === 12 {% templatetag closevariable %}
+{% templatetag openvariable %}#if pdomthreader_results_visible || domserf_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="pdomthreader_results">
       <div class="box-header with-border">
           <h5 class="box-title">pDomTHREADER Results</h5>
@@ -210,7 +210,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
       <!-- BIOSERF RESULTS: 11 -->
-{% templatetag openvariable %}#if results_panel_visible === 11 {% templatetag closevariable %}
+{% templatetag openvariable %}#if bioserf_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="bioserf_models">
       <div class="box-header with-border">
           <h5 class="box-title">Bioserf Models</h5>
@@ -233,7 +233,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- DOMSERF RESULTS: 12 -->
-{% templatetag openvariable %}#if results_panel_visible === 12 {% templatetag closevariable %}
+{% templatetag openvariable %}#if domserf_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="domserf_models">
       <div class="box-header with-border">
           <h5 class="box-title">Domserf Models</h5>
@@ -257,7 +257,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- FFPRED RESULTS: 13 -->
-{% templatetag openvariable %}#if results_panel_visible === 13 {% templatetag closevariable %}
+{% templatetag openvariable %}#if ffpred_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="ffpred_predictions">
       <div class="box-header with-border">
           <h5 class="box-title">FFPred Predictions</h5>
@@ -284,7 +284,7 @@
 
 
 <!-- METSITE RESULTS: 14 -->
-{% templatetag openvariable %}#if results_panel_visible === 14 {% templatetag closevariable %}
+{% templatetag openvariable %}#if metsite_results_visible {% templatetag closevariable %}
   <div class="box box-primary" id="metsite_predictions">
       <div class="box-header with-border">
           <h5 class="box-title">Metsite Predictions</h5>
@@ -307,7 +307,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- HSPRED RESULTS: 15 -->
-{% templatetag openvariable %}#if results_panel_visible === 15 {% templatetag closevariable %}
+{% templatetag openvariable %}#if hspred_results_visible {% templatetag closevariable %}
   <div class="box box-primaryx" id="hspred_predictions">
       <div class="box-header with-border">
           <h5 class="box-title">HSPred Predictions</h5>
@@ -332,7 +332,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- MEMEMBED RESULTS: 16 -->
-{% templatetag openvariable %}#if results_panel_visible === 16 {% templatetag closevariable %}
+{% templatetag openvariable %}#if memembed_results_visible {% templatetag closevariable %}
   <div class="box box-primary" id="memembed_predictions">
       <div class="box-header with-border">
           <h5 class="box-title">MEMEMBED Prediction</h5>
@@ -354,7 +354,7 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- GENTDB RESULTS: 17 -->
-{% templatetag openvariable %}#if results_panel_visible === 17 {% templatetag closevariable %}
+{% templatetag openvariable %}#if gentdb_results_visible {% templatetag closevariable %}
   <div class="box box-primary" id="gentdb_result">
       <div class="box-header with-border">
           <h5 class="box-title">TDB File</h5>
