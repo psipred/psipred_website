@@ -10,7 +10,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="psipred_logomark.svg"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    id="svg8"
    version="1.1"
    viewBox="0 0 7.7645669 9.4626303"
@@ -18,15 +18,15 @@
    width="7.7645669mm">
   <sodipodi:namedview
      inkscape:window-maximized="1"
-     inkscape:window-y="42"
+     inkscape:window-y="1"
      inkscape:window-x="0"
-     inkscape:window-height="2029"
-     inkscape:window-width="3840"
+     inkscape:window-height="855"
+     inkscape:window-width="1440"
      showgrid="false"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="text817"
      inkscape:document-units="mm"
      inkscape:cy="16.219348"
-     inkscape:cx="100.02853"
+     inkscape:cx="44.903605"
      inkscape:zoom="8"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -49,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,17 +58,15 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-60.102576,-95.209982)">
-    <text
-       xml:space="preserve"
+    <g
+       aria-label="P"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.58333302px;line-height:125%;font-family:Carlito;-inkscape-font-specification:'Carlito, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="61.008297"
-       y="103.37261"
-       id="text817"><tspan
-         sodipodi:role="line"
-         id="tspan815"
-         x="61.008297"
-         y="103.37261"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.58333302px;font-family:Carlito;-inkscape-font-specification:'Carlito, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.26458332px">P</tspan></text>
+       id="text817">
+      <path
+         d="m 62.961666,100.99033 v 2.38228 h -1.35909 v -6.862628 h 2.206584 q 0.666625,0 1.147216,0.165365 0.480591,0.165364 0.795817,0.45992 0.315227,0.289388 0.465088,0.692464 0.149862,0.403076 0.149862,0.883667 0,0.506429 -0.160197,0.925008 -0.155029,0.418584 -0.475423,0.718304 -0.315226,0.29972 -0.795817,0.47025 -0.480591,0.16537 -1.126546,0.16537 z m 0,-1.054201 h 0.847494 q 0.620117,0 0.909505,-0.325561 0.289388,-0.330729 0.289388,-0.89917 0,-0.532267 -0.294556,-0.842326 -0.294556,-0.315226 -0.904337,-0.315226 h -0.847494 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.58333302px;font-family:Carlito;-inkscape-font-specification:'Carlito, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.26458332px"
+         id="path113" />
+    </g>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:Carlito;-inkscape-font-specification:Carlito;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
