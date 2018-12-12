@@ -6,6 +6,8 @@ https://www.ucl.ac.uk/cam/brand/guidelines/colour
 Find the PSIPRED logo svg in static/images/psipred_logo.svg
 and
 static/images/psipred_logomark.svg
+and
+static/images/psipred_logomark.png
 
 Main Dark Blue
 #3255A4
