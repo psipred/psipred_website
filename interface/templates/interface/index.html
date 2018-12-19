@@ -4,6 +4,14 @@
 {% load staticfiles %}
 
 {% block content %}
+{% if staging or debug %}
+   <section class="content-header">
+        <h4 style="color: red;">The Beta site runs on memory restricted hardware.
+        Memory intensive process such as METAPSICOV may fail.<br />Consider using
+        the <a href="http://bioinf.cs.ucl.ac.uk/MetaPSICOV/">MetaPSICOV server</a>.
+        Check our <a href="https://twitter.com/psipred">Twitter account</a> for news updates.</h4><br />
+    </section>
+{% endif %}
     <!-- Default box -->
 <div id="psipred_site">
 <script id='form_template' type='text/ractive'>
