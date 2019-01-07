@@ -20,8 +20,6 @@ $ python manage.py migrate --settings=psipred_website.settings.dev
 
 5. Update mainform.html, updating both the checkboxes and the form_error section
 
-6. Ensure you have a button in the results toggling button group results_toggle.html
+6. Add resubmission checkbox for new method in resubmission.html
 
-7. Add resubmission checkbox for new method in resubmission.html
-
-8. Add new results panel bits in results_panel.html
+7. Add new results panel bits in results_panel.html

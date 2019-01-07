@@ -18,7 +18,7 @@ class TimeStampedModel(models.Model):
 
 # Create your models here.
 class Request(TimeStampedModel):
-    email = models.EmailField(max_length=256, null=True, blank=False)
+    email = models.EmailField(max_length=256, null=True, blank=True)
     password = models.CharField(max_length=25, null=True, blank=True)
     job_name = models.CharField(max_length=128, null=False, blank=False)
     input_data = models.TextField(null=False, blank=False)

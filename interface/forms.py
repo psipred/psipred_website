@@ -121,7 +121,7 @@ class PsipredForm(forms.ModelForm):
                                          'rows': '3'}))
     job_name = forms.CharField(widget=forms.TextInput(
                                 attrs={'value': '{{name}}'}))
-    email = forms.EmailField(widget=forms.EmailInput(
+    email = forms.EmailField(label="Email (optional)", required=False, widget=forms.EmailInput(
                               attrs={'value': '{{email}}'}))
 
     class Meta:
