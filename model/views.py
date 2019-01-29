@@ -9,15 +9,10 @@ from django.conf import settings
 
 
 def jmol(request):
-    base_url = ''
-    if settings.STAGING:
-        base_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta'
-    if settings.PRODUCTION:
-        base_url = 'http://bioinf.cs.ucl.ac.uk/psipred_new'
     data = {"staging": settings.STAGING,
             "debug": settings.DEBUG,
             "production": settings.PRODUCTION,
-            "static_base_url": base_url}
+            "static_base_url": setting.STATIC_BASE_URL}
     return render(request, 'model/index.html', data)
 
 
@@ -29,6 +24,7 @@ def post(request):
     r = req.get(aln_url, data={}, files={})
     alignment = r.text
 
+    # MOVE THESE TO settings/dev.py at some point
     submission_url = 'http://bioinf3.cs.ucl.ac.uk/analytics_automated/submission.json'
     redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred_new/'
     if settings.STAGING:

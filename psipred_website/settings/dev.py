@@ -25,6 +25,8 @@ DEBUG = True
 STAGING = False
 PRODUCTION = False
 
+STATIC_BASE_URL = ''
+
 INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 
 DEBUG_TOOLBAR_CONFIG = {
