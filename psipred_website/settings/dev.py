@@ -23,6 +23,7 @@ SECRET_KEY = get_secret("SECRET_KEY", secrets)
 
 DEBUG = True
 STAGING = False
+PRODUCTION = False
 
 INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
 

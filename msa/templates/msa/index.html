@@ -12,17 +12,11 @@
     <meta name="description" content="Simple BioJS example" />
 
     <!-- include MSA js + css -->
-        {% if staging %}{# Production should also use this unqualified links #}
-            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
-            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
-            <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
-            <script type="text/javascript" src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/msa.min.js' %}"></script>
-        {% else %}
-            <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
-            <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
-            <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
-            <script type="text/javascript" src="{% static 'js/msa.min.js' %}"></script>
-        {% endif %}
+    <link href="{{ static_base_url }}{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{{ static_base_url }}{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{{ static_base_url }}{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ static_base_url }}{% static 'js/msa.min.js' %}"></script>
+
 </head>
 
 <body id="body">

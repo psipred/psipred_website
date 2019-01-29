@@ -11,14 +11,10 @@
 	<link rel="shortcut icon" type='image/x-icon' href="/favicon.ico">
     <meta name="description" content="Simple BioJS example" />
       {% if staging %}{# Production should also use this unqualified links #}
-          <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
-          <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
-          <link href="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
-      {% else %}
-          <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
-          <link href="{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
-          <link href="{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
-      {% endif %}
+          <link href="{{ static_base_url }}{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+          <link href="{{ static_base_url }}{% static 'css/psipred.css' %}" rel="stylesheet" type="text/css" />
+          <link href="{{ static_base_url }}{% static 'css/biod3.css' %}" rel="stylesheet" type="text/css" />
+
       <style>
         .mol-container {
           width: 600px;
@@ -52,28 +48,16 @@
   </div> <!-- CONTAINER END -->
 
   {# Load javascript #}
-  {% if staging %}{# Production should also use these unqualified links #}
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jquery.min.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/popper.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/bootstrap.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive.min.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-events-tap.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/ractive-transitions-slide.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/jszip.min.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/3Dmol-min.js' %}"></script>
-      <script src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'js/model.js' %}"></script>
 
-  {% else %}
-      <script src="{% static 'js/jquery.min.js' %}"></script>
-      <script src="{% static 'js/popper.js' %}"></script>
-      <script src="{% static 'js/bootstrap.js' %}"></script>
-      <script src="{% static 'js/ractive.min.js' %}"></script>
-      <script src="{% static 'js/ractive-events-tap.js' %}"></script>
-      <script src="{% static 'js/ractive-transitions-slide.js' %}"></script>
-      <script src="{% static 'js/jszip.min.js' %}"></script>
-      <script src="{% static 'js/3Dmol-min.js' %}"></script>
-      <script src="{% static 'js/model.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/jquery.min.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/popper.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/bootstrap.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/ractive.min.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/ractive-events-tap.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/ractive-transitions-slide.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/jszip.min.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/3Dmol-min.js' %}"></script>
+      <script src="{{ static_base_url }}{% static 'js/model.js' %}"></script>
 
-  {% endif %}
 </body>
 </html>
