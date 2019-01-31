@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^interface/msa/', include('msa.urls'), name='msa'),
     url(r'^interface/model/', include('model.urls'), name='model'),
     url(r'^interface/.*', include('interface.urls'), name='interface'),
+    url(r'^interface', include('interface.urls'), name='interface'),
     #url(r'^structure/.*', include('struture.urls'), name='structure'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
 ]
