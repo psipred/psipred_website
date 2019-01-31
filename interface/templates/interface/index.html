@@ -4,11 +4,10 @@
 {% load staticfiles %}
 
 {% block content %}
-{% if staging or debug %}
+{% if staging %}
    <section class="content-header">
         <h4 style="color: red;">The Beta site runs on memory restricted hardware.
-        Memory intensive process such as METAPSICOV may fail.<br />Consider using
-        the <a href="http://bioinf.cs.ucl.ac.uk/MetaPSICOV/">MetaPSICOV server</a>.
+        Memory intensive process such as METAPSICOV may fail.<br />
         Check our <a href="https://twitter.com/psipred">Twitter account</a> for news updates.</h4><br />
     </section>
 {% endif %}
@@ -100,7 +99,11 @@
               <div class="info-box-content">
                   <div class="job_info_text job_info_text_left"><p class="name_text">Name : {% ractivetag "name" %}</p></div><!--
                --><div class="job_info_text box-tools pull-right job_info_text_right">Copy Link:
-                    {% if staging %}
+                    {% if production %}
+                      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_new/&psipred_uuid={% ractivetag "psipred_uuid" %}"><!--
+                      --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
+                      <img src="http://bioinf.cs.ucl.ac.uk/psipred_new{% static 'images/clippy.svg' %}" alt="Copy to clipboard" width="16">
+                    {% elif staging %}
                       <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_beta/&psipred_uuid={% ractivetag "psipred_uuid" %}"><!--
                       --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
                       <img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/clippy.svg' %}" alt="Copy to clipboard" width="16">
@@ -216,11 +219,7 @@
         {% templatetag openvariable %}/if{% templatetag closevariable %}
   </div>
 </div> <!--Form row-->
-{% if staging %}
-  <div class="helixy"><img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/helixy_png_blank.png' %}"></div>
-{% else %}
-  <div class="helixy"><img src="../static/images/helixy_png_blank.png"></div>
-{% endif %}
+  <div class="helixy"><img src="{{ static_base_url }}{% static 'images/helixy_png_blank.png' %}"></div>
 </script>
 
 </div>
