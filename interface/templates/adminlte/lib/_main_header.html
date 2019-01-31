@@ -2,19 +2,11 @@
 {% load staticfiles %}
 
 {% block logo_text_small %}
-    {% if staging %}
-      <img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/psipred_logomark.svg' %}" />
-    {% else %}
-      <img src="{% static 'images/psipred_logomark.svg' %}" />
-    {% endif %}
+      <img src="{{ static_base_url }}{% static 'images/psipred_logomark.svg' %}" />
 {% endblock %}
 
 {% block logo_text %}
-    {% if staging %}
-      <img src="http://bioinf.cs.ucl.ac.uk/psipred_beta{% static 'images/psipred_logo.svg' %}" />
-    {% else %}
-      <img src="{% static 'images/psipred_logo.svg' %}" />
-    {% endif %}
+      <img src="{{ static_base_url }}{% static 'images/psipred_logo.svg' %}" />
 {% endblock %}
 
 {% block nav_bar %}
