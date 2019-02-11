@@ -23,3 +23,5 @@ $ python manage.py migrate --settings=psipred_website.settings.dev
 6. Add resubmission checkbox for new method in resubmission.html
 
 7. Add new results panel bits in results_panel.html
+
+8. For production update the aa_head http.conf to ensure the file are being served with the right type.
