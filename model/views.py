@@ -12,7 +12,7 @@ def jmol(request):
     data = {"staging": settings.STAGING,
             "debug": settings.DEBUG,
             "production": settings.PRODUCTION,
-            "static_base_url": setting.STATIC_BASE_URL}
+            "static_base_url": settings.STATIC_BASE_URL}
     return render(request, 'model/index.html', data)
 
 
