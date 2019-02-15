@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 <br />
+
 <form name="main_form" id="main_form" method="Post" class="form" intro="slide" outro="slide" on-submit="submit">
 {% csrf_token %}
 {% templatetag openvariable %}#if sequence_form_visible === 1 {% templatetag closevariable %}

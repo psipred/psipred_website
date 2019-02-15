@@ -85,7 +85,7 @@ class PsipredForm(forms.ModelForm):
                                         widget=forms.CheckboxInput(
                                          attrs={'value': '{{metapsicov_job}}',
                                                 'checked': '{{metapsicov_checked}}',
-                                                'onclick' : "alert('MetaPSICOV analyses can take longer than 6 hours. If you wish to run multiple analyses please submit the MetaPSICOV job as a seperate submission');",
+                                                'onclick' : "metAlert();",
                                                 }))
     metsite_job = forms.BooleanField(label="Metsite (Protein-metal Ion Contact Prediction)", required=False,
                                      label_suffix = "",
