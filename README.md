@@ -1,5 +1,5 @@
 # Adding new services
-1. Add the new job types and its tasks to the backend
+1. Add the new job types and its tasks to the backend (analytics automated)
 
 2. Update models.py request() model to add new BooleanField for the job
     memsatsvm_job = models.BooleanField(null=False, default=False)
@@ -24,4 +24,5 @@ $ python manage.py migrate --settings=psipred_website.settings.dev
 
 7. Add new results panel bits in results_panel.html
 
-8. For production update the aa_head http.conf to ensure the file are being served with the right type.
+8. For production update the aa_head http.conf to ensure the file are
+   being served with the right type.
