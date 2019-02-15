@@ -16,7 +16,7 @@ class PsipredForm(forms.ModelForm):
                                       attrs={'value': '{{psipred_job}}',
                                              'checked': '{{psipred_checked}}'
                                              }))
-    disopred_job = forms.BooleanField(label="DISOPRED3 (Disored Prediction)", required=False,
+    disopred_job = forms.BooleanField(label="DISOPRED3 (Disopred Prediction)", required=False,
                                      label_suffix = "",
                                       widget=forms.CheckboxInput(
                                        attrs={'value': '{{disopred_job}}',
@@ -84,7 +84,8 @@ class PsipredForm(forms.ModelForm):
                                      label_suffix = "",
                                         widget=forms.CheckboxInput(
                                          attrs={'value': '{{metapsicov_job}}',
-                                                'checked': '{{metapsicov_checked}}'
+                                                'checked': '{{metapsicov_checked}}',
+                                                'onclick' : "alert('MetaPSICOV analyses can take longer than 6 hours. If you wish to run multiple analyses please submit the MetaPSICOV job as a seperate submission');",
                                                 }))
     metsite_job = forms.BooleanField(label="Metsite (Protein-metal Ion Contact Prediction)", required=False,
                                      label_suffix = "",
