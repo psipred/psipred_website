@@ -7,11 +7,46 @@ from django.conf import settings
 from .forms import *
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 def index(request):
     template = loader.get_template('interface/index.html')
-    passing_data = {"form": PsipredForm(),
-                    "staging": settings.STAGING,
-                    "debug": settings.DEBUG,
-                    "production": settings.PRODUCTION,
-                    "static_base_url": settings.STATIC_BASE_URL}
+    suspension_message = None
+    try:
+        suspension_message = ServerSuspension.objects.all()[0]
+    except:
+        suspension_message = None
+
+    passing_data = {}
+    if suspension_message:
+        passing_data = {"form": PsipredForm(),
+                        "staging": settings.STAGING,
+                        "debug": settings.DEBUG,
+                        "production": settings.PRODUCTION,
+                        "static_base_url": settings.STATIC_BASE_URL,
+                        "suspend": suspension_message.suspend,
+                        "suspend_message": suspension_message.message
+                        }
+        client_ip = get_client_ip(request)
+        print("CLIENT IP", client_ip)
+        print("ALLOWED IP", suspension_message.allowed_ip)
+        if client_ip == suspension_message.allowed_ip:
+            passing_data['suspend'] = False
+            passing_data['suspend_message'] = ''
+    else:
+        passing_data = {"form": PsipredForm(),
+                        "staging": settings.STAGING,
+                        "debug": settings.DEBUG,
+                        "production": settings.PRODUCTION,
+                        "static_base_url": settings.STATIC_BASE_URL,
+                        "suspend": False,
+                        "suspend_message": ''}
+
     return render(request, 'interface/index.html', passing_data)

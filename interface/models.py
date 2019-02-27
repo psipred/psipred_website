@@ -40,3 +40,10 @@ class Request(TimeStampedModel):
     hspred_job = models.BooleanField(null=False, default=False)
     memembed_job = models.BooleanField(null=False, default=False)
     gentdb_job = models.BooleanField(null=False, default=False)
+
+
+class ServerSuspension(models.Model):
+    suspend = models.BooleanField(null=False, default=False)
+    message = models.CharField(max_length=512, null=True, blank=False)
+    allowed_ip = models.GenericIPAddressField(default="127.0.0.1", null=False,
+                                              blank=False)
