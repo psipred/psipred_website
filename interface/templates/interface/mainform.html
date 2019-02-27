@@ -182,7 +182,7 @@ If you wish to Metsite or HSPred follow this link to retrieve <a class="form-lin
 
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 {% if suspend %}
-    <h2>{{ suspend_message }}</h2>
+    <h2 style="color: red;">{{ suspend_message }}</h2>
 {% else %}
     {% buttons %}
          <input class="btn btn-danger" type="reset" value="Reset" />
