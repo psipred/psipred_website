@@ -8,6 +8,14 @@ body
   font-size: 16px;
 }
 
+.filter_table{
+  width: auto;
+  margin-right: 0px;
+  margin-left: auto;
+}
+
+.alnright{text-align: right;}
+
 .helixy{
     position: fixed;
     bottom: 0;
