@@ -8,6 +8,7 @@ $.fn.dataTable.ext.search.push(
           max = parseInt( $('#max_hs_score').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
+        
         if ( ( isNaN( min ) && isNaN( max ) ) ||
              ( isNaN( min ) && score <= max ) ||
              ( min <= score   && isNaN( max ) ) ||
