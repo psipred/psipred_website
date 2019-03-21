@@ -11,7 +11,7 @@ $.fn.dataTable.ext.search.push(
         if(settings.sTableId === 'metsite_table'){
           min = parseInt( $('#min_met_score').val(), 10 );
           max = parseInt( $('#max_met_score').val(), 10 );
-          score = parseFloat( data[2] ) || 0;
+          score = parseFloat( data[1] ) || 0;
         }
 
         if ( ( isNaN( min ) && isNaN( max ) ) ||
