@@ -4,9 +4,9 @@ $.fn.dataTable.ext.search.push(
         var min;
         var max;
         var score;
-        var min = parseInt( $('#min_hs_score').val(), 10 );
-        var max = parseInt( $('#max_hs_score').val(), 10 );
-        var score = parseFloat( data[2] ) || 0;
+        min = parseInt( $('#min_hs_score').val(), 10 );
+        max = parseInt( $('#max_hs_score').val(), 10 );
+        score = parseFloat( data[2] ) || 0;
 
         if ( ( isNaN( min ) && isNaN( max ) ) ||
              ( isNaN( min ) && score <= max ) ||
