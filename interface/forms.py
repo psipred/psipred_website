@@ -64,15 +64,15 @@ class PsipredForm(forms.ModelForm):
                                      widget=forms.CheckboxInput(
                                       attrs={'value': '{{bioserf_job}}',
                                              'checked': '{{bioserf_checked}}',
-                                             'on-click': mark_safe('@this.fire("show_bioserf")'),
+                                             'on-click': mark_safe("@this.fire('show_bioserf')"),
                                              }))
     domserf_job = forms.BooleanField(label="Domserf 2.1 (Automated Domain Homology Modelling)", required=False,
                                      label_suffix = "",
                                      widget=forms.CheckboxInput(
                                       attrs={'value': '{{domserf_job}}',
                                              'checked': '{{domserf_checked}}',
-                                             'on-click': mark_safe('@this.fire("show_domserf")'),
-                                             }))
+                                             'on-click': mark_safe("@this.fire('show_domserf')"),
+                                            }))
     ffpred_job = forms.BooleanField(label="FFPred 3 (Eurkaryotic Function Prediction)", required=False,
                                      label_suffix = "",
                                     widget=forms.CheckboxInput(
@@ -100,7 +100,7 @@ class PsipredForm(forms.ModelForm):
                                       attrs={'value': '{{hspred_job}}',
                                              'checked': '{{hspred_checked}}',
                                              'on-click': mark_safe('@this.fire("show_hspred")'),
-                                             }))
+                                              }))
     memembed_job = forms.BooleanField(label="MEMEMBED (Membrane Protein Orientation Prediction)", required=False,
                                      label_suffix = "",
                                       widget=forms.CheckboxInput(

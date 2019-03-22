@@ -4,45 +4,45 @@ $.fn.dataTable.ext.search.push(
         var max;
         var score;
         if(settings.sTableId === 'hspred_table'){
-          min = parseInt( $('#min_hs_score').val(), 10 );
-          max = parseInt( $('#max_hs_score').val(), 10 );
+          min = parseFloat( $('#min_hs_score').val(), 10 );
+          max = parseFloat( $('#max_hs_score').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
         if(settings.sTableId === 'metsite_table'){
-          min = parseInt( $('#min_met_score').val(), 10 );
-          max = parseInt( $('#max_met_score').val(), 10 );
+          min = parseFloat( $('#min_met_score').val());
+          max = parseFloat( $('#max_met_score').val());
           score = parseFloat( data[1] ) || 0;
         }
 
         if(settings.sTableId === 'bp_table'){
-          min = parseInt( $('#min_bp_prob').val(), 10 );
-          max = parseInt( $('#max_bp_prob').val(), 10 );
+          min = parseFloat( $('#min_bp_prob').val(), 10 );
+          max = parseFloat( $('#max_bp_prob').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
         if(settings.sTableId === 'mf_table'){
-          min = parseInt( $('#min_mf_prob').val(), 10 );
-          max = parseInt( $('#max_mf_prob').val(), 10 );
+          min = parseFloat( $('#min_mf_prob').val(), 10 );
+          max = parseFloat( $('#max_mf_prob').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
         if(settings.sTableId === 'cc_table'){
-          min = parseInt( $('#min_cc_prob').val(), 10 );
-          max = parseInt( $('#max_cc_prob').val(), 10 );
+          min = parseFloat( $('#min_cc_prob').val(), 10 );
+          max = parseFloat( $('#max_cc_prob').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
-        
+
         if(settings.sTableId === 'gen_table'){
-          min = parseInt( $('#min_gen_pval').val(), 10 );
-          max = parseInt( $('#max_gen_pval').val(), 10 );
+          min = parseFloat( $('#min_gen_pval').val(), 10 );
+          max = parseFloat( $('#max_gen_pval').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
-        if(settings.sTableId === 'mgen_table'){
-          min = parseInt( $('#min_mgen_pval').val(), 10 );
-          max = parseInt( $('#max_mgen_pval').val(), 10 );
+        if(settings.sTableId === 'pgen_table'){
+          min = parseFloat( $('#min_pgen_pval').val(), 10 );
+          max = parseFloat( $('#max_pgen_pval').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
         if(settings.sTableId === 'dgen_table'){
-          min = parseInt( $('#min_dgen_pval').val(), 10 );
-          max = parseInt( $('#max_dgen_pval').val(), 10 );
+          min = parseFloat( $('#min_dgen_pval').val(), 10 );
+          max = parseFloat( $('#max_dgen_pval').val(), 10 );
           score = parseFloat( data[2] ) || 0;
         }
 

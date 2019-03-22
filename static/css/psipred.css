@@ -65,7 +65,14 @@ body
 .job_info_text_right{
   display: inline-block;
 }
-
+#stop_coord
+{
+   width: 5em;
+}
+#start_coord
+{
+   width: 5em;
+}
 #flip {
 -webkit-transform:rotate(-180deg);
 	-moz-transform:rotate(-180deg);
