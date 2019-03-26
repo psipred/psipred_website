@@ -65,6 +65,12 @@ body
 .job_info_text_right{
   display: inline-block;
 }
+
+.msa_legend_cell
+{
+  width: 2em;
+}
+
 #stop_coord
 {
    width: 5em;
@@ -311,19 +317,19 @@ input:invalid {
 }
 .pdb_helix
 {
-  background-color: #b844b8;
+  background-color: #e353e3;
 }
 .predicted_helix
 {
-  background-color: #e353e3;
+  background-color: #96adc8;
 }
 .pdb_strand
 {
-  background-color: #e5b733;
+  background-color: #e5dd55;
 }
 .predicted_strand
 {
-  background-color: #e5dd55;
+  background-color: #d7ffab;
 }
 .ligand
 {

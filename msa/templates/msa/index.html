@@ -25,11 +25,12 @@
         <div class="col-sm-7 col-sm-offset-5">
             <h4>Key</h4>
             <table class='table-sm'>
-            <tr><td class='pdb_strand'>S</td><td>PDB Strand</td><td class='ligand'>L</td><td>Ligand binding</td></tr>
-            <tr><td class='pdb_helix'>H</td><td>PDB Helix</td><td class='ligand'>P</td><td>Peptide binding</td></tr>
-            <tr><td class='predicted_strand'>S</td><td>Predicted Strand</td><td class='ligand'>M</td><td>Small molecule binding</td></tr>
-            <tr><td class='predicted_helix'>H</td><td>Predicted Helix</td><td></td></tr>
+            <tr><td class='pdb_strand msa_legend_cell'>S</td><td>PDB Strand</td><td class='ligand msa_legend_cell'>L</td><td>Ligand binding</td></tr>
+            <tr><td class='pdb_helix msa_legend_cell'>H</td><td>PDB Helix</td><td class='ligand msa_legend_cell'>P</td><td>Peptide binding</td></tr>
+            <tr><td class='predicted_strand msa_legend_cell'>S</td><td>Predicted Strand</td><td class='ligand msa_legend_cell'>M</td><td>Small molecule binding</td></tr>
+            <tr><td class='predicted_helix msa_legend_cell'>H</td><td>Predicted Helix</td><td class="msa_legend_cell"></td></tr>
             </table>
+            <br />
          </div>
     </div>
     <div class="row">
@@ -58,7 +59,7 @@
             autoResize: true
           },
           menu: 'large',
-          bootstrapMenu: true,
+          bootstrapMenu: false,
         };
         // init msa
         let m = new msa.msa(opts);
