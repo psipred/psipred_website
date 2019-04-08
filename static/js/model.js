@@ -112,6 +112,9 @@ ractive.on('poll_trigger', function(name, job_type){
           viewer.render();                                      /* render scene */
           viewer.zoom(1.7, 3000);                               /* slight zoom */
       }
+      else{
+        eactive.set('building_message', "Due to errors in the source PDB file we are unable to build this model");
+      }
       clearInterval(interval);
     }
     if(batch.state === 'Error' || batch.state === 'Crash')
