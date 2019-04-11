@@ -12,7 +12,7 @@
 {% if staging %}
    <section class="content-header">
         <h2 style="color: red;">This is the PSIPRED Beta site.</h2>
-        <h4>Please use the new website at <a href="http://bioinf.cs.ucl.ac.uk/psipred_new/">http://bioinf.cs.ucl.ac.uk/psipred_new/</a><br />
+        <h4>Please use the new website at <a href="http://bioinf.cs.ucl.ac.uk/psipred/">http://bioinf.cs.ucl.ac.uk/psipred/</a><br />
         This is a test bed for new site features. You are welcome to try it but we make no performance or uptime guarantees for this site.<br />
         Check our <a href="https://twitter.com/psipred">Twitter account</a> for news updates.</h4><br />
     </section>
@@ -106,9 +106,9 @@
                   <div class="job_info_text job_info_text_left"><p class="name_text">Name : {% ractivetag "name" %}</p></div><!--
                --><div class="job_info_text box-tools pull-right job_info_text_right">Copy Link:
                     {% if production %}
-                      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_new/&psipred_uuid={% ractivetag "batch_uuid" %}"><!--
+                      <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred/&psipred_uuid={% ractivetag "batch_uuid" %}"><!--
                       --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">
-                      <img src="http://bioinf.cs.ucl.ac.uk/psipred_new{% static 'images/clippy.svg' %}" alt="Copy to clipboard" width="16">
+                      <img src="http://bioinf.cs.ucl.ac.uk/psipred{% static 'images/clippy.svg' %}" alt="Copy to clipboard" width="16">
                     {% elif staging %}
                       <input id="retrievalLink" width="160" value="http://bioinf.cs.ucl.ac.uk/psipred_beta/&psipred_uuid={% ractivetag "batch_uuid" %}"><!--
                       --><button class="copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#retrievalLink">

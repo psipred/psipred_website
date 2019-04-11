@@ -25,16 +25,17 @@ if(location.hostname === "127.0.0.1" || location.hostname === "localhost")
   gears_svg = "../static/images/gears.svg";
   file_url = main_url;
 }
-else if(window.location.href === "http://bioinf.cs.ucl.ac.uk/psipred_new/" || window.location.href.includes('psipred_new'))
+else if(window.location.href === "http://bioinf.cs.ucl.ac.uk/psipred/" || (window.location.href.includes('psipred') && !  window.location.href.includes('psipred_beta')) )
 {
-  app_path = '/psipred_new';
+  app_path = '/psipred';
   endpoints_url = main_url+app_path+'/api/endpoints/';
   submit_url = main_url+app_path+'/api/submission/';
   times_url = main_url+app_path+'/api/jobtimes/';
   file_url = main_url+app_path+"/api";
   //gears_svg = "../static/images/gears.svg";
 }
-else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.hostname  === "bioinf.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/") {
+else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.href  === "http://bioinf.cs.ucl.ac.uk/psipred_beta/" || window.location.href.includes('psipred_beta'))
+{
   endpoints_url = main_url+app_path+'/api/endpoints/';
   submit_url = main_url+app_path+'/api/submission/';
   times_url = main_url+app_path+'/api/jobtimes/';
@@ -42,13 +43,11 @@ else if(location.hostname === "bioinfstage1.cs.ucl.ac.uk" || location.hostname  
   //gears_svg = "../static/images/gears.svg";
 }
 else {
-  alert('UNSETTING ENDPOINTS WARNING, WARNING! MODELLING NON FUNCTIONAL');
+  alert('UNSETTING ENDPOINTS WARNING, WARNING! WEBSITE NON FUNCTIONAL');
   endpoints_url = '';
   submit_url = '';
   times_url = '';
 }
-
-
 // DECLARE VARIABLES and init ractive instance
 
 var ractive = new Ractive({

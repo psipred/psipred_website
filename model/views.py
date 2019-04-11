@@ -26,7 +26,7 @@ def post(request):
 
     # MOVE THESE TO settings/dev.py at some point
     submission_url = 'http://bioinf3.cs.ucl.ac.uk/analytics_automated/submission.json'
-    redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred_new/'
+    redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred/'
     if settings.STAGING:
         submission_url = 'http://bioinfstage3.cs.ucl.ac.uk/analytics_automated/submission.json'
         redirect_url = 'http://bioinf.cs.ucl.ac.uk/psipred_beta/'
