@@ -18,11 +18,14 @@
 $ python manage.py makemigrations --settings=psipred_website.settings.dev
 $ python manage.py migrate --settings=psipred_website.settings.dev
 
-5. Update mainform.html, updating both the checkboxes and the form_error section
+5. Update mainform.html, updating both the checkboxes and the form_error section.
+   Table layout is a function of the ordering in fields variable in forms.py
 
 6. Add resubmission checkbox for new method in resubmission.html
 
 7. Add new results panel bits in results_panel.html
 
-8. For production update the aa_head http.conf to ensure the file are
+8. If you need to, add an alert to alerts.js
+
+9. For production update the aa_head http.conf to ensure the files are
    being served with the right type.

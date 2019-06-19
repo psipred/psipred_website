@@ -47,10 +47,10 @@
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
 <!-- METAPSICOV RESULTS: 4 -->
-{% templatetag openvariable %}#if metapsicov_results_visible {% templatetag closevariable %}
-  <div class="box box-primary collapsed-box" id="metapsicov_contact_map">
+{% templatetag openvariable %}#if dmp_results_visible {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="dmp_contact_map">
       <div class="box-header with-border">
-          <h5 class="box-title">MetaPSICOV Contact Map</h5>
+          <h5 class="box-title">Deep MetaPSICOV Contact Map</h5>
 
           <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -60,9 +60,9 @@
       </div>
       <div class="box-body">
         <div class='error'>{% ractivehtmltag "error_message" %}</div>
-        <div class='metapsicov_ma'>{% ractivehtmltag "metapsicov_map" %}</div>
-        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_message" %}</div>
-        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "metapsicov_waiting_icon" %}</div>
+        <div class='dmp_map'>{% ractivehtmltag "dmp_map" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "dmp_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "dmp_waiting_icon" %}</div>
       <!-- /.box-body -->
   </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
@@ -371,6 +371,27 @@
         <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_message" %}</div>
         <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "gentdb_waiting_icon" %}</div>
 
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+<!-- METAPSICOV RESULTS: 18 -->
+{% templatetag openvariable %}#if dmpfold_results_visible {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="dmpfold_contact_map">
+      <div class="box-header with-border">
+          <h5 class="box-title">DMPFold Contact Map</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-plus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+        <div class='error'>{% ractivehtmltag "error_message" %}</div>
+        <div class='dmpfold_map'>{% ractivehtmltag "dmpfold_map" %}</div>
+        <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "dmpfold_waiting_message" %}</div>
+        <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "dmpfold_waiting_icon" %}</div>
       <!-- /.box-body -->
   </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}

@@ -40,7 +40,7 @@
         <tr><td colspan="2" class="input_table"><hr></td></tr>
         <tr><td colspan="2"><h4>Contact Analysis</h4></td></tr>
     {% endif %}
-    {% if "MetaPSICOV" in field.label %}
+    {% if "DeepMetaPSICOV" in field.label %}
         <tr>
         <td>
         {{ field.errors }}
@@ -85,6 +85,14 @@
         {{ field }}<!--<i style="color:red" class="fa fa-times"></i>-->&nbsp;{{ field.label_tag }}
         </td>
         </tr>
+    {% endif %}
+    {% if "DMPFold" in field.label %}
+        <tr>
+        <td>
+        {{ field.errors }}
+        {{ field }}&nbsp;{{ field.label_tag }}
+        </td>
+        <td></td></tr>
         <tr><td colspan="2" class="input_table"><hr></td></tr>
         <tr><td><h4>Domain Prediction</h4></td><td></td></tr>
     {% endif %}
@@ -120,7 +128,7 @@
 <br />
 <p class="form_error">{% ractivehtmltag "form_error" %}</p>
 {% for field in form %}
-    {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label or "MetaPSICOV" in field.label or "Generate TDB" in field.label or "MEMEMBED" in field.label or "HSPred" in field.label or "Metsite" in field.label or "MetaPSICOV" in field.label or "FFPred 3" in field.label or "Domserf 2.1" in field.label or "Bioserf 2.0" in field.label or "pDomTHREADER" in field.label or "DomPred" in field.label or "GenTHREADER (Rapid Fold Recognition)" == field.label or "MEMPACK" in field.label or "Metsite" in field.label or "HSPred" in field.label or "MEMEMBED" in field.label or "Generate TDB" in field.label %}
+    {% if "PSIPRED" in field.label or "DISOPRED" in field.label or "MEMSAT-SVM" in field.label or "pGenTHREADER" in field.label or "MetaPSICOV" in field.label or "Generate TDB" in field.label or "MEMEMBED" in field.label or "HSPred" in field.label or "Metsite" in field.label or "MetaPSICOV" in field.label or "FFPred 3" in field.label or "Domserf 2.1" in field.label or "Bioserf 2.0" in field.label or "pDomTHREADER" in field.label or "DomPred" in field.label or "GenTHREADER (Rapid Fold Recognition)" == field.label or "MEMPACK" in field.label or "Metsite" in field.label or "HSPred" in field.label or "MEMEMBED" in field.label or "Generate TDB" in field.label or 'DeepMetaPSICOV' in field.label or 'DMPfold' in field.label %}
     {% elif "Protein Sequence" in field.label %}
       <div class="form-group">
         {% bootstrap_field field %}

@@ -87,6 +87,21 @@ class PsipredForm(forms.ModelForm):
                                                 'checked': '{{metapsicov_checked}}',
                                                 'onclick' : "metAlert();",
                                                 }))
+    dmp_job = forms.BooleanField(label="DeepMetaPSICOV 1.0 (Structural Contact Prediction)", required=False,
+                                     label_suffix = "",
+                                        widget=forms.CheckboxInput(
+                                         attrs={'value': '{{dmp_job}}',
+                                                'checked': '{{dmp_checked}}',
+                                                }))
+    dmpfold_job = forms.BooleanField(label="DMPFold 1.0 (Protein Structure Prediction)", required=False,
+                                     label_suffix = "",
+                                        widget=forms.CheckboxInput(
+                                         attrs={'value': '{{dmpfold_job}}',
+                                                'checked': '{{dmpfold_checked}}',
+                                                'onclick' : "dmpfoldAlert();",
+                                                }))
+
+
     metsite_job = forms.BooleanField(label="Metsite (Protein-metal Ion Contact Prediction)", required=False,
                                      label_suffix = "",
                                      widget=forms.CheckboxInput(
@@ -128,8 +143,9 @@ class PsipredForm(forms.ModelForm):
     class Meta:
         model = Request
         fields = ('psipred_job', 'disopred_job', 'memsatsvm_job',
-                  'pgenthreader_job', 'metapsicov_job', 'mempack_job',
+                  'pgenthreader_job', 'dmp_job', 'mempack_job',
                   'genthreader_job', 'pdomthreader_job',
-                  'bioserf_job', 'domserf_job', 'dompred_job', 'ffpred_job', 'metsite_job',
+                  'bioserf_job', 'domserf_job', 'dmpfold_job', 'dompred_job',
+                  'ffpred_job', 'metsite_job',
                   'hspred_job', 'memembed_job', 'gentdb_job',
                   'input_data', 'job_name', 'email', )
