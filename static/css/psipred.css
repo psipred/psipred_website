@@ -8,6 +8,10 @@ body
   font-size: 16px;
 }
 
+hr { margin: 0.5em;
+     border-top: 1px dashed red;
+     width: 50%;}
+
 .filter_table{
   width: auto;
   margin-right: 0px;
@@ -94,6 +98,11 @@ left: 1px;
 {
   width: 100%;
 }
+
+.input_table {
+  padding-left:20%;
+}
+
 td{
     width: 50%;
     align:top;-

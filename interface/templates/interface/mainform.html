@@ -7,6 +7,7 @@
 {% csrf_token %}
 {% templatetag openvariable %}#if sequence_form_visible === 1 {% templatetag closevariable %}
 <div class="form-group">
+  <tr><td colspan="2"><h4>Popular Analyses</h4></td></tr>
     <table class="full-width-table">
 {% for field in form %}
     {% if "PSIPRED 4.0" in field.label %}
@@ -36,7 +37,8 @@
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
-        <tr class="spacer"></tr>
+        <tr><td colspan="2" class="input_table"><hr></td></tr>
+        <tr><td colspan="2"><h4>Contact Analysis</h4></td></tr>
     {% endif %}
     {% if "MetaPSICOV" in field.label %}
         <tr>
@@ -51,6 +53,8 @@
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
+        <tr><td colspan="2" class="input_table"><hr></td></tr>
+        <tr><td><h4>Fold Recognition</h4></td><td></td></tr>
     {% endif %}
     {% if "GenTHREADER (Rapid Fold Recognition)" == field.label %}
         <tr>
@@ -59,40 +63,48 @@
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
-    {% if "DomPred" in field.label %}
+    {% if "pDomTHREADER" in field.label %}
         <td>
         {{ field.errors }}
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
         </tr>
+        <tr><td colspan="2" class="input_table"><hr></td></tr>
+        <tr><td><h4>Structure Modelling</h4></td><td></td></tr>
     {% endif %}
-    {% if "pDomTHREADER" in field.label %}
+    {% if "Bioserf 2.0" in field.label %}
         <tr>
         <td>
         {{ field.errors }}
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
     {% endif %}
-    {% if "Bioserf 2.0" in field.label %}
+    {% if "Domserf 2.1" in field.label %}
         <td>
         {{ field.errors }}
         {{ field }}<!--<i style="color:red" class="fa fa-times"></i>-->&nbsp;{{ field.label_tag }}
         </td>
         </tr>
+        <tr><td colspan="2" class="input_table"><hr></td></tr>
+        <tr><td><h4>Domain Prediction</h4></td><td></td></tr>
     {% endif %}
-    {% if "Domserf 2.1" in field.label %}
+    {% if "DomPred" in field.label %}
         <tr>
         <td>
         {{ field.errors }}
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
+        <td></td></tr>
+        <tr><td colspan="2" class="input_table"><hr></td></tr>
+        <tr><td><h4>Function Prediction</h4></td><td></td></tr>
     {% endif %}
     {% if "FFPred 3" in field.label %}
+        <tr>
         <td>
         {{ field.errors }}
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
-        </tr>
+        <td></td></tr>
     {% endif %}
 {% endfor %}
     <tr><td colspan=2><a class="form-link" href="http://bioinf.cs.ucl.ac.uk/index.php?id=5399">Help...</a><br /></td></tr>
