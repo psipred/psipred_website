@@ -50,7 +50,7 @@
 {% templatetag openvariable %}#if dmp_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="dmp_contact_map">
       <div class="box-header with-border">
-          <h5 class="box-title">Deep MetaPSICOV Contact Map</h5>
+          <h5 class="box-title">DeepMetaPSICOV Contact Map</h5>
 
           <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -379,7 +379,7 @@
 {% templatetag openvariable %}#if dmpfold_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="dmpfold_contact_map">
       <div class="box-header with-border">
-          <h5 class="box-title">DMPFold Contact Map</h5>
+          <h5 class="box-title">DMPFold Structure</h5>
 
           <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -389,7 +389,7 @@
       </div>
       <div class="box-body">
         <div class='error'>{% ractivehtmltag "error_message" %}</div>
-        <div class='dmpfold_map'>{% ractivehtmltag "dmpfold_map" %}</div>
+        <div class='mol-container' id='dmpfold_model'></div>
         <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "dmpfold_waiting_message" %}</div>
         <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "dmpfold_waiting_icon" %}</div>
       <!-- /.box-body -->
