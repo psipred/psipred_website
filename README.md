@@ -29,3 +29,5 @@ $ python manage.py migrate --settings=psipred_website.settings.dev
 
 9. For production update the aa_head http.conf to ensure the files are
    being served with the right type.
+
+10. Add job times in the times panel of index.html
