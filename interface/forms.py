@@ -93,7 +93,7 @@ class PsipredForm(forms.ModelForm):
                                          attrs={'value': '{{dmp_job}}',
                                                 'checked': '{{dmp_checked}}',
                                                 }))
-    dmpfold_job = forms.BooleanField(label="DMPfold 1.0 (Protein Structure Prediction)", required=False,
+    dmpfold_job = forms.BooleanField(label="DMPfold 1.0 Fast Mode (Protein Structure Prediction)", required=False,
                                      label_suffix = "",
                                         widget=forms.CheckboxInput(
                                          attrs={'value': '{{dmpfold_job}}',
