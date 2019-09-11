@@ -15,6 +15,6 @@
   var checkBox = document.getElementById("id_dmpfold_job");
   // If the checkbox is checked, display the output text
   if (checkBox.checked == true){
-    alert("DMPFold analyses can up to 6 hours. We advise you submit DMP jobs seperately to other predictions\n\nNote that DMP gives less accurate results for sequences less than 500, you should submit your sequence on a per Domain basis");
+    alert("DMPFold analyses can up to 6 hours. We advise you submit DMP jobs seperately to other predictions\n\nNote that DMP gives less accurate results for sequences smaller than 500 residues, you should divide your sequence into shorter domains before submission");
   }
  }
