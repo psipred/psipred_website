@@ -201,12 +201,7 @@ If you wish to Metsite or HSPred follow this link to retrieve <a class="form-lin
 {% endfor %}
 
 {% templatetag openvariable %}/if{% templatetag closevariable %}
-  <section>
-  <h2 style="color: red;">Funding Support</h2>
-  <h4>We are currently applying for future funding to keep the PSIPRED Workbench
-  online.<br />If you would like to provide a letter of support and provide suggestions
-  for future features we would love to hear from you at<br /> <a href="mailto:psipred@cs.ucl.ac.uk">psipred@cs.ucl.ac.uk</a></h4>
-  </section>
+
 {% if suspend %}
     <h2 style="color: red;">{{ suspend_message }}</h2>
 {% else %}
