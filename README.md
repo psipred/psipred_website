@@ -3,7 +3,6 @@
    touch base_secrets.json
    touch dev_secrets.json
 2. Add to base_secrets.json
-
 {
 
 }
@@ -16,13 +15,17 @@
 4. Add role to postgres, psql -h localhost -d postgres
     CREATE ROLE psipred_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
     CREATE DATABASE psipred_website_db;
-    GRANT ALL PRIVILEGES ON DATABASE psipred_website_db TO a_a_user;
+    GRANT ALL PRIVILEGES ON DATABASE psipred_website_db TO psipred_user;
     ALTER USER psipred_user CREATEDB;
 5. migrate
-# python manage.py migrate --settings=psipred_website.settings.dev
-6. start
+ python manage.py migrate --settings=psipred_website.settings.dev
+6. Add superuser
+python manage.py createsuperuser --settings=psipred_website.settings.dev
+
+7. start
 ./startdev.sh
-7. View site at 127.0.0.1:4000/interface
+8. View site at 127.0.0.1:4000/interface
+   or 127.0.0.1:4000/admin
 
 # Adding new services
 1. Add the new job types and its tasks to the backend (analytics automated)
