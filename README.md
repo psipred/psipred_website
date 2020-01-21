@@ -1,3 +1,29 @@
+# Dev installation
+1. Add secrets files
+   touch base_secrets.json
+   touch dev_secrets.json
+2. Add to base_secrets.json
+
+{
+
+}
+3. Add to dev secrets.json
+{
+  "USER": "psipred_user",
+  "PASSWORD": "thisisthedevelopmentpasswordguys",
+  "SECRET_KEY": "SOMELONG STRING"
+}
+4. Add role to postgres, psql -h localhost -d postgres
+    CREATE ROLE psipred_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
+    CREATE DATABASE psipred_website_db;
+    GRANT ALL PRIVILEGES ON DATABASE psipred_website_db TO a_a_user;
+    ALTER USER psipred_user CREATEDB;
+5. migrate
+# python manage.py migrate --settings=psipred_website.settings.dev
+6. start
+./startdev.sh
+7. View site at 127.0.0.1:4000/interface
+
 # Adding new services
 1. Add the new job types and its tasks to the backend (analytics automated)
 
