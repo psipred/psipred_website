@@ -7,3 +7,4 @@ submissions/*
 __pycache__/
 *.log
 logs/*
+pipfile
