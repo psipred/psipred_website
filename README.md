@@ -12,7 +12,8 @@
   "PASSWORD": "thisisthedevelopmentpasswordguys",
   "SECRET_KEY": "SOMELONG STRING"
 }
-4. Add role to postgres, psql -h localhost -d postgres
+4. Add role to postgres
+    psql -h localhost -d postgres
     CREATE ROLE psipred_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
     CREATE DATABASE psipred_website_db;
     GRANT ALL PRIVILEGES ON DATABASE psipred_website_db TO psipred_user;
