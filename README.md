@@ -18,7 +18,9 @@
     CREATE DATABASE psipred_website_db;
     GRANT ALL PRIVILEGES ON DATABASE psipred_website_db TO psipred_user;
     ALTER USER psipred_user CREATEDB;
-5. migrate
+5. create logs dir
+    mkdir logs
+7. migrate
  python manage.py migrate --settings=psipred_website.settings.dev
 6. Add superuser
 python manage.py createsuperuser --settings=psipred_website.settings.dev
