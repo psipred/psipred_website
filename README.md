@@ -1,12 +1,12 @@
 # Dev installation
-1. Add secrets files
+1. Add secrets files to psipred_website/psipred_website/settings
    touch base_secrets.json
    touch dev_secrets.json
 2. Add to base_secrets.json
 {
 
 }
-3. Add to dev secrets.json
+3. Add to dev secrets.json to psipred_website/psipred_website/settings
 {
   "USER": "psipred_user",
   "PASSWORD": "thisisthedevelopmentpasswordguys",
@@ -26,7 +26,7 @@
 python manage.py createsuperuser --settings=psipred_website.settings.dev
 
 7. start
-./startdev.sh
+./start_dev.sh
 8. View site at 127.0.0.1:4000/interface
    or 127.0.0.1:4000/admin
 
