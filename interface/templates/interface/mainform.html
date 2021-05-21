@@ -1,5 +1,5 @@
 {% load ractive_tags %}
-{% load staticfiles %}
+{% load static %}
 {% load bootstrap3 %}
 <br />
 
@@ -16,6 +16,7 @@
         {{ field.errors }}
         {{ field }}&nbsp;{{ field.label_tag }}
         </td>
+
     {% endif %}
     {% if "DISOPRED3" in field.label %}
         <td>

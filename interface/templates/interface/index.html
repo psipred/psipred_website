@@ -1,12 +1,23 @@
 {% extends "interface/base.html" %}
 {% load bootstrap3 %}
 {% load ractive_tags %}
-{% load staticfiles %}
+{% load static %}
 
 {% block content %}
 {% if debug %}
    <section class="content-header">
         <h4 style="color: red;">This is DEVELOPMENT</h4><br />
+        <p>The PSIPRED Workbench provides a range of free world-class protein prediction
+        methods.</p><p> <b>Amino acid</b> sequences enable: secondary structure prediction,
+        including regions of disorder and transmembrane helix packing;
+        contact analysis; fold recognition; structure modelling; and prediction of
+        domains and function. </p>
+        <p>
+        In addition <b>PDB Structure files</b> allow prediction of protein-metal ion
+        contacts, protein-protein hotspot residues, and membrane protein orientation.
+        In addition a Custom Generated Threading file can be generated.
+        As well as the webserver many of the prediction methods are available for download
+        directly, or from psipred github site.<p>
     </section>
 {% endif %}
 {% if staging %}
@@ -17,7 +28,7 @@
         Check our <a href="https://twitter.com/psipred">Twitter account</a> for news updates.</h4><br />
     </section>
 {% endif %}
-  
+
     <!-- Default box -->
 <div id="psipred_site">
 <script id='form_template' type='text/ractive'>
