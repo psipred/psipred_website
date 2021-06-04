@@ -3,7 +3,7 @@ bootstrap-admin==0.4.4
 bugsnag==2.3.1
 certifi==2018.1.18
 chardet==3.0.4
-Django==3.0.14
+Django==3.1.9
 django-adminlte2==0.4.1
 django-bootstrap3==11.0.0
 django-debug-toolbar==3.2.1
