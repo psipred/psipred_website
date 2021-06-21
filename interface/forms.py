@@ -14,8 +14,10 @@ class PsipredForm(forms.ModelForm):
                                      label_suffix = "",
                                      widget=forms.CheckboxInput(
                                       attrs={'value': '{{psipred_job}}',
-                                             'checked': '{{psipred_checked}}'
+                                             'checked': '{{psipred_checked}}',
+                                             'size':'40',
                                              }))
+    psipred_job.widget.attrs.update(checked='False')
     disopred_job = forms.BooleanField(label="DISOPRED3 (Disopred Prediction)", required=False,
                                      label_suffix = "",
                                       widget=forms.CheckboxInput(
@@ -138,7 +140,8 @@ class PsipredForm(forms.ModelForm):
     job_name = forms.CharField(widget=forms.TextInput(
                                 attrs={'value': '{{name}}'}))
     email = forms.EmailField(label="Email (optional)", required=False, widget=forms.EmailInput(
-                              attrs={'value': '{{email}}'}))
+                              attrs={'value': '{{email}}',
+                              'placeholder':'Email'}))
 
     class Meta:
         model = Request
