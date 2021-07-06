@@ -1,4 +1,5 @@
 # Dev installation
+
 1. Add secrets files to psipred_website/psipred_website/settings
    touch base_secrets.json
    touch dev_secrets.json
@@ -12,17 +13,46 @@
   "PASSWORD": "thisisthedevelopmentpasswordguys",
   "SECRET_KEY": "SOMELONG STRING"
 }
-4. Add role to postgres
+4. ## Install the postgres database and then start postgres
+
+Export the path to wherever postgres has been installed.
+For mac using homebrew this will be in /usr/local/Cellar
+This should look something like:
+
+```export PATH="/usr/local/Cellar/postgresql@9.6/9.6.20/bin/:$PATH"```
+
+## start postgresql
+
+```pg_ctl -D /usr/local/var/postgresql@9.6 -l /usr/local/var/postgresql@9.6/server.log start```
+
+## login to the database and create a new database/user
+```psql -h localhost -d postgres```
+
+This will start the database server on your localhost. You can then go ahead and make a database with associated user.
+
+Add role to postgres
     psql -h localhost -d postgres
+
     CREATE ROLE psipred_user WITH LOGIN PASSWORD 'thisisthedevelopmentpasswordguys';
+
     CREATE DATABASE psipred_website_db;
+
     GRANT ALL PRIVILEGES ON DATABASE psipred_website_db TO psipred_user;
+
     ALTER USER psipred_user CREATEDB;
+
+    exit postgres
+
+    \q
+
+
 5. create logs dir
     mkdir logs
 7. migrate
+
  python manage.py migrate --settings=psipred_website.settings.dev
 6. Add superuser
+
 python manage.py createsuperuser --settings=psipred_website.settings.dev
 
 7. start

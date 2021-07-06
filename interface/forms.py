@@ -4,7 +4,7 @@ from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
 from django.utils.safestring import mark_safe
 
-from bootstrap3.tests import TestForm
+#from bootstrap3.tests import TestForm 
 
 from .models import *
 
