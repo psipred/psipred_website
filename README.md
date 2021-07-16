@@ -1,4 +1,9 @@
 # Dev installation
+
+[//]: # (You might need to run)
+[//]: # (initdb -D /var/run/postgresql)
+[//]: # (pg_ctl -D /var/run/postgresql/ -l  /var/run/postgresql/logfile start)
+
 1. Add secrets files to psipred_website/psipred_website/settings
    touch base_secrets.json
    touch dev_secrets.json
