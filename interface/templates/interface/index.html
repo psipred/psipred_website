@@ -6,7 +6,7 @@
 {% block content %}
 {% if debug %}
    <section class="content-header">
-        <h4 style="color: red;">This is DEVELOPMENT</h4><br />
+        <h4 style="color: red;">This is DEVELOPMENT</h4>
     </section>
 {% endif %}
 {% if staging %}
@@ -17,7 +17,11 @@
         Check our <a href="https://twitter.com/psipred">Twitter account</a> for news updates.</h4><br />
     </section>
 {% endif %}
-
+{% if server_display %}
+     <section class="content-header">
+       <h3 style="color: red;">{{ server_message }}</h3>
+    </section>
+{% endif %}
     <!-- Default box -->
 <div id="psipred_site">
 <script id='form_template' type='text/ractive'>
