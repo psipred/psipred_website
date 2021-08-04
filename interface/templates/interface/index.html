@@ -28,7 +28,11 @@
   domains and function. In addition <b>PDB Structure files</b> allow prediction of protein-metal ion
   contacts, protein-protein hotspot residues, and membrane protein orientation.</p>
  </section>
-
+ {% if server_display %}
+      <section class="content-header">
+        <h3 style="color: red;">{{ server_message }}</h3>
+     </section>
+ {% endif %}
     <!-- Default box -->
 <div id="psipred_site">
 <script id='form_template' type='text/ractive'>
