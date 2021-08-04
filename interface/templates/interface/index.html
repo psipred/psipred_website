@@ -17,17 +17,6 @@
         Check our <a href="https://twitter.com/psipred">Twitter account</a> for news updates.</h4><br />
     </section>
 {% endif %}
-<section class="content-header">
-  <h4>The PSIPRED Workbench provides a range of world-class protein prediction
-  methods.</h4>
-  <p> It is intended for light use, including programmatically via the REST API.
-  Downloads are also available for more intense use.
-  <b>Amino acid</b> sequences enable: secondary structure prediction,
-  including regions of disorder and transmembrane helix packing;
-  contact analysis; fold recognition; structure modelling; and prediction of
-  domains and function. In addition <b>PDB Structure files</b> allow prediction of protein-metal ion
-  contacts, protein-protein hotspot residues, and membrane protein orientation.</p>
- </section>
  {% if server_display %}
       <section class="content-header">
         <h3 style="color: red;">{{ server_message }}</h3>
@@ -36,11 +25,21 @@
     <!-- Default box -->
 <div id="psipred_site">
 <script id='form_template' type='text/ractive'>
-
     <div class="row">
     {% templatetag openvariable %}#if results_visible === 1 {% templatetag closevariable %}
 
     <div class="col-md-9">
+      <div class="box-header with-border">
+        <p>The PSIPRED Workbench provides a range of protein structure prediction
+        methods. The site can be used interactively via a web browser or programmatically
+        via our REST API. For high-throughput analyses,
+        downloads of all the algorithms are available.</p>
+        <p><b>Amino acid</b> sequences enable: secondary structure prediction,
+        including regions of disorder and transmembrane helix packing;
+        contact analysis; fold recognition; structure modelling; and prediction of
+        domains and function. In addition <b>PDB Structure files</b> allow prediction of protein-metal ion
+        contacts, protein-protein hotspot residues, and membrane protein orientation.</p>
+      </div>
     <div class="box box-primary" id="main_form">
 
         <div class="box-header with-border">
