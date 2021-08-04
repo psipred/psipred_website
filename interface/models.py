@@ -49,3 +49,8 @@ class ServerSuspension(models.Model):
     message = models.CharField(max_length=512, null=True, blank=False)
     allowed_ip = models.GenericIPAddressField(default="127.0.0.1", null=False,
                                               blank=False)
+
+
+class ServerMessage(models.Model):
+    display = models.BooleanField(null=False, default=False)
+    message = models.CharField(max_length=512, null=True, blank=False)

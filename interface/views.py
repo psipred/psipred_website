@@ -19,10 +19,18 @@ def get_client_ip(request):
 def index(request):
     template = loader.get_template('interface/index.html')
     suspension_message = None
+    server_message = None
     try:
         suspension_message = ServerSuspension.objects.all()[0]
     except:
         suspension_message = None
+
+    try:
+        server_message = ServerMessage.objects.all()[0]
+    except:
+        server_message = None
+
+
 
     passing_data = {}
     if suspension_message:
@@ -34,6 +42,13 @@ def index(request):
                         "suspend": suspension_message.suspend,
                         "suspend_message": suspension_message.message
                         }
+        if server_message:
+            passing_data["server_display"] = server_message.display
+            passing_data["server_message"] = server_message.message
+        else:
+            passing_data["server_display"] = None
+            passing_data["server_message"] = None
+
         client_ip = get_client_ip(request)
         print("CLIENT IP", client_ip)
         print("ALLOWED IP", suspension_message.allowed_ip)
@@ -47,6 +62,13 @@ def index(request):
                         "production": settings.PRODUCTION,
                         "static_base_url": settings.STATIC_BASE_URL,
                         "suspend": False,
-                        "suspend_message": ''}
+                        "suspend_message": ''
+                        }
+        if server_message:
+            passing_data["server_display"] = server_message.display
+            passing_data["server_message"] = server_message.message
+        else:
+            passing_data["server_display"] = None
+            passing_data["server_message"] = None
 
     return render(request, 'interface/index.html', passing_data)
