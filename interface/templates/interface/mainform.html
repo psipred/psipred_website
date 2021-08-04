@@ -14,13 +14,15 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;<a  data-toggle="tool-tip"
+        title="Predict helices, beta sheets and coils from AA sequence." >{{ field.label_tag }}</a>
         </td>
     {% endif %}
     {% if "DISOPRED3" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;<a  data-toggle="tool-tip"
+        title="Detect intrinsically disordered regions in proteins" >{{ field.label_tag }}</a>
         </td>
         </tr>
     {% endif %}
@@ -28,13 +30,16 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;<a   data-toggle="tool-tip"
+        title="Calculates most probable length, location and topological orientation for each transmembrane segment" >{{ field.label_tag }}</a>
         </td>
     {% endif %}
     {% if "pGenTHREADER" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a   data-toggle="tool-tip"
+        title="Quickly predict protein fold structures by comparison with protein templates of known structure. Suitable for full proteome annotations" >{{ field.label_tag }}</a>
         </td>
         </tr>
         <tr><td colspan="2" class="input_table"><hr></td></tr>
@@ -44,13 +49,19 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a   data-toggle="tool-tip"
+        title="Predict interresidue contacts using deep fully convolutional residual neural network">
+        {{ field.label_tag }}</a>
         </td>
     {% endif %}
     {% if "MEMPACK" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a   data-toggle="tool-tip"
+        title="Predict packing of helices in the membrane.">
+        {{ field.label_tag }}</a>
         </td>
         </tr>
         <tr><td colspan="2" class="input_table"><hr></td></tr>
@@ -60,13 +71,19 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a   data-toggle="tool-tip"
+        title="Fast fold recognition method, suitable for structural annotation of very distant sequences. For application to whole, translated genomic sequences see downloads.">
+        {{ field.label_tag }}</a>
         </td>
     {% endif %}
     {% if "pDomTHREADER" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a   data-toggle="tool-tip"
+        title = "More accurate alignments to better predict domain boundaries. Tuned for performance in fine superfamily discrimination">
+        {{ field.label_tag }}</a>
         </td>
         </tr>
         <tr><td colspan="2" class="input_table"><hr></td></tr>
@@ -76,13 +93,19 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "Fully automated homology modelling server - Modeller Key required">
+        {{ field.label_tag }}</a>
         </td>
     {% endif %}
     {% if "Domserf 2.1" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}<!--<i style="color:red" class="fa fa-times"></i>-->&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "structural domain modelling protocol">
+        {{ field.label_tag }}</a>
         </td>
         </tr>
     {% endif %}
@@ -90,7 +113,10 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "Builds models based on predicted inter-atomic distance bounds, the main chain hydrogen bond network, and torsion angles.">
+        {{ field.label_tag }}</a>
         </td>
         <td></td></tr>
         <tr><td colspan="2" class="input_table"><hr></td></tr>
@@ -100,7 +126,10 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "Predicts protein structural domain boundaries.">
+        {{ field.label_tag }}</a>
         </td>
         <td></td></tr>
         <tr><td colspan="2" class="input_table"><hr></td></tr>
@@ -110,7 +139,10 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "Predicts protein function, using Gene Ontology annotations">
+        {{ field.label_tag }}</a>
         </td>
         <td></td></tr>
     {% endif %}
@@ -151,13 +183,19 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "">
+        {{ field.label_tag }}</a>
         </td>
     {% endif %}
     {% if "HSPred" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "Predicts hotspot residues">
+        {{ field.label_tag }}</a>
         </td>
         </tr>
     {% endif %}
@@ -165,13 +203,19 @@
         <tr>
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "Quickly and accurately orientates both alpha-helical and beta-barrel membrane proteins within the lipid bilayer">
+        {{ field.label_tag }}</a>
         </td>
     {% endif %}
     {% if "Generate TDB" in field.label %}
         <td>
         {{ field.errors }}
-        {{ field }}&nbsp;{{ field.label_tag }}
+        {{ field }}&nbsp;
+        <a data-toggle="tool-tip"
+        title = "">
+        {{ field.label_tag }}</a>
         </td>
         </tr>
     {% endif %}
