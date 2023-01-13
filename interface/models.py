@@ -36,6 +36,7 @@ class Request(TimeStampedModel):
     metapsicov_job = models.BooleanField(null=False, default=False)
     dmp_job = models.BooleanField(null=False, default=False)
     dmpfold_job = models.BooleanField(null=False, default=False)
+    s4pred_job = models.BooleanField(null=False, default=False)
 
     # structure jobs
     metsite_job = models.BooleanField(null=False, default=False)

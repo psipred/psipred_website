@@ -375,7 +375,7 @@
   </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}
 
-<!-- METAPSICOV RESULTS: 18 -->
+<!-- DMPFOLD RESULTS: 18 -->
 {% templatetag openvariable %}#if dmpfold_results_visible {% templatetag closevariable %}
   <div class="box box-primary collapsed-box" id="dmpfold_contact_map">
       <div class="box-header with-border">
@@ -392,6 +392,28 @@
         <div class='mol-container' id='dmpfold_model'></div>
         <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "dmpfold_waiting_message" %}</div>
         <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "dmpfold_waiting_icon" %}</div>
+      <!-- /.box-body -->
+  </div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+<!-- S4PRED RESULTS: 19 -->
+{% templatetag openvariable %}#if s4pred_results_visible {% templatetag closevariable %}
+  <div class="box box-primary collapsed-box" id="s4pred_cartoon">
+      <div class="box-header with-border">
+          <h5 class="box-title">S4Pred Cartoon</h5>
+
+          <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                      title="Collapse">
+                  <i class="fa fa-plus"></i></button>
+          </div>
+      </div>
+      <div class="box-body">
+          <div class='error'>{% ractivehtmltag "error_message" %}</div>
+          <div class='s4pred_cartoon'></div>
+          <div class="waiting" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_message" %}</div>
+          <div class="waiting_icon" intro="slide" outro="slide">{% ractivehtmltag "psipred_waiting_icon" %}</div>
+
       <!-- /.box-body -->
   </div>
 {% templatetag openvariable %}/if{% templatetag closevariable %}

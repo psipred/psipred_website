@@ -98,6 +98,12 @@ class PsipredForm(forms.ModelForm):
                                                 'checked': '{{dmpfold_checked}}',
                                                 'onclick' : "dmpfoldAlert();",
                                                 }))
+    s4pred_job = forms.BooleanField(label="S4Pred 1.2 (Single Sequence SS prediction)", required=False,
+                                     label_suffix = "",
+                                        widget=forms.CheckboxInput(
+                                         attrs={'value': '{{s4pred_job}}',
+                                                'checked': '{{s4pred_checked}}',
+                                                }))
 
 
     metsite_job = forms.BooleanField(label="Metsite (Protein-metal Ion Contact Prediction)", required=False,
@@ -143,7 +149,7 @@ class PsipredForm(forms.ModelForm):
         fields = ('psipred_job', 'disopred_job', 'memsatsvm_job',
                   'pgenthreader_job', 'dmp_job', 'mempack_job',
                   'genthreader_job', 'pdomthreader_job',
-                  'bioserf_job', 'domserf_job', 'dmpfold_job', 'dompred_job',
+                  'bioserf_job', 'domserf_job', 'dmpfold_job', 's4pred_job', 'dompred_job',
                   'ffpred_job', 'metsite_job',
                   'hspred_job', 'memembed_job', 'gentdb_job',
                   'input_data', 'job_name', 'email', )

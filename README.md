@@ -51,6 +51,8 @@ python manage.py createsuperuser --settings=psipred_website.settings.dev
         fields = ('psipred_job', 'disopred_job', 'memsatsvm_job', 'input_data',
                   'job_name', 'email', )
 
+May have to edit fields after migration for model.
+
 4. migrate db changes
 $ python manage.py makemigrations --settings=psipred_website.settings.dev
 $ python manage.py migrate --settings=psipred_website.settings.dev
